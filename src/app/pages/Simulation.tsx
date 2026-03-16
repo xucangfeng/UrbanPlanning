@@ -1,498 +1,1036 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Target, Maximize, Square, ArrowRight, Info, Layers, Car, Sprout, Zap, Building } from "lucide-react";
-import { WidgetPanel } from "../components/WidgetPanel";
+import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  BarChart, Bar, ResponsiveContainer,
+} from "recharts";
 import { motion, AnimatePresence } from "motion/react";
-import Map, { Marker, Source, Layer, MapRef } from 'react-map-gl/maplibre';
-import { ComposedChart, Area, Line, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Settings, Info, TrendingUp, Clock, Car, Leaf, Brain, Loader2, Droplets, TreePine, Shield, Thermometer } from "lucide-react";
+import Map, { Source, Layer, Marker } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { ScenarioComparisonModal } from './ScenarioComparisonModal';
-import { generateRiyadhHeatmap } from './SimulationMapHelper';
+import {
+  UTSettingsModal, MISettingsModal, SOSettingsModal, EFSettingsModal, ERSettingsModal,
+  UTParams, MIParams, SOParams, EFParams, ERParams,
+  DEFAULT_UT, DEFAULT_MI, DEFAULT_SO, DEFAULT_EF, DEFAULT_ER,
+} from "./SimulationSettingsModal";
 
-const SafeSource = ({ children, ...props }: any) => {
-  const cleanProps = { ...props };
+// ─── Types ────────────────────────────────────────────────────
+interface Indicator {
+  id: string; name: string; desc: string;
+  current: number; target: number; unit: string; aiRole: string;
+  inverse?: boolean; // lower is better (e.g. failure risk)
+}
+interface AgentDef {
+  id: string; name: string; color: string; indicators: Indicator[];
+}
+
+// ─── 5 Agents from Implementation Card ────────────────────────
+const AGENTS: AgentDef[] = [
+  {
+    id: "UT", name: "Urban Test Agent", color: "#00B558",
+    indicators: [
+      { id: "UT-1", name: "Avg. Travel Speed", desc: "Average downtown travel speed during morning peak hours.", current: 18, target: 35, unit: "km/h", aiRole: "Traffic AI" },
+      { id: "UT-2", name: "Peak Hour Delay", desc: "Average additional delay per trip during morning rush.", current: 45, target: 15, unit: "min", aiRole: "Delay Prediction", inverse: true },
+      { id: "UT-3", name: "Vehicle Throughput", desc: "Downtown corridor capacity during peak hours.", current: 12400, target: 18000, unit: "veh/hr", aiRole: "Capacity AI" },
+      { id: "UT-4", name: "CO\u2082 Reduction", desc: "Emission reduction from combined traffic optimization.", current: 0, target: 40, unit: "%", aiRole: "Green AI" },
+    ],
+  },
+  {
+    id: "MI", name: "Mobility Impact Advisor Agent", color: "#FCD34D",
+    indicators: [
+      { id: "MI-1", name: "Pedestrian Mode Share", desc: "Suggests shade and cooling interventions to increase walking in desert climates.", current: 10.2, target: 18, unit: "%", aiRole: "Shade Suggestion" },
+      { id: "MI-2", name: "Active Transit Score", desc: "Monitors bike-lane safety and usage to optimize future cycling infrastructure.", current: 74, target: 90, unit: "Score", aiRole: "Safety Monitoring" },
+      { id: "MI-3", name: "Public Transit Accessibility", desc: "Ensures 80% of citizens live within 800m of a transport hub.", current: 78, target: 95, unit: "%", aiRole: "Reach AI" },
+    ],
+  },
+  {
+    id: "SO", name: "Scenario Optimizer Agent", color: "#00B558",
+    indicators: [
+      { id: "SO-1", name: "Sustainability Alignment", desc: "Ranks planning scenarios based on their carbon footprint and water efficiency.", current: 84, target: 95, unit: "%", aiRole: "Trade-off AI" },
+      { id: "SO-2", name: "Cost-Benefit Ratio", desc: "Analyzes long-term ROI of infrastructure vs. short-term construction costs.", current: 3.2, target: 4.5, unit: "Ratio", aiRole: "ROI Projection" },
+      { id: "SO-3", name: "Social Equity Score", desc: "Ensures urban interventions are distributed fairly across all demographic groups.", current: 88, target: 100, unit: "Score", aiRole: "Ethical AI" },
+    ],
+  },
+  {
+    id: "EF", name: "Economic and Financial Analyzer Agent", color: "#3b82f6",
+    indicators: [
+      { id: "EF-1", name: "Non-Oil GDP Contribution", desc: "Tracks real estate's impact on diversifying the national economy.", current: 35, target: 45, unit: "%", aiRole: "Fiscal Alert" },
+      { id: "EF-2", name: "Foreign FDI in Urban", desc: "Predicts investor sentiment to suggest the best time for land auctions.", current: 245, target: 500, unit: "SAR B", aiRole: "Market Sentiment" },
+      { id: "EF-3", name: "Job Creation Potential", desc: "Correlates zoning with industry growth to forecast local employment.", current: 520, target: 800, unit: "K Jobs", aiRole: "Economic AI" },
+    ],
+  },
+  {
+    id: "ER", name: "Environmental and Resilience Evaluator", color: "#10b981",
+    indicators: [
+      { id: "ER-1", name: "Flood Risk Index", desc: "Composite score measuring flood resilience across wadi channels, basins, and 340km drain network.", current: 42, target: 85, unit: "Score", aiRole: "Drainage AI" },
+      { id: "ER-2", name: "Heat Island Reduction", desc: "Reduction in urban heat island effect from vegetation, reflective surfaces, and shade.", current: 0, target: 3.5, unit: "°C", aiRole: "Thermal AI" },
+      { id: "ER-3", name: "Climate Resilience Score", desc: "Building stock meeting flood-proofing, heat-resistance, and water-efficiency standards. SBC baseline: 35%.", current: 35, target: 90, unit: "%", aiRole: "Code AI" },
+    ],
+  },
+];
+
+// ─── Map wrappers (Figma-safe) ────────────────────────────────
+const SafeSource = ({ children, id, ...props }: any) => {
+  const cleanProps = { id, ...props };
   Object.keys(cleanProps).forEach(k => { if (k.startsWith('data-fg') || k.startsWith('data-fgid')) delete cleanProps[k]; });
-  return React.createElement(Source, cleanProps, children);
+  return React.createElement(Source, { key: id, ...cleanProps }, children);
 };
-
 const SafeLayer = (props: any) => {
   const cleanProps = { ...props };
   Object.keys(cleanProps).forEach(k => { if (k.startsWith('data-fg') || k.startsWith('data-fgid')) delete cleanProps[k]; });
   return React.createElement(Layer, cleanProps);
 };
 
-// --- MOCK SIMULATION DATA ---
-const TRAFFIC_ALERTS: any[] = [];
-const BUDGET_ALERTS = [
-  { id: 2, type: "budget", name: "KAFD Expansion", lat: 24.76, lng: 46.63, severity: "CRITICAL", delay: "OVER BUDGET", cause: "Raw material cost surge", recommendation: "Value engineer phase 3." }
-];
-const CLIMATE_ALERTS = [
-  { id: 3, type: "climate", name: "Wadi Hanifah", lat: 24.65, lng: 46.60, severity: "HIGH", delay: "FLOOD RISK", cause: "Simulated 50-year storm", recommendation: "Increase buffer zones." }
-];
+const MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+const DOWNTOWN_VIEW = { longitude: 46.685, latitude: 24.72, zoom: 12, pitch: 0, bearing: 0 };
 
-const SIMULATION_AGENTS = {
-  traffic: {
-    id: "traffic", title: "URBAN TEST AGENT", icon: Target, color: "#00B558",
-    functions: [
-      { 
-        id: "trf_1", name: "SIMULATION CONFIDENCE", desc: "SELF-VALIDATES AI MODELS BY COMPARING PREDICTED TRAFFIC WITH ACTUAL SENSOR DATA.",
-        stats: [{ label: 'IMPROVEMENT', value: '+18%', color: '#00B558' }, { label: 'BOTTLENECKS', value: '4', color: '#ff4444' }, { label: 'TESTS', value: '32', color: '#3b82f6' }]
-      },
-      { 
-        id: "trf_2", name: "POLICY FAILURE RISK", desc: "RUNS 10K SIMULATIONS TO PREDICT THE SOCIO-ECONOMIC RISKS OF NEW REGULATIONS.",
-        stats: [{ label: 'SHIFT EST.', value: '12%', color: '#00B558' }, { label: 'CAPACITY', value: 'OK', color: '#FCD34D' }]
-      },
-      { 
-        id: "trf_3", name: "SCENARIO DIVERSITY", desc: "GENERATES MULTIPLE URBAN GROWTH VERSIONS TO FIND THE MOST SUSTAINABLE PATH.",
-        stats: [{ label: 'CO2 SAVED', value: '4.2k', color: '#00B558' }, { label: 'TARGET', value: '80%', color: '#FCD34D' }]
-      }
-    ]
-  },
-  budget: {
-    id: "budget", title: "MOBILITY IMPACT", icon: Car, color: "#FCD34D",
-    functions: [
-      { 
-        id: "bdg_1", name: "SHADE-DRIVEN NMT LIFT", desc: "SUGGESTS SHADE AND COOLING INTERVENTIONS TO INCREASE WALKING IN DESERT CLIMATES.",
-        stats: [{ label: 'NMT LIFT', value: '+34%', color: '#00B558' }, { label: 'RISK', value: 'LOW', color: '#3b82f6' }]
-      },
-      { 
-        id: "bdg_2", name: "ACTIVE TRANSIT SCORE", desc: "MONITORS BIKE-LANE SAFETY AND USAGE TO OPTIMIZE FUTURE CYCLING INFRASTRUCTURE.",
-        stats: [{ label: 'EFFICIENCY', value: '92%', color: '#00B558' }, { label: 'DEFICIT', value: '0', color: '#3b82f6' }]
-      },
-      { 
-        id: "bdg_3", name: "PUBLIC TRANSIT ACCESSIBILITY", desc: "ENSURES 80% OF CITIZENS LIVE WITHIN 800M OF A TRANSPORT HUB.",
-        stats: [{ label: 'PROJECTED', value: 'SAR 2B', color: '#FCD34D' }, { label: 'GROWTH', value: '+5%', color: '#00B558' }]
-      }
-    ]
-  },
-  climate: {
-    id: "climate", title: "SCENARIO OPTIMIZER", icon: Layers, color: "#00B558",
-    functions: [
-      { 
-        id: "clm_1", name: "OPTIMAL GOAL HIT RATE", desc: "RANKS PLANNING SCENARIOS BASED ON THEIR CARBON FOOTPRINT AND WATER EFFICIENCY.",
-        stats: [{ label: 'HIT RATE', value: '83%', color: '#00B558' }, { label: 'ZONES SAFE', value: '88%', color: '#00B558' }]
-      },
-      { 
-        id: "clm_2", name: "COST-BENEFIT RATIO", desc: "ANALYZES LONG-TERM ROI OF INFRASTRUCTURE VS. SHORT-TERM CONSTRUCTION COSTS.",
-        stats: [{ label: 'PEAK TEMP', value: '52°C', color: '#ff4444' }, { label: 'COOLING', value: 'ACTIVE', color: '#3b82f6' }]
-      },
-      { 
-        id: "clm_3", name: "SOCIAL EQUITY SCORE", desc: "ENSURES URBAN INTERVENTIONS ARE DISTRIBUTED FAIRLY ACROSS ALL DEMOGRAPHIC GROUPS.",
-        stats: [{ label: 'VISIBILITY', value: '<100m', color: '#ff4444' }, { label: 'ALERTS', value: 'READY', color: '#3b82f6' }]
-      }
-    ]
-  },
-  growth: {
-    id: "growth", title: "ECONOMIC ANALYZER", icon: Building, color: "#FCD34D",
-    functions: [
-      { 
-        id: "grw_1", name: "NON-OIL GDP CONTRIBUTION", desc: "TRACKS REAL ESTATE'S IMPACT ON DIVERSIFYING THE NATIONAL ECONOMY.",
-        stats: [{ label: 'CORE DENSITY', value: '+24%', color: '#FCD34D' }, { label: 'SPRAWL', value: '-12%', color: '#00B558' }]
-      },
-      { 
-        id: "grw_2", name: "FOREIGN FDI IN URBAN", desc: "PREDICTS INVESTOR SENTIMENT TO SUGGEST THE BEST TIME FOR LAND AUCTIONS.",
-        stats: [{ label: 'SCHOOLS REQ', value: '14', color: '#ff4444' }, { label: 'HOSPITALS', value: '3', color: '#FCD34D' }]
-      },
-      { 
-        id: "grw_3", name: "JOB CREATION POTENTIAL", desc: "CORRELATES ZONING WITH INDUSTRY GROWTH TO FORECAST LOCAL EMPLOYMENT.",
-        stats: [{ label: 'NEW JOBS', value: '120k', color: '#00B558' }, { label: 'ACCESS', value: 'GOOD', color: '#3b82f6' }]
-      }
-    ]
-  },
-  grid: {
-    id: "grid", title: "ENV & RESILIENCE", icon: Sprout, color: "#00B558",
-    functions: [
-      { 
-        id: "grd_1", name: "FLOOD HIGH-RISK ZONES", desc: "REAL-TIME INTEGRATION WITH DRAINAGE SENSORS TO PREDICT AND PREVENT URBAN FLOODING.",
-        stats: [{ label: 'AREAS', value: '5', color: '#ff4444' }, { label: 'RESERVE', value: '2%', color: '#ff4444' }]
-      },
-      { 
-        id: "grd_2", name: "CARBON NEUTRALITY INDEX", desc: "MONITORS URBAN EMISSIONS TO TRIGGER 'GREEN-ONLY' ZONING IN HIGH-POLLUTION AREAS.",
-        stats: [{ label: 'LEAKAGE', value: '4%', color: '#FCD34D' }, { label: 'PRESSURE', value: 'STABLE', color: '#00B558' }]
-      },
-      { 
-        id: "grd_3", name: "RENEWABLE ENERGY MIX", desc: "OPTIMIZES ROOFTOP SOLAR PLACEMENT ON PUBLIC BUILDINGS USING 3D SHADOW ANALYSIS.",
-        stats: [{ label: 'COVERAGE', value: '99%', color: '#00B558' }, { label: 'LATENCY', value: '12ms', color: '#3b82f6' }]
-      }
-    ]
+// Seeded PRNG for deterministic heatmap points
+function seededRNG(seed: number) {
+  let s = seed;
+  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+// Pre-generate traffic congestion points for downtown Riyadh
+function generateTrafficPoints() {
+  const rng = seededRNG(42);
+  const pts: { lng: number; lat: number; w: number; core: boolean; intersection: boolean }[] = [];
+  const clusters = [
+    { lng: 46.663, lat: 24.765, n: 60, sp: 0.008, w: 0.95 }, // King Fahd / Northern Ring
+    { lng: 46.678, lat: 24.711, n: 55, sp: 0.007, w: 0.92 }, // Olaya / Tahlia
+    { lng: 46.695, lat: 24.743, n: 50, sp: 0.008, w: 0.88 }, // King Abdullah Rd
+    { lng: 46.664, lat: 24.695, n: 45, sp: 0.007, w: 0.85 }, // King Fahd / Makkah
+    { lng: 46.678, lat: 24.730, n: 40, sp: 0.006, w: 0.80 }, // Olaya / Al Oruba
+    { lng: 46.626, lat: 24.681, n: 35, sp: 0.008, w: 0.70 }, // DQ area
+    { lng: 46.639, lat: 24.761, n: 40, sp: 0.007, w: 0.75 }, // KAFD approach
+    { lng: 46.712, lat: 24.700, n: 30, sp: 0.009, w: 0.65 }, // Eastern corridor
+  ];
+  for (const c of clusters) {
+    const isCore = c.lng > 46.65 && c.lng < 46.70 && c.lat > 24.69 && c.lat < 24.75;
+    for (let i = 0; i < c.n; i++) {
+      const u1 = Math.max(rng(), 0.0001), u2 = rng();
+      const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+      pts.push({ lng: c.lng + z0 * c.sp, lat: c.lat + z1 * c.sp, w: c.w * (0.4 + 0.6 * rng()), core: isCore, intersection: true });
+    }
   }
+  // Background traffic
+  for (let i = 0; i < 200; i++) {
+    pts.push({ lng: 46.60 + rng() * 0.16, lat: 24.66 + rng() * 0.13, w: rng() * 0.12, core: false, intersection: false });
+  }
+  return pts;
+}
+const BASE_TRAFFIC = generateTrafficPoints();
+
+const HEATMAP_PAINT: any = {
+  'heatmap-weight': ['get', 'weight'],
+  'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 10, 1.2, 15, 3.5],
+  'heatmap-color': [
+    'interpolate', ['linear'], ['heatmap-density'],
+    0, 'rgba(0, 181, 88, 0)',
+    0.25, 'rgba(0, 181, 88, 0.5)',
+    0.5, 'rgba(252, 211, 77, 0.7)',
+    0.75, 'rgba(255, 68, 68, 0.9)',
+    1, 'rgba(255, 255, 255, 1)',
+  ],
+  'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 10, 6, 15, 25],
+  'heatmap-opacity': 0.9,
 };
 
-const MapBuoy = ({ alert, isHovered, onHover, onClick }: { alert: any, isHovered: boolean, onHover: (hovered: boolean) => void, onClick: () => void }) => {
-  const isCritical = alert.severity === "CRITICAL";
-  const color = isCritical ? "#ff4444" : "#FCD34D";
-  
+// ─── Environmental risk heatmap (flood/heat zones) ────────────
+function generateEnvRiskPoints() {
+  const rng = seededRNG(99);
+  const pts: { lng: number; lat: number; w: number; wadi: boolean; urban: boolean }[] = [];
+  const clusters = [
+    // Flood-risk: Wadi Hanifah and low-lying areas
+    { lng: 46.60, lat: 24.65, n: 70, sp: 0.020, w: 0.95, wadi: true, urban: false },  // Wadi Hanifah flood plain
+    { lng: 46.55, lat: 24.60, n: 50, sp: 0.025, w: 0.85, wadi: true, urban: false },  // South-West basin
+    { lng: 46.70, lat: 24.55, n: 45, sp: 0.022, w: 0.80, wadi: true, urban: false },  // South lowlands
+    { lng: 46.62, lat: 24.72, n: 35, sp: 0.015, w: 0.70, wadi: true, urban: true },   // Wadi through downtown
+    // Heat-island: dense urban cores
+    { lng: 46.673, lat: 24.711, n: 55, sp: 0.012, w: 0.90, wadi: false, urban: true }, // Olaya dense
+    { lng: 46.639, lat: 24.761, n: 45, sp: 0.010, w: 0.85, wadi: false, urban: true }, // KAFD high-rise
+    { lng: 46.712, lat: 24.640, n: 40, sp: 0.015, w: 0.75, wadi: false, urban: true }, // Downtown area
+    { lng: 46.695, lat: 24.743, n: 35, sp: 0.012, w: 0.72, wadi: false, urban: true }, // King Abdullah corridor
+  ];
+  for (const c of clusters) {
+    for (let i = 0; i < c.n; i++) {
+      const u1 = Math.max(rng(), 0.0001), u2 = rng();
+      const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+      pts.push({ lng: c.lng + z0 * c.sp, lat: c.lat + z1 * c.sp, w: c.w * (0.4 + 0.6 * rng()), wadi: c.wadi, urban: c.urban });
+    }
+  }
+  for (let i = 0; i < 180; i++) {
+    pts.push({ lng: 46.48 + rng() * 0.35, lat: 24.50 + rng() * 0.32, w: rng() * 0.10, wadi: false, urban: false });
+  }
+  return pts;
+}
+const BASE_ENV_RISK = generateEnvRiskPoints();
+
+const ENV_RISK_VIEW = { longitude: 46.65, latitude: 24.68, zoom: 10.5, pitch: 0, bearing: 0 };
+
+const ENV_HEATMAP_PAINT: any = {
+  'heatmap-weight': ['get', 'weight'],
+  'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 9, 1, 14, 3],
+  'heatmap-color': [
+    'interpolate', ['linear'], ['heatmap-density'],
+    0, 'rgba(16, 185, 129, 0)',
+    0.2, 'rgba(16, 185, 129, 0.4)',
+    0.45, 'rgba(252, 211, 77, 0.65)',
+    0.7, 'rgba(249, 115, 22, 0.85)',
+    0.9, 'rgba(239, 68, 68, 0.95)',
+    1, 'rgba(255, 255, 255, 1)',
+  ],
+  'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 9, 8, 14, 22],
+  'heatmap-opacity': 0.85,
+};
+
+// ─── Flood spot markers for ER ────────────────────────────────
+const FLOOD_SPOTS = [
+  { name: "Wadi Hanifah — Al Diriyah", lng: 46.575, lat: 24.73, baseRadius: 850, risk: 92 },
+  { name: "Wadi Hanifah — Al Aqiq", lng: 46.595, lat: 24.68, baseRadius: 750, risk: 88 },
+  { name: "King Fahd Rd Underpass", lng: 46.663, lat: 24.735, baseRadius: 400, risk: 85 },
+  { name: "South Basin — Exit 15", lng: 46.72, lat: 24.55, baseRadius: 1200, risk: 78 },
+  { name: "Olaya Depression", lng: 46.678, lat: 24.695, baseRadius: 350, risk: 72 },
+  { name: "Northern Ring Catchment", lng: 46.66, lat: 24.78, baseRadius: 600, risk: 68 },
+  { name: "Eastern District Basin", lng: 46.78, lat: 24.72, baseRadius: 900, risk: 65 },
+];
+
+// Heat island clusters for heatmap
+const HEAT_ISLAND_PAINT: any = {
+  'heatmap-weight': ['get', 'weight'],
+  'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 9, 1.2, 14, 3],
+  'heatmap-color': [
+    'interpolate', ['linear'], ['heatmap-density'],
+    0, 'rgba(252, 211, 77, 0)',
+    0.2, 'rgba(252, 211, 77, 0.35)',
+    0.45, 'rgba(249, 115, 22, 0.6)',
+    0.7, 'rgba(239, 68, 68, 0.85)',
+    0.9, 'rgba(220, 38, 38, 0.95)',
+    1, 'rgba(255, 255, 255, 1)',
+  ],
+  'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 9, 10, 14, 25],
+  'heatmap-opacity': 0.85,
+};
+
+function generateHeatIslandPoints() {
+  const rng = seededRNG(77);
+  const pts: { lng: number; lat: number; w: number; urban: boolean }[] = [];
+  const clusters = [
+    { lng: 46.673, lat: 24.711, n: 80, sp: 0.014, w: 0.95 }, // Olaya dense commercial
+    { lng: 46.639, lat: 24.761, n: 65, sp: 0.012, w: 0.90 }, // KAFD high-rise canyon
+    { lng: 46.712, lat: 24.640, n: 55, sp: 0.016, w: 0.82 }, // Downtown asphalt
+    { lng: 46.695, lat: 24.743, n: 50, sp: 0.013, w: 0.78 }, // King Abdullah corridor
+    { lng: 46.650, lat: 24.690, n: 40, sp: 0.015, w: 0.72 }, // Al Malaz
+    { lng: 46.730, lat: 24.780, n: 35, sp: 0.018, w: 0.65 }, // Industrial east
+  ];
+  for (const c of clusters) {
+    for (let i = 0; i < c.n; i++) {
+      const u1 = Math.max(rng(), 0.0001), u2 = rng();
+      const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+      pts.push({ lng: c.lng + z0 * c.sp, lat: c.lat + z1 * c.sp, w: c.w * (0.4 + 0.6 * rng()), urban: true });
+    }
+  }
+  for (let i = 0; i < 120; i++) {
+    pts.push({ lng: 46.50 + rng() * 0.35, lat: 24.50 + rng() * 0.35, w: rng() * 0.08, urban: false });
+  }
+  return pts;
+}
+const BASE_HEAT_ISLANDS = generateHeatIslandPoints();
+
+// ─── Chart data ───────────────────────────────────────────────
+const MI_RADAR_BASE = [
+  { s: "Pedestrian", base: 10.2, target: 18 },
+  { s: "Cycling", base: 74, target: 90 },
+  { s: "Transit", base: 78, target: 95 },
+];
+const SO_BAR_BASE = [
+  { n: "Sustain.", cur: 84, tgt: 95 },
+  { n: "Cost-Benefit", cur: 3.2, tgt: 4.5 },
+  { n: "Equity", cur: 88, tgt: 100 },
+];
+const EF_BAR_BASE = [
+  { n: "GDP %", cur: 35, tgt: 45 },
+  { n: "FDI (B)", cur: 245, tgt: 500 },
+  { n: "Jobs (K)", cur: 520, tgt: 800 },
+];
+
+// ─── Helpers ──────────────────────────────────────────────────
+function mul(base: number, m: number, dec = 0): number {
+  const v = base * m;
+  return dec > 0 ? parseFloat(v.toFixed(dec)) : Math.round(v);
+}
+function fmt(v: number, dec = 0): string {
+  return dec > 0 ? v.toFixed(dec) : Math.round(v).toString();
+}
+
+function AgentBadge({ id, color }: { id: string; color: string }) {
   return (
-    <div 
-      onClick={onClick} 
-      onMouseEnter={() => onHover(true)} 
-      onMouseLeave={() => onHover(false)} 
-      className={`relative group cursor-pointer flex items-center justify-center pointer-events-auto transition-transform duration-300 ${isHovered ? 'scale-125 z-50' : 'hover:scale-110 z-40'}`}
-    >
-      <motion.div className="absolute rounded-full border border-solid" style={{ borderColor: color }} initial={{ width: 10, height: 10, opacity: 1 }} animate={{ width: 50, height: 50, opacity: 0 }} transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }} />
-      <motion.div className="absolute rounded-full border border-solid" style={{ borderColor: color }} initial={{ width: 10, height: 10, opacity: 1 }} animate={{ width: 50, height: 50, opacity: 0 }} transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 1 }} />
-      <div className="w-2.5 h-2.5 rounded-full relative z-10" style={{ backgroundColor: color, boxShadow: `0 0 15px ${color}` }}></div>
-      <div className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#051105]/85 border backdrop-blur-md px-2.5 py-1.5 rounded-sm whitespace-nowrap opacity-100 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-300 ${isHovered ? 'border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-110 -translate-y-2' : 'border-opacity-50 scale-100'}`} style={{ borderColor: isHovered ? color : `${color}50` }}>
-         <div className={`text-[9px] font-bold uppercase tracking-wider transition-colors ${isHovered ? 'text-white' : 'text-gray-300'}`}>{alert.name}</div>
-         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>{alert.delay}</div>
+    <span className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wider uppercase border"
+      style={{ color, borderColor: `${color}60`, backgroundColor: `${color}15` }}>{id}</span>
+  );
+}
+
+// ─── Indicator row (compact, with hover tooltip) ──────────────
+function IndicatorRow({ ind, value, color }: { ind: Indicator; value: number; color: string }) {
+  const [hover, setHover] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  const pct = ind.inverse
+    ? Math.max(0, Math.min(100, ((ind.current - value) / (ind.current - ind.target)) * 100))
+    : Math.max(0, Math.min(100, (value / ind.target) * 100));
+
+  const onEnter = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      setPos({ top: r.bottom + 4, left: Math.min(r.left, window.innerWidth - 280) });
+    }
+    setHover(true);
+  };
+
+  return (
+    <div className="flex items-center gap-2 py-[3px]" ref={ref}
+      onMouseEnter={onEnter} onMouseLeave={() => setHover(false)}>
+      {/* Name + AI role */}
+      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+        <Info className="w-3.5 h-3.5 text-gray-600 flex-shrink-0 cursor-help" />
+        <span className="text-[12px] font-bold tracking-wider text-gray-300 truncate uppercase">{ind.name}</span>
+        <span className="text-[9px] px-1 py-[1px] rounded bg-[#ffffff08] text-gray-600 font-bold tracking-wider uppercase flex-shrink-0">{ind.aiRole}</span>
+      </div>
+      {/* Value + target + progress */}
+      <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="w-[80px] h-[4px] bg-[#1a2f1a] rounded-full overflow-hidden">
+          <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, backgroundColor: color }} />
+        </div>
+        <span className="text-[13px] font-black tracking-wider w-[55px] text-right" style={{ color }}>
+          {fmt(value, ind.unit === "Ratio" ? 1 : 0)}
+        </span>
+        <span className="text-[10px] text-gray-600 font-bold w-[24px]">/{fmt(ind.target, ind.unit === "Ratio" ? 1 : 0)}</span>
+        <span className="text-[10px] text-gray-600 font-medium w-[44px] uppercase">{ind.unit}</span>
+      </div>
+      {/* Hover tooltip via portal */}
+      {hover && createPortal(
+        <div className="fixed z-[200] w-[280px] p-3 bg-[#0d1a0d] border border-[#00B558]/30 rounded shadow-xl pointer-events-none"
+          style={{ top: pos.top, left: pos.left }}>
+          <div className="text-[11px] font-bold text-gray-200 uppercase tracking-wider mb-1">{ind.name}</div>
+          <p className="text-[10px] leading-snug text-gray-400">{ind.desc}</p>
+          <div className="flex items-center gap-3 mt-1.5 text-[10px]">
+            <span className="text-gray-500">Current: <b className="text-gray-300">{fmt(ind.current, ind.unit === "Ratio" ? 1 : 0)}</b></span>
+            <span className="text-gray-500">2030 Target: <b style={{ color }}>{fmt(ind.target, ind.unit === "Ratio" ? 1 : 0)}</b></span>
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
+  );
+}
+
+// ─── Section wrapper ──────────────────────────────────────────
+function AgentSection({ agent, delay, onSettings, children }: {
+  agent: AgentDef; delay: number; onSettings: () => void; children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay, ease: "easeOut" }}
+      className="flex flex-col bg-[#060e06]/90 border rounded-lg overflow-hidden"
+      style={{ borderColor: `${agent.color}30` }}>
+      <div className="flex items-center justify-between px-2.5 py-1.5 border-b flex-shrink-0" style={{ borderColor: `${agent.color}20` }}>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <AgentBadge id={agent.id} color={agent.color} />
+          <h3 className="text-[10px] font-black tracking-[0.12em] uppercase truncate" style={{ color: agent.color }}>{agent.name}</h3>
+        </div>
+        <button onClick={onSettings}
+          className="flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-bold tracking-widest uppercase rounded-sm border transition-all hover:bg-[#00B558]/10 cursor-pointer flex-shrink-0"
+          style={{ color: agent.color, borderColor: `${agent.color}40` }}>
+          <Settings className="w-3 h-3" />Settings
+        </button>
+      </div>
+      <div className="flex-1 flex flex-col p-2 gap-1.5 min-h-0">{children}</div>
+    </motion.div>
+  );
+}
+
+// ─── KPI Card (for UT traffic section) ────────────────────────
+function KPICard({ icon, label, current, simulated, unit, color, improved, inverse }: {
+  icon: React.ReactNode; label: string; current: number; simulated: number; unit: string;
+  color: string; improved: boolean; inverse?: boolean;
+}) {
+  const changed = simulated !== current;
+  const delta = inverse ? current - simulated : simulated - current;
+  const deltaPct = current > 0 ? Math.round((delta / current) * 100) : simulated > 0 ? 100 : 0;
+  return (
+    <div className="flex-1 flex items-center gap-2 px-2.5 py-1.5 bg-[#060e06]/80 rounded border" style={{ borderColor: `${color}25` }}>
+      <div className="flex-shrink-0" style={{ color }}>{icon}</div>
+      <div className="flex flex-col flex-1 min-w-0">
+        <span className="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-500">{label}</span>
+        <div className="flex items-baseline gap-1">
+          <span className="text-[16px] font-black tracking-wider" style={{ color: changed ? color : '#9ca3af' }}>
+            {simulated.toLocaleString()}
+          </span>
+          <span className="text-[10px] text-gray-600 font-medium">{unit}</span>
+          {changed && (
+            <span className={`text-[10px] font-bold ${improved ? 'text-[#00B558]' : 'text-[#ff4444]'}`}>
+              {improved ? '↑' : '↓'}{Math.abs(deltaPct)}%
+            </span>
+          )}
+        </div>
+        <span className="text-[9px] text-gray-600">Baseline: {current.toLocaleString()} {unit}</span>
       </div>
     </div>
   );
-};
+}
 
-function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { item: any, color: string, isActive: boolean, onClick: () => void, layout?: "full"|"half" }) {
-  const [isHoveringInfo, setIsHoveringInfo] = useState(false);
-  const rgbColor = color === '#FCD34D' ? '252,211,77' : color === '#3b82f6' ? '59,130,246' : color === '#ff4444' ? '255,68,68' : '0,181,88';
-  const primaryStat = item.stats[0];
-  const isRightPanel = item.id.startsWith('grw') || item.id.startsWith('grd');
+// ─── UT Content — Downtown Riyadh Traffic Simulation ──────────
+function UTContent({ params }: { params: UTParams }) {
+  // Current traffic GeoJSON (baseline — never changes)
+  const currentGeoJSON = useMemo(() => ({
+    type: "FeatureCollection" as const,
+    features: BASE_TRAFFIC.map(p => ({
+      type: "Feature" as const,
+      properties: { weight: p.w },
+      geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+    })),
+  }), []);
 
-  const renderMiniChart = () => {
-    const chartClass = isRightPanel 
-      ? `absolute inset-0 w-full h-full transition-opacity duration-300 ${isActive ? 'opacity-100 z-20' : 'opacity-70'}`
-      : `absolute right-2 bottom-1 w-[150px] h-[50px] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`;
+  // Simulation GeoJSON (reactive to settings)
+  const simGeoJSON = useMemo(() => {
+    const capR = 1 - (params.additionalLanes / 4) * 0.25;
+    const metR = 1 - (params.metroShift / 40) * 0.35;
+    const sigR = 1 - ((params.signalOptimization - 30) / 70) * 0.20;
+    const priR = 1 - (params.congestionPricing / 30) * 0.30;
+    return {
+      type: "FeatureCollection" as const,
+      features: BASE_TRAFFIC.map(p => ({
+        type: "Feature" as const,
+        properties: {
+          weight: Math.max(0.02, p.w * capR * metR * (p.intersection ? sigR : 1) * (p.core ? priR : 1)),
+        },
+        geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+      })),
+    };
+  }, [params]);
 
-    if (!isRightPanel && layout !== "full") return null;
+  // KPI calculations
+  const kpis = useMemo(() => {
+    const { additionalLanes, metroShift, signalOptimization, congestionPricing } = params;
+    const gain = (additionalLanes / 4) * 0.3 + (metroShift / 40) * 0.4 + ((signalOptimization - 30) / 70) * 0.25 + (congestionPricing / 30) * 0.15;
+    return {
+      avgSpeed: Math.min(42, Math.round(18 * (1 + gain))),
+      peakDelay: Math.max(8, Math.round(45 / (1 + gain))),
+      throughput: Math.min(22000, Math.round(12400 * (1 + (additionalLanes / 4) * 0.2 + ((signalOptimization - 30) / 70) * 0.15 + (metroShift / 40) * 0.1))),
+      co2Reduction: Math.min(45, Math.round((metroShift / 40) * 25 + (congestionPricing / 30) * 12 + ((signalOptimization - 30) / 70) * 8)),
+    };
+  }, [params]);
 
-    const data = Array.from({length: 6}).map((_, i) => ({ year: `202${i+1}`, val: 40 + Math.random()*40, pen: Math.random()*10 }));
-    
-    let valLabel = 'Metric Index';
-    let valUnit = '';
-    
-    if (item.id.startsWith('trf')) { valLabel = 'Simulation Variance'; valUnit = '%'; }
-    if (item.id.startsWith('bdg')) { valLabel = 'Pedestrian Flow'; valUnit = 'k/day'; }
-    if (item.id.startsWith('clm')) { valLabel = 'Emissions Cut'; valUnit = '%'; }
-    if (item.id.startsWith('grw')) { valLabel = 'FDI Growth'; valUnit = 'M SAR'; }
-    if (item.id.startsWith('grd')) { valLabel = 'Grid Resiliency'; valUnit = '/100'; }
+  const hasChanges = params.additionalLanes > 0 || params.metroShift > 0 || params.signalOptimization > 30 || params.congestionPricing > 0;
+
+  return (
+    <>
+      {/* Two maps side by side */}
+      <div className="flex-1 flex gap-1.5 min-h-0">
+        {/* Current */}
+        <div className="flex-1 flex flex-col gap-1 min-h-0">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 px-1">Current Traffic</span>
+          <div className="flex-1 rounded border border-[#ffffff10] overflow-hidden">
+            <Map initialViewState={DOWNTOWN_VIEW} mapStyle={MAP_STYLE} interactive={false}>
+              <SafeSource id="current-traffic" type="geojson" data={currentGeoJSON as any}>
+                <SafeLayer id="current-heat" type="heatmap" paint={HEATMAP_PAINT} />
+              </SafeSource>
+            </Map>
+          </div>
+        </div>
+        {/* Simulation */}
+        <div className="flex-1 flex flex-col gap-1 min-h-0">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">Simulated Traffic</span>
+            {hasChanges && <span className="text-[8px] px-1 py-[1px] rounded bg-[#00B558]/15 text-[#00B558] font-bold tracking-wider uppercase">Modified</span>}
+          </div>
+          <div className="flex-1 rounded border overflow-hidden" style={{ borderColor: hasChanges ? '#00B55840' : '#ffffff10' }}>
+            <Map initialViewState={DOWNTOWN_VIEW} mapStyle={MAP_STYLE} interactive={false}>
+              <SafeSource id="sim-traffic" type="geojson" data={simGeoJSON as any}>
+                <SafeLayer id="sim-heat" type="heatmap" paint={HEATMAP_PAINT} />
+              </SafeSource>
+            </Map>
+          </div>
+        </div>
+      </div>
+      {/* KPI strip */}
+      <div className="flex gap-1.5 flex-shrink-0">
+        <KPICard icon={<TrendingUp className="w-4 h-4" />} label="Avg. Speed" current={18} simulated={kpis.avgSpeed} unit="km/h" color="#00B558" improved={kpis.avgSpeed > 18} />
+        <KPICard icon={<Clock className="w-4 h-4" />} label="Peak Delay" current={45} simulated={kpis.peakDelay} unit="min" color="#FCD34D" improved={kpis.peakDelay < 45} inverse />
+        <KPICard icon={<Car className="w-4 h-4" />} label="Throughput" current={12400} simulated={kpis.throughput} unit="veh/hr" color="#3b82f6" improved={kpis.throughput > 12400} />
+        <KPICard icon={<Leaf className="w-4 h-4" />} label="CO₂ Reduction" current={0} simulated={kpis.co2Reduction} unit="%" color="#10b981" improved={kpis.co2Reduction > 0} />
+      </div>
+    </>
+  );
+}
+
+// ─── MI Content ───────────────────────────────────────────────
+function MIContent({ params }: { params: MIParams }) {
+  const a = AGENTS[1];
+  const values = useMemo(() => [
+    mul(10.2, params.shadeInfra, 1),
+    mul(74, params.cyclingInvestment * 0.4 + 0.6),
+    mul(78, params.transitExpansion * 0.4 + 0.6),
+  ], [params]);
+
+  const radarData = useMemo(() => MI_RADAR_BASE.map((d, i) => ({
+    s: d.s,
+    current: d.base,
+    simulated: values[i],
+    target: d.target,
+  })), [values]);
+
+  return (
+    <>
+      <div className="flex-1 min-h-0 bg-[#070d07]/60 rounded border border-[#FCD34D]/10 p-1 flex items-center justify-center">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
+            <PolarGrid stroke="#0a1a0a" />
+            <PolarAngleAxis dataKey="s" tick={{ fontSize: 9, fill: "#4a6a4a" }} />
+            <PolarRadiusAxis tick={false} axisLine={false} />
+            <Radar name="Current" dataKey="current" stroke="#FCD34D50" fill="#FCD34D10" strokeWidth={1} />
+            <Radar name="Simulated" dataKey="simulated" stroke="#FCD34D" fill="#FCD34D30" strokeWidth={1.5} />
+            <Radar name="2030 Target" dataKey="target" stroke="#00B558" fill="#00B55815" strokeWidth={1} strokeDasharray="3 3" />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
+      {a.indicators.map((ind, i) => (
+        <IndicatorRow key={ind.id} ind={ind} value={values[i]} color={a.color} />
+      ))}
+    </>
+  );
+}
+
+// ─── SO Content ───────────────────────────────────────────────
+function SOContent({ params }: { params: SOParams }) {
+  const a = AGENTS[2];
+  const values = useMemo(() => [
+    Math.min(100, mul(84, params.sustainabilityWeight * 0.3 + 0.7)),
+    mul(3.2, params.investmentScale * 0.4 + 0.6, 1),
+    Math.min(100, mul(88, params.equityPriority * 0.3 + 0.7)),
+  ], [params]);
+
+  const barData = useMemo(() => SO_BAR_BASE.map((d, i) => ({
+    n: d.n,
+    current: d.cur,
+    simulated: values[i],
+    target: d.tgt,
+  })), [values]);
+
+  // Normalize for display (cost-benefit ratio is small, others are %)
+  const displayData = useMemo(() => barData.map(d => ({
+    n: d.n,
+    current: d.n === "Cost-Benefit" ? (d.current / 4.5) * 100 : d.current,
+    simulated: d.n === "Cost-Benefit" ? (d.simulated / 4.5) * 100 : d.simulated,
+    target: d.n === "Cost-Benefit" ? 100 : d.target,
+  })), [barData]);
+
+  return (
+    <>
+      <div className="flex-1 min-h-0 bg-[#070d07]/60 rounded border border-[#00B558]/10 p-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={displayData} margin={{ top: 2, right: 4, left: -22, bottom: 0 }}>
+            <CartesianGrid stroke="#0a1a0a" strokeDasharray="3 3" />
+            <XAxis dataKey="n" tick={{ fontSize: 9, fill: "#3a5a3a" }} />
+            <YAxis tick={{ fontSize: 9, fill: "#3a5a3a" }} domain={[0, 100]} />
+            <Tooltip contentStyle={{ backgroundColor: "#0a140a", border: "1px solid #00B55830", fontSize: 9 }} />
+            <Bar dataKey="current" fill="#ffffff15" name="Current" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="simulated" fill="#00B55880" name="Simulated" radius={[2, 2, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      {a.indicators.map((ind, i) => (
+        <IndicatorRow key={ind.id} ind={ind} value={values[i]} color={a.color} />
+      ))}
+    </>
+  );
+}
+
+// ─── EF Content ───────────────────────────────────────────────
+function EFContent({ params }: { params: EFParams }) {
+  const a = AGENTS[3];
+  const values = useMemo(() => [
+    mul(35, params.diversificationRate * 0.4 + 0.6),
+    mul(245, params.fdiAttraction),
+    mul(520, params.jobGrowth),
+  ], [params]);
+
+  const barData = useMemo(() => EF_BAR_BASE.map((d, i) => ({
+    n: d.n,
+    current: d.cur,
+    simulated: values[i],
+  })), [values]);
+
+  // Normalize for display
+  const displayData = useMemo(() => barData.map((d, i) => ({
+    n: d.n,
+    current: (EF_BAR_BASE[i].cur / EF_BAR_BASE[i].tgt) * 100,
+    simulated: (d.simulated / EF_BAR_BASE[i].tgt) * 100,
+  })), [barData]);
+
+  return (
+    <>
+      <div className="flex-1 min-h-0 bg-[#070d07]/60 rounded border border-[#3b82f6]/10 p-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={displayData} margin={{ top: 2, right: 4, left: -22, bottom: 0 }}>
+            <CartesianGrid stroke="#0a1a0a" strokeDasharray="3 3" />
+            <XAxis dataKey="n" tick={{ fontSize: 9, fill: "#3a5a3a" }} />
+            <YAxis tick={{ fontSize: 9, fill: "#3a5a3a" }} domain={[0, 120]} />
+            <Tooltip contentStyle={{ backgroundColor: "#0a140a", border: "1px solid #3b82f630", fontSize: 9 }} />
+            <Bar dataKey="current" fill="#ffffff15" name="Current" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="simulated" fill="#3b82f680" name="Simulated" radius={[2, 2, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      {a.indicators.map((ind, i) => (
+        <IndicatorRow key={ind.id} ind={ind} value={values[i]} color={a.color} />
+      ))}
+    </>
+  );
+}
+
+// ─── ER Content — Environmental & Resilience Simulation ───────
+function ERContent({ params }: { params: ERParams }) {
+  const [vizMode, setVizMode] = useState<"flood" | "heat">("flood");
+  const [selectedFlood, setSelectedFlood] = useState<number | null>(null);
+
+  // Flood spots with reactive radii
+  const floodSpots = useMemo(() => {
+    const drainR = 1 - (params.drainageExpansion / 50) * 0.35;
+    const basinR = 1 - (params.retentionBasins / 8) * 0.40;
+    const codeR = 1 - ((params.buildingCode - 35) / 65) * 0.15;
+    return FLOOD_SPOTS.map(s => ({
+      ...s,
+      simRadius: Math.max(50, Math.round(s.baseRadius * drainR * basinR * codeR)),
+      simRisk: Math.max(8, Math.round(s.risk * drainR * basinR * codeR)),
+    }));
+  }, [params]);
+
+  // Flood GeoJSON circles for map
+  const floodCurrentGeoJSON = useMemo(() => ({
+    type: "FeatureCollection" as const,
+    features: FLOOD_SPOTS.map((s, i) => ({
+      type: "Feature" as const,
+      properties: { radius: s.baseRadius, risk: s.risk, name: s.name, idx: i },
+      geometry: { type: "Point" as const, coordinates: [s.lng, s.lat] },
+    })),
+  }), []);
+
+  const floodSimGeoJSON = useMemo(() => ({
+    type: "FeatureCollection" as const,
+    features: floodSpots.map((s, i) => ({
+      type: "Feature" as const,
+      properties: { radius: s.simRadius, risk: s.simRisk, name: s.name, idx: i },
+      geometry: { type: "Point" as const, coordinates: [s.lng, s.lat] },
+    })),
+  }), [floodSpots]);
+
+  // Heat island GeoJSON
+  const heatCurrentGeoJSON = useMemo(() => ({
+    type: "FeatureCollection" as const,
+    features: BASE_HEAT_ISLANDS.map(p => ({
+      type: "Feature" as const,
+      properties: { weight: p.w },
+      geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+    })),
+  }), []);
+
+  const heatSimGeoJSON = useMemo(() => {
+    const greenR = 1 - ((params.greenCover - 8) / 22) * 0.35;
+    const coolR = 1 - ((params.coolRoof - 5) / 55) * 0.30;
+    const codeR = 1 - ((params.buildingCode - 35) / 65) * 0.15;
+    return {
+      type: "FeatureCollection" as const,
+      features: BASE_HEAT_ISLANDS.map(p => ({
+        type: "Feature" as const,
+        properties: { weight: Math.max(0.02, p.w * (p.urban ? greenR * coolR : 1) * codeR) },
+        geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+      })),
+    };
+  }, [params]);
+
+  // Flood circle layer paint
+  const floodCirclePaint: any = {
+    'circle-radius': ['interpolate', ['linear'], ['zoom'],
+      9, ['/', ['get', 'radius'], 200],
+      12, ['/', ['get', 'radius'], 50],
+      14, ['/', ['get', 'radius'], 20],
+    ],
+    'circle-color': ['interpolate', ['linear'], ['get', 'risk'],
+      20, 'rgba(16, 185, 129, 0.4)',
+      50, 'rgba(252, 211, 77, 0.5)',
+      75, 'rgba(249, 115, 22, 0.6)',
+      90, 'rgba(239, 68, 68, 0.7)',
+    ],
+    'circle-stroke-width': 1.5,
+    'circle-stroke-color': ['interpolate', ['linear'], ['get', 'risk'],
+      20, '#10b981',
+      50, '#FCD34D',
+      75, '#f97316',
+      90, '#ef4444',
+    ],
+    'circle-opacity': 0.7,
+  };
+
+  // KPI calculations
+  const kpis = useMemo(() => {
+    const { drainageExpansion, greenCover, retentionBasins, buildingCode, coolRoof } = params;
+    const drainGain = (drainageExpansion / 50);
+    const basinGain = (retentionBasins / 8);
+    const greenGain = ((greenCover - 8) / 22);
+    const codeGain = ((buildingCode - 35) / 65);
+    const coolGain = ((coolRoof - 5) / 55);
+    return {
+      floodRisk: Math.min(95, Math.round(42 + drainGain * 28 + basinGain * 18 + codeGain * 7)),
+      heatReduction: Math.min(5.5, parseFloat(((greenGain * 2.5) + coolGain * 1.8 + codeGain * 0.6).toFixed(1))),
+      resilienceScore: Math.min(95, Math.round(35 + codeGain * 30 + drainGain * 12 + basinGain * 8 + greenGain * 5 + coolGain * 5)),
+    };
+  }, [params]);
+
+  const hasChanges = params.drainageExpansion > 0 || params.retentionBasins > 0 || params.greenCover > 8 || params.buildingCode > 35 || params.coolRoof > 5;
+
+  // Flood marker component matching Panorama MapLabel style
+  const FloodMarkerLabel = ({ spot, idx, simulated }: { spot: typeof FLOOD_SPOTS[0] & { simRadius?: number; simRisk?: number }; idx: number; simulated?: boolean }) => {
+    const risk = simulated ? (spot as any).simRisk ?? spot.risk : spot.risk;
+    const radius = simulated ? (spot as any).simRadius ?? spot.baseRadius : spot.baseRadius;
+    const isSelected = selectedFlood === idx;
+    const isHigh = risk >= 75;
+    const color = risk >= 85 ? '#ff4444' : risk >= 65 ? '#FCD34D' : '#10b981';
+    const borderCls = risk >= 85 ? 'border-[#ff4444]/40' : risk >= 65 ? 'border-[#FCD34D]/40' : 'border-[#10b981]/40';
 
     return (
-      <div className={chartClass}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
-            <defs>
-              <linearGradient id={`grad-${item.id}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={color} stopOpacity={0.4}/>
-                <stop offset="95%" stopColor={color} stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="year" hide />
-            <Tooltip 
-              contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-              labelFormatter={(label) => `YEAR: ${label}`}
-              formatter={(value: number) => [`${value.toFixed(1)}${valUnit}`, valLabel]}
-            />
-            <Area type="monotone" dataKey="val" stroke={color} strokeWidth={1.5} fillOpacity={1} fill={`url(#grad-${item.id})`} />
-          </ComposedChart>
-        </ResponsiveContainer>
+      <div className={`flex flex-col items-center ${isSelected ? 'z-50' : 'z-10'}`}
+        onClick={(e) => { e.stopPropagation(); setSelectedFlood(isSelected ? null : idx); }}
+        style={{ cursor: 'pointer', transformOrigin: 'bottom center', transform: isSelected ? 'scale(1.15)' : 'scale(1)', transition: 'transform 0.2s ease' }}>
+        {/* Info box (top) */}
+        <div className={`px-2.5 py-1.5 bg-[#051005]/90 backdrop-blur-md border ${borderCls} rounded-[3px] flex flex-col items-center pointer-events-auto ${isSelected ? 'min-w-[160px]' : 'min-w-[100px]'}`}
+          style={{ boxShadow: `0 0 15px ${color}15` }}>
+          <span className="text-[9px] font-black tracking-[0.12em] uppercase mb-0.5 whitespace-nowrap" style={{ color }}>{spot.name}</span>
+          <div className="flex items-baseline justify-center gap-1.5 w-full">
+            <span className="text-[15px] font-black text-gray-200 tracking-tight">{risk}%</span>
+            <span className="text-[8px] font-bold text-gray-500 uppercase tracking-widest">Risk</span>
+          </div>
+          {isSelected && (
+            <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">Flood Zone: {radius}m</span>
+          )}
+        </div>
+        {/* Connecting line */}
+        <div className="w-[1px] h-2.5 opacity-50" style={{ backgroundImage: `linear-gradient(to bottom, ${color}, transparent)` }} />
+        {/* Pulsing icon (bottom, at map point) */}
+        <div className="relative flex items-center justify-center">
+          {isHigh && (
+            <>
+              <div className="absolute w-8 h-8 rounded-full border border-solid opacity-20 animate-ping" style={{ borderColor: color, animationDuration: '3s' }} />
+              <div className="absolute w-5 h-5 rounded-full border border-solid opacity-40 animate-ping" style={{ borderColor: color, animationDuration: '2s' }} />
+            </>
+          )}
+          <div className="relative w-5 h-5 rounded-full flex items-center justify-center bg-[#070d07]/80 border z-10"
+            style={{ borderColor: `${color}80`, boxShadow: `0 0 8px ${color}40` }}>
+            <Droplets className="w-2.5 h-2.5" style={{ color }} />
+          </div>
+        </div>
       </div>
     );
   };
 
   return (
-    <div 
-      onClick={onClick}
-      className={`relative transition-all duration-300 cursor-pointer flex flex-col group min-h-0 h-full ${layout === 'full' ? 'p-3' : 'p-2.5'} ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
-      style={{ borderColor: isActive ? color : `${color}40` }}
-    >
-       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
-       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
-       <div className="flex justify-between items-start w-full gap-2 relative z-10">
-         <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] ${layout === 'full' ? 'text-[13px] w-[80%] line-clamp-2' : 'text-[10px] line-clamp-2'}`} style={{ color }}>{item.name}</h4>
-         <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-3.5 h-3.5" style={{ color }} /></div>
-       </div>
-       <div className={`relative w-full flex-1 flex flex-col mt-1.5 z-10 min-h-0 ${(layout === 'half' && isRightPanel) ? 'justify-center' : ''}`}>
-          <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-             <p className={`font-medium tracking-wider text-gray-300 uppercase ${layout === 'full' ? 'text-[10px] leading-[1.4] line-clamp-4' : 'text-[8px] leading-[1.3] line-clamp-4'}`}>{item.desc}</p>
+    <>
+      {/* Viz mode selector */}
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-600">Visualize:</span>
+        {([
+          { id: "flood" as const, label: "Flood Risk Zones", icon: <Droplets className="w-3.5 h-3.5" /> },
+          { id: "heat" as const, label: "Heat Islands", icon: <Thermometer className="w-3.5 h-3.5" /> },
+        ]).map(opt => (
+          <button key={opt.id} onClick={() => setVizMode(opt.id)}
+            className={`flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-sm border transition-all cursor-pointer ${
+              vizMode === opt.id ? 'opacity-100' : 'opacity-40 hover:opacity-70'
+            }`}
+            style={{
+              color: vizMode === opt.id ? '#10b981' : '#6b7280',
+              borderColor: vizMode === opt.id ? '#10b98150' : '#ffffff15',
+              backgroundColor: vizMode === opt.id ? '#10b98110' : 'transparent',
+            }}>
+            {opt.icon}{opt.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Two maps side by side */}
+      <div className="flex-1 flex gap-1.5 min-h-0">
+        {/* Current */}
+        <div className="flex-1 flex flex-col gap-1 min-h-0">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 px-1">
+            {vizMode === "flood" ? "Current Flood Risk" : "Current Heat Islands"}
+          </span>
+          <div className="flex-1 rounded border border-[#ffffff10] overflow-hidden relative">
+            <Map initialViewState={ENV_RISK_VIEW} mapStyle={MAP_STYLE} interactive={false}>
+              {vizMode === "flood" ? (
+                <>
+                  <SafeSource id="current-flood" type="geojson" data={floodCurrentGeoJSON as any}>
+                    <SafeLayer id="current-flood-circles" type="circle" paint={floodCirclePaint} />
+                  </SafeSource>
+                  {FLOOD_SPOTS.map((s, i) => (
+                    <Marker key={`cur-${i}`} longitude={s.lng} latitude={s.lat} anchor="bottom">
+                      <FloodMarkerLabel spot={s} idx={i} />
+                    </Marker>
+                  ))}
+                </>
+              ) : (
+                <SafeSource id="current-heat" type="geojson" data={heatCurrentGeoJSON as any}>
+                  <SafeLayer id="current-heat-layer" type="heatmap" paint={HEAT_ISLAND_PAINT} />
+                </SafeSource>
+              )}
+            </Map>
           </div>
-          <div className={`w-full flex transition-opacity duration-300 relative flex-1 flex-col min-h-0 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'} ${isRightPanel ? 'justify-start items-start' : 'justify-end items-start'}`}>
-             {isRightPanel ? (
-               <div className={`flex flex-col w-full h-full ${layout === 'full' ? 'justify-start' : 'justify-center'}`}>
-                 <div className="flex justify-between items-end gap-2 w-full mb-1 relative z-10">
-                   <span className="font-black leading-none tracking-tighter" style={{ color: primaryStat.color, fontSize: layout === 'full' ? '44px' : '30px', textShadow: `0 0 20px ${primaryStat.color}60` }}>{primaryStat.value}</span>
-                   <span className="text-gray-400 font-bold tracking-widest uppercase leading-tight text-[9px] mb-1 text-right flex-1 line-clamp-1">{primaryStat.label}</span>
-                 </div>
-                 <div className="flex flex-col gap-[2px] relative z-10">
-                   {item.stats.slice(1).map((stat: any, idx: number) => (
-                     <div key={idx} className={`flex justify-between items-center w-full border-t border-slate-800/50 ${layout === 'full' ? 'pt-1.5 pb-0.5' : 'pt-[2px]'}`}>
-                       <span className="text-slate-500 font-bold tracking-wider text-[8px] uppercase">{stat.label}</span>
-                       <span className={`font-black tracking-widest ${layout === 'full' ? 'text-[12px]' : 'text-[10px]'}`} style={{ color: stat.color || color }}>{stat.value}</span>
-                     </div>
-                   ))}
-                 </div>
-                 {layout === 'full' && (
-                   <div className="flex-1 w-full min-h-[20px] mt-1 relative">{renderMiniChart()}</div>
-                 )}
-               </div>
-             ) : (
-               <div className="flex flex-col w-full h-full justify-end relative z-10 pb-0.5">
-                 <div className="flex items-end gap-1.5 mb-1 mt-auto">
-                   <span className="font-black leading-none tracking-tighter" style={{ color: primaryStat.color, fontSize: layout === 'full' ? '36px' : '24px', textShadow: `0 0 20px ${primaryStat.color}60` }}>{primaryStat.value}</span>
-                   <span className="text-gray-400 font-bold tracking-widest uppercase leading-tight text-[8px] mb-1 max-w-[50%] line-clamp-2">{primaryStat.label}</span>
-                 </div>
-                 {layout === 'full' && item.stats.length > 1 && (
-                   <div className="flex gap-5 w-fit border-t border-white/10 pt-1.5 mb-0.5 mt-1 relative z-20">
-                     {item.stats.slice(1).map((stat: any, idx: number) => (
-                       <div key={idx} className="flex flex-col">
-                         <span className="text-slate-500 font-bold tracking-wider text-[7px] uppercase">{stat.label}</span>
-                         <span className="font-black tracking-widest text-[10px] mt-[1px]" style={{ color: stat.color || color }}>{stat.value}</span>
-                       </div>
-                     ))}
-                   </div>
-                 )}
-                 {renderMiniChart()}
-               </div>
-             )}
+        </div>
+        {/* Simulation */}
+        <div className="flex-1 flex flex-col gap-1 min-h-0">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">
+              {vizMode === "flood" ? "Simulated Flood Risk" : "Simulated Heat Islands"}
+            </span>
+            {hasChanges && <span className="text-[8px] px-1 py-[1px] rounded bg-[#10b981]/15 text-[#10b981] font-bold tracking-wider uppercase">Modified</span>}
           </div>
-       </div>
-    </div>
+          <div className="flex-1 rounded border overflow-hidden relative" style={{ borderColor: hasChanges ? '#10b98140' : '#ffffff10' }}>
+            <Map initialViewState={ENV_RISK_VIEW} mapStyle={MAP_STYLE} interactive={false}>
+              {vizMode === "flood" ? (
+                <>
+                  <SafeSource id="sim-flood" type="geojson" data={floodSimGeoJSON as any}>
+                    <SafeLayer id="sim-flood-circles" type="circle" paint={floodCirclePaint} />
+                  </SafeSource>
+                  {floodSpots.map((s, i) => (
+                    <Marker key={`sim-${i}`} longitude={s.lng} latitude={s.lat} anchor="bottom">
+                      <FloodMarkerLabel spot={s} idx={i} simulated />
+                    </Marker>
+                  ))}
+                </>
+              ) : (
+                <SafeSource id="sim-heat" type="geojson" data={heatSimGeoJSON as any}>
+                  <SafeLayer id="sim-heat-layer" type="heatmap" paint={HEAT_ISLAND_PAINT} />
+                </SafeSource>
+              )}
+            </Map>
+          </div>
+        </div>
+      </div>
+      {/* KPI strip */}
+      <div className="flex gap-1.5 flex-shrink-0">
+        <KPICard icon={<Droplets className="w-4 h-4" />} label="Flood Risk" current={42} simulated={kpis.floodRisk} unit="Score" color="#10b981" improved={kpis.floodRisk > 42} />
+        <KPICard icon={<TreePine className="w-4 h-4" />} label="Heat Island" current={0} simulated={kpis.heatReduction} unit="°C" color="#FCD34D" improved={kpis.heatReduction > 0} />
+        <KPICard icon={<Shield className="w-4 h-4" />} label="Resilience" current={35} simulated={kpis.resilienceScore} unit="%" color="#3b82f6" improved={kpis.resilienceScore > 35} />
+      </div>
+    </>
   );
 }
 
-// Generate GeoJSON for highlighting (Line for roads/traffic, Polygon for areas)
-const getHighlightGeoJSON = (lat: number, lng: number, type: string) => {
-  const isRoad = ['traffic', 'commute', 'emergency'].includes(type);
-  
-  if (isRoad) {
-    const offset = 0.015;
-    return {
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'LineString',
-          coordinates: [
-            [lng - offset, lat - offset],
-            [lng + offset, lat + offset]
-          ]
-        },
-        properties: {}
-      }]
-    };
-  } else {
-    const size = 0.015;
-    return {
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[
-            [lng - size, lat - size],
-            [lng + size, lat - size],
-            [lng + size, lat + size],
-            [lng - size, lat + size],
-            [lng - size, lat - size]
-          ]]
-        },
-        properties: {}
-      }]
-    };
-  }
-};
-
+// ─── Main page ────────────────────────────────────────────────
 export default function Simulation() {
-  const [activeMetric, setActiveMetric] = useState("trf_1");
-  const [selectedAlert, setSelectedAlert] = useState<any>(null);
-  const [hoveredAlertId, setHoveredAlertId] = useState<number | null>(null);
-  const [showComparison, setShowComparison] = useState(false);
-  const [heatmapScheme, setHeatmapScheme] = useState<1 | 2>(1);
-  const mapRef = useRef<MapRef>(null);
+  const [utP, setUtP] = useState<UTParams>(DEFAULT_UT);
+  const [miP, setMiP] = useState<MIParams>(DEFAULT_MI);
+  const [soP, setSoP] = useState<SOParams>(DEFAULT_SO);
+  const [efP, setEfP] = useState<EFParams>(DEFAULT_EF);
+  const [erP, setErP] = useState<ERParams>(DEFAULT_ER);
 
-  const handleMapLoad = useCallback(() => {
-    if (mapRef.current) {
-      mapRef.current.flyTo({ center: [46.72, 24.68], zoom: 11, pitch: 35, bearing: -5, duration: 2500, essential: true });
-    }
+  const [utD, setUtD] = useState<UTParams>(DEFAULT_UT);
+  const [miD, setMiD] = useState<MIParams>(DEFAULT_MI);
+  const [soD, setSoD] = useState<SOParams>(DEFAULT_SO);
+  const [efD, setEfD] = useState<EFParams>(DEFAULT_EF);
+  const [erD, setErD] = useState<ERParams>(DEFAULT_ER);
+
+  const [modal, setModal] = useState<"UT" | "MI" | "SO" | "EF" | "ER" | null>(null);
+  const [activeTab, setActiveTab] = useState<"UT" | "MI" | "SO" | "EF" | "ER">("UT");
+  const [thinking, setThinking] = useState(false);
+  const [thinkingProgress, setThinkingProgress] = useState(0);
+  const [thinkingStep, setThinkingStep] = useState("");
+
+  const THINKING_STEPS = [
+    "Initializing simulation engine...",
+    "Loading downtown Riyadh road network (6 corridors, 180 intersections)...",
+    "Calibrating traffic demand model (1,200 sensor feeds)...",
+    "Running micro-simulation (10,000 iterations)...",
+    "Computing intersection delay propagation...",
+    "Evaluating congestion redistribution effects...",
+    "Calculating CO₂ emission differentials...",
+    "Generating heatmap visualization...",
+    "Validating results against baseline...",
+    "Finalizing simulation output...",
+  ];
+
+  const applyWithThinking = useCallback((applyFn: () => void) => {
+    setThinking(true);
+    setThinkingProgress(0);
+    setThinkingStep(THINKING_STEPS[0]);
+    const duration = 4000 + Math.random() * 4000; // 4-8 seconds
+    const interval = 80;
+    let elapsed = 0;
+    const timer = setInterval(() => {
+      elapsed += interval;
+      const pct = Math.min(100, (elapsed / duration) * 100);
+      setThinkingProgress(pct);
+      const stepIdx = Math.min(THINKING_STEPS.length - 1, Math.floor((pct / 100) * THINKING_STEPS.length));
+      setThinkingStep(THINKING_STEPS[stepIdx]);
+      if (elapsed >= duration) {
+        clearInterval(timer);
+        applyFn();
+        setThinking(false);
+      }
+    }, interval);
   }, []);
 
-  const handleMetricClick = (id: string) => { setActiveMetric(id); };
-
-  const heatmapData = React.useMemo(() => generateRiyadhHeatmap(heatmapScheme), [heatmapScheme]);
-
-  let currentAlerts: any[] = [];
-  if (activeMetric.startsWith('trf')) currentAlerts = TRAFFIC_ALERTS;
-  else if (activeMetric.startsWith('bdg')) currentAlerts = BUDGET_ALERTS;
-  else if (activeMetric.startsWith('clm')) currentAlerts = CLIMATE_ALERTS;
-
-  const activeAgent = Object.values(SIMULATION_AGENTS).find(agent => agent.functions.some(f => f.id === activeMetric)) || SIMULATION_AGENTS.traffic;
-  const activeColor = activeAgent.color;
-  const activeRgb = activeColor === '#FCD34D' ? '252,211,77' : activeColor === '#3b82f6' ? '59,130,246' : activeColor === '#ff4444' ? '255,68,68' : '0,181,88';
-
-  const hoveredAlert = currentAlerts.find(a => a.id === hoveredAlertId);
-  const hoveredHighlightGeoJSON = hoveredAlert ? getHighlightGeoJSON(hoveredAlert.lat, hoveredAlert.lng, hoveredAlert.type) : null;
-  const isRoad = hoveredAlert && ['traffic', 'commute', 'emergency'].includes(hoveredAlert.type);
+  const open = useCallback((id: typeof modal) => {
+    if (id === "UT") setUtD(utP);
+    if (id === "MI") setMiD(miP);
+    if (id === "SO") setSoD(soP);
+    if (id === "EF") setEfD(efP);
+    if (id === "ER") setErD(erP);
+    setModal(id);
+  }, [utP, miP, soP, efP, erP]);
 
   return (
-    <div className="relative h-full w-full pt-[80px] pb-4 flex justify-between px-6 overflow-hidden pointer-events-none uppercase bg-[#051005]">
-      <div className="absolute inset-0 z-0 pointer-events-auto">
-        <Map ref={mapRef} style={{ width: '100%', height: '100%' }} onLoad={handleMapLoad} initialViewState={{ longitude: 46.72, latitude: 24.68, zoom: 10, pitch: 35, bearing: 0 }} mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" interactive={true}>
-          {/* Highlighted Region Layer */}
-          {hoveredHighlightGeoJSON && hoveredAlert && (
-            <SafeSource id="hovered-region" type="geojson" data={hoveredHighlightGeoJSON as any}>
-              {isRoad ? (
-                <SafeLayer 
-                  id="hovered-region-line" 
-                  type="line" 
-                  layout={{ 'line-join': 'round', 'line-cap': 'round' }}
-                  paint={{'line-color': activeColor, 'line-width': 8, 'line-opacity': 0.8, 'line-blur': 2}} 
-                />
-              ) : (
-                <>
-                  <SafeLayer 
-                    id="hovered-region-fill" 
-                    type="fill" 
-                    paint={{'fill-color': activeColor, 'fill-opacity': 0.15}} 
-                  />
-                  <SafeLayer 
-                    id="hovered-region-line" 
-                    type="line" 
-                    paint={{'line-color': activeColor, 'line-width': 2, 'line-dasharray': [2, 2]}} 
-                  />
-                </>
-              )}
-            </SafeSource>
-          )}
-
-          {/* Traffic Heatmap Layer */}
-          {heatmapData && (
-            <SafeSource id="traffic-heatmap" type="geojson" data={heatmapData as any}>
-              <SafeLayer 
-                id="traffic-heatmap-layer" 
-                type="heatmap" 
-                paint={{
-                  'heatmap-weight': ['get', 'weight'],
-                  'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 10, 1.2, 15, 3.5],
-                  'heatmap-color': [
-                    'interpolate', ['linear'], ['heatmap-density'],
-                    0, 'rgba(0, 181, 88, 0)',
-                    0.2, 'rgba(0, 181, 88, 0.6)', // green
-                    0.5, 'rgba(252, 211, 77, 0.8)', // gold
-                    0.8, 'rgba(255, 68, 68, 0.95)', // red
-                    1, 'rgba(255, 255, 255, 1)' // hot core
-                  ],
-                  'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 10, 4, 15, 20],
-                  'heatmap-opacity': 0.95
-                }} 
-              />
-            </SafeSource>
-          )}
-
-          {currentAlerts.map(alert => (
-            <Marker key={alert.id} longitude={alert.lng} latitude={alert.lat} anchor="center">
-              <MapBuoy alert={alert} isHovered={hoveredAlertId === alert.id} onHover={(hovered) => setHoveredAlertId(hovered ? alert.id : null)} onClick={() => setSelectedAlert(alert)} />
-            </Marker>
-          ))}
-        </Map>
-        <div className="absolute inset-0 bg-[#051005]/50 pointer-events-none z-10" />
+    <div className="w-full h-full flex flex-col pointer-events-auto bg-[#020805] pt-[80px] pb-[48px]">
+      {/* Top bar */}
+      <div className="flex items-center gap-2 px-3 py-1 border-b border-[#00B558]/15 bg-[#050c05]/80 flex-shrink-0">
+        <span className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">Active Agents</span>
+        {AGENTS.map(a => (
+          <div key={a.id} className="flex items-center gap-1">
+            <AgentBadge id={a.id} color={a.color} />
+            <span className="text-[9px] text-gray-600">{a.indicators.length}</span>
+          </div>
+        ))}
+        <div className="ml-auto flex items-center gap-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#00B558] animate-pulse" />
+          <span className="text-[9px] text-[#00B558] font-bold tracking-widest uppercase">16 Indicators · 5 Agents</span>
+        </div>
       </div>
 
-      <div className="absolute inset-y-0 left-0 w-[500px] bg-gradient-to-r from-[#051005] via-[#0c1a06]/90 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-[500px] bg-gradient-to-l from-[#051005] via-[#0c1a06]/90 to-transparent z-10 pointer-events-none" />
-
-      {/* LEFT SIDEBAR */}
-      <motion.div initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pr-4 pointer-events-auto">
-        <WidgetPanel title={SIMULATION_AGENTS.traffic.title} icon={<SIMULATION_AGENTS.traffic.icon className="w-5 h-5" color={SIMULATION_AGENTS.traffic.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 flex-1 min-h-0">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={SIMULATION_AGENTS.traffic.functions[0]} color={SIMULATION_AGENTS.traffic.color} isActive={activeMetric === SIMULATION_AGENTS.traffic.functions[0].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.traffic.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={SIMULATION_AGENTS.traffic.functions[1]} color={SIMULATION_AGENTS.traffic.color} isActive={activeMetric === SIMULATION_AGENTS.traffic.functions[1].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.traffic.functions[1].id)} layout="half" />
-               <FunctionCard item={SIMULATION_AGENTS.traffic.functions[2]} color={SIMULATION_AGENTS.traffic.color} isActive={activeMetric === SIMULATION_AGENTS.traffic.functions[2].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.traffic.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-        <WidgetPanel title={SIMULATION_AGENTS.budget.title} icon={<SIMULATION_AGENTS.budget.icon className="w-5 h-5" color={SIMULATION_AGENTS.budget.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 flex-1 min-h-0">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={SIMULATION_AGENTS.budget.functions[0]} color={SIMULATION_AGENTS.budget.color} isActive={activeMetric === SIMULATION_AGENTS.budget.functions[0].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.budget.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={SIMULATION_AGENTS.budget.functions[1]} color={SIMULATION_AGENTS.budget.color} isActive={activeMetric === SIMULATION_AGENTS.budget.functions[1].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.budget.functions[1].id)} layout="half" />
-               <FunctionCard item={SIMULATION_AGENTS.budget.functions[2]} color={SIMULATION_AGENTS.budget.color} isActive={activeMetric === SIMULATION_AGENTS.budget.functions[2].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.budget.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-        <WidgetPanel title={SIMULATION_AGENTS.climate.title} icon={<SIMULATION_AGENTS.climate.icon className="w-5 h-5" color={SIMULATION_AGENTS.climate.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 flex-1 min-h-0">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={SIMULATION_AGENTS.climate.functions[0]} color={SIMULATION_AGENTS.climate.color} isActive={activeMetric === SIMULATION_AGENTS.climate.functions[0].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.climate.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={SIMULATION_AGENTS.climate.functions[1]} color={SIMULATION_AGENTS.climate.color} isActive={activeMetric === SIMULATION_AGENTS.climate.functions[1].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.climate.functions[1].id)} layout="half" />
-               <FunctionCard item={SIMULATION_AGENTS.climate.functions[2]} color={SIMULATION_AGENTS.climate.color} isActive={activeMetric === SIMULATION_AGENTS.climate.functions[2].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.climate.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-      </motion.div>
-
-      {/* CENTER VIEW */}
-      <div className="flex-1 relative pointer-events-none flex flex-col items-center justify-center z-20">
-        
-        {/* Heatmap Scheme Toggle */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center bg-[#051005]/80 backdrop-blur-md border border-[#00B558]/20 p-1 rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.8)]">
-          <button 
-            onClick={() => setHeatmapScheme(1)}
-            className={`px-4 py-1 text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 rounded-[2px] ${heatmapScheme === 1 ? 'bg-[#00B558]/20 text-[#00B558] border border-[#00B558]/50 shadow-[inset_0_0_10px_rgba(0,181,88,0.2)]' : 'text-gray-500 hover:text-[#00B558] border border-transparent'}`}
-          >
-            S1: RESIDENTIAL
-          </button>
-          <div className="w-[1px] h-3 bg-[#00B558]/20 mx-1" />
-          <button 
-            onClick={() => setHeatmapScheme(2)}
-            className={`px-4 py-1 text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 rounded-[2px] ${heatmapScheme === 2 ? 'bg-[#FCD34D]/20 text-[#FCD34D] border border-[#FCD34D]/50 shadow-[inset_0_0_10px_rgba(252,211,77,0.2)]' : 'text-gray-500 hover:text-[#FCD34D] border border-transparent'}`}
-          >
-            S2: COMMERCIAL
-          </button>
-        </div>
-
-        {activeMetric === 'trf_3' && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-[220px] pointer-events-auto z-30"
-          >
-            <button 
-              onClick={() => setShowComparison(true)} 
-              className="px-6 py-2.5 bg-[#0a140a]/80 border border-[#00B558]/60 text-[#00B558] font-black uppercase tracking-[0.2em] text-xs hover:bg-[#00B558] hover:text-black transition-all shadow-[0_0_20px_rgba(0,181,88,0.2)] hover:shadow-[0_0_30px_rgba(0,181,88,0.6)] backdrop-blur-md rounded-sm"
-            >
-              Run Scenario Comparison
+      {/* All 5 agents in tabs */}
+      <div className="flex-1 flex flex-col gap-0 p-1.5 min-h-0">
+        {/* Tab bar */}
+        <div className="flex items-center gap-0 mb-1 flex-shrink-0">
+          {([
+            { id: "UT" as const, agent: AGENTS[0], label: "Urban Test Agent" },
+            { id: "MI" as const, agent: AGENTS[1], label: "Mobility Intelligence" },
+            { id: "SO" as const, agent: AGENTS[2], label: "Strategic Optimization" },
+            { id: "EF" as const, agent: AGENTS[3], label: "Economic Forecasting" },
+            { id: "ER" as const, agent: AGENTS[4], label: "Environmental & Resilience" },
+          ]).map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] uppercase border-b-2 transition-all cursor-pointer ${
+                activeTab === tab.id
+                  ? 'border-current opacity-100'
+                  : 'border-transparent opacity-40 hover:opacity-70'
+              }`}
+              style={{ color: tab.agent.color }}>
+              <AgentBadge id={tab.id} color={tab.agent.color} />
+              {tab.label}
             </button>
+          ))}
+          <div className="ml-auto">
+            <button onClick={() => open(activeTab)}
+              className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-sm border transition-all hover:bg-[#00B558]/10 cursor-pointer flex-shrink-0"
+              style={{ color: AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color, borderColor: `${AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color}40` }}>
+              <Settings className="w-3 h-3" />Settings
+            </button>
+          </div>
+        </div>
+        {/* Tab content */}
+        <div className="flex-1 flex flex-col bg-[#060e06]/90 border rounded-lg overflow-hidden min-h-0 p-2 gap-1.5"
+          style={{ borderColor: `${AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color}30` }}>
+          {activeTab === "UT" && <UTContent params={utP} />}
+          {activeTab === "MI" && <MIContent params={miP} />}
+          {activeTab === "SO" && <SOContent params={soP} />}
+          {activeTab === "EF" && <EFContent params={efP} />}
+          {activeTab === "ER" && <ERContent params={erP} />}
+        </div>
+      </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {modal === "UT" && <UTSettingsModal params={utD} onChange={setUtD} onApply={() => applyWithThinking(() => setUtP(utD))} onReset={() => setUtD(DEFAULT_UT)} onClose={() => setModal(null)} />}
+        {modal === "MI" && <MISettingsModal params={miD} onChange={setMiD} onApply={() => applyWithThinking(() => setMiP(miD))} onReset={() => setMiD(DEFAULT_MI)} onClose={() => setModal(null)} />}
+        {modal === "SO" && <SOSettingsModal params={soD} onChange={setSoD} onApply={() => applyWithThinking(() => setSoP(soD))} onReset={() => setSoD(DEFAULT_SO)} onClose={() => setModal(null)} />}
+        {modal === "EF" && <EFSettingsModal params={efD} onChange={setEfD} onApply={() => applyWithThinking(() => setEfP(efD))} onReset={() => setEfD(DEFAULT_EF)} onClose={() => setModal(null)} />}
+        {modal === "ER" && <ERSettingsModal params={erD} onChange={setErD} onApply={() => applyWithThinking(() => setErP(erD))} onReset={() => setErD(DEFAULT_ER)} onClose={() => setModal(null)} />}
+      </AnimatePresence>
+
+      {/* Thinking overlay */}
+      <AnimatePresence>
+        {thinking && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[150] flex items-center justify-center bg-[#020502]/85 backdrop-blur-lg pointer-events-auto"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="flex flex-col items-center gap-5 max-w-[420px] px-8 py-10"
+            >
+              {/* Brain icon with glow pulse */}
+              <div className="relative">
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-0 rounded-full bg-[#00B558]/20 blur-xl"
+                  style={{ margin: -20 }}
+                />
+                <Brain className="w-12 h-12 text-[#00B558]" />
+              </div>
+
+              {/* Title */}
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 text-[#00B558] animate-spin" />
+                <span className="text-[14px] font-black tracking-[0.2em] uppercase text-white">
+                  AI Simulation Running
+                </span>
+              </div>
+
+              {/* Current step */}
+              <motion.p
+                key={thinkingStep}
+                initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                className="text-[11px] text-[#00B558]/80 font-mono tracking-wide text-center min-h-[16px]"
+              >
+                {thinkingStep}
+              </motion.p>
+
+              {/* Progress bar */}
+              <div className="w-full max-w-[320px]">
+                <div className="w-full h-[3px] bg-[#0a2a0a] rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-[#00B558] to-[#00ff88]"
+                    style={{ width: `${thinkingProgress}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
+                </div>
+                <div className="flex justify-between mt-1.5">
+                  <span className="text-[9px] text-gray-600 font-mono">{Math.round(thinkingProgress)}%</span>
+                  <span className="text-[9px] text-gray-600 font-mono">
+                    {thinkingProgress < 30 ? 'Initializing...' : thinkingProgress < 70 ? 'Simulating...' : thinkingProgress < 95 ? 'Validating...' : 'Complete'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Animated dots */}
+              <div className="flex gap-1">
+                {[0, 1, 2, 3, 4].map(i => (
+                  <motion.div
+                    key={i}
+                    animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.2, 0.8] }}
+                    transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                    className="w-1.5 h-1.5 rounded-full bg-[#00B558]"
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         )}
-        <div className="absolute top-4 right-4 pointer-events-auto flex items-center bg-[#0d1f0d]/80 border border-[#D4AF37]/30 backdrop-blur-md rounded-sm overflow-hidden z-20">
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Target className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Square className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Maximize className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all hover:scale-110"><ArrowRight className="w-4 h-4" /></button>
-        </div>
-        <div className="relative flex items-center justify-center pointer-events-none opacity-60">
-          <div className="absolute w-2 h-2 rounded-full z-10 animate-pulse transition-colors duration-500" style={{ backgroundColor: activeColor, boxShadow: `0 0 15px ${activeColor}` }} />
-          <div className="absolute w-8 h-8 rounded-full border z-10 animate-ping transition-colors duration-500" style={{ borderColor: `${activeColor}80`, animationDuration: '3s' }} />
-          <motion.div className="absolute w-[300px] h-[300px] rounded-full border-[1px] border-dashed transition-colors duration-500" style={{ borderColor: `${activeColor}40`, boxShadow: `inset 0 0 50px rgba(${activeRgb},0.05)` }} animate={{ rotate: 360 }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }} />
-          <div className="absolute w-[100vw] h-[1px] transition-all duration-500" style={{ backgroundImage: `linear-gradient(to right, transparent, ${activeColor}20, transparent)` }} />
-          <div className="absolute h-[100vh] w-[1px] transition-all duration-500" style={{ backgroundImage: `linear-gradient(to bottom, transparent, ${activeColor}20, transparent)` }} />
-        </div>
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40">
-          <motion.path key={activeMetric} d="M 50% 50% L 35% 70%" fill="none" stroke={activeColor} strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.8 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
-        </svg>
-      </div>
-
-      {/* RIGHT SIDEBAR */}
-      <motion.div initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pl-4 pointer-events-auto">
-        <WidgetPanel title={SIMULATION_AGENTS.growth.title} icon={<SIMULATION_AGENTS.growth.icon className="w-5 h-5" color={SIMULATION_AGENTS.growth.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 flex-1 min-h-0">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={SIMULATION_AGENTS.growth.functions[0]} color={SIMULATION_AGENTS.growth.color} isActive={activeMetric === SIMULATION_AGENTS.growth.functions[0].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.growth.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={SIMULATION_AGENTS.growth.functions[1]} color={SIMULATION_AGENTS.growth.color} isActive={activeMetric === SIMULATION_AGENTS.growth.functions[1].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.growth.functions[1].id)} layout="half" />
-               <FunctionCard item={SIMULATION_AGENTS.growth.functions[2]} color={SIMULATION_AGENTS.growth.color} isActive={activeMetric === SIMULATION_AGENTS.growth.functions[2].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.growth.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-        <WidgetPanel title={SIMULATION_AGENTS.grid.title} icon={<SIMULATION_AGENTS.grid.icon className="w-5 h-5" color={SIMULATION_AGENTS.grid.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 flex-1 min-h-0">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={SIMULATION_AGENTS.grid.functions[0]} color={SIMULATION_AGENTS.grid.color} isActive={activeMetric === SIMULATION_AGENTS.grid.functions[0].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.grid.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={SIMULATION_AGENTS.grid.functions[1]} color={SIMULATION_AGENTS.grid.color} isActive={activeMetric === SIMULATION_AGENTS.grid.functions[1].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.grid.functions[1].id)} layout="half" />
-               <FunctionCard item={SIMULATION_AGENTS.grid.functions[2]} color={SIMULATION_AGENTS.grid.color} isActive={activeMetric === SIMULATION_AGENTS.grid.functions[2].id} onClick={() => handleMetricClick(SIMULATION_AGENTS.grid.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-      </motion.div>
-
-      <AnimatePresence>
-        {showComparison && <ScenarioComparisonModal onClose={() => setShowComparison(false)} />}
       </AnimatePresence>
     </div>
   );
