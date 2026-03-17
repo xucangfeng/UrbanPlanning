@@ -6,8 +6,8 @@ export default function ActPlaceholder() {
   const path = location.pathname;
   
   const labels: Record<string, string> = {
-    "/act1": "Act I: Diagnostics and Forecasting",
-    "/act3": "Act III: Impact Simulation and Feasibility Assessment",
+    "/diagnostics_and_forecasting": "Act I: Diagnostics and Forecasting",
+    "/simulation": "Act III: Impact Simulation and Feasibility Assessment",
     "/act4": "Act IV: Monitoring and Improvement",
   };
 

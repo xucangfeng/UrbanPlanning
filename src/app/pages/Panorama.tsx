@@ -7,9 +7,7 @@ import {
   Maximize,
   Square,
   ArrowRight,
-  ShieldCheck,
   PieChart as PieChartIcon,
-  Wind,
   Wifi,
   Crosshair
 } from "lucide-react";
@@ -226,8 +224,8 @@ export default function Panorama() {
                </ResponsiveContainer>
             </div>
             <div className="grid grid-cols-2 gap-2 flex-1 min-h-0">
-               <KpiCard act="Demand Forecaster" metric="-8,240" unit="UNITS" desc="N. Riyadh 3-BR Shortage" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#D4AF37]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
-               <KpiCard act="Idle Land Agent" metric="47" unit="PLOTS" desc="Idle >12M High-Value" icon={<MapPin className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
+               <KpiCard act="Demand Forecaster" metric="-153K" unit="UNITS" desc="Housing Deficit by 2030" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#D4AF37]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
+               <KpiCard act="Idle Land Agent" metric="38" unit="%" desc="White Land Activation" icon={<MapPin className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
             </div>
           </div>
         </WidgetPanel>
@@ -330,16 +328,21 @@ export default function Panorama() {
           <div className="flex flex-col gap-2 h-full">
             <div className="flex-[0.5] bg-gradient-to-br from-[#006C35]/40 to-transparent border border-[#00B558]/50 p-2.5 flex items-center justify-between relative shadow-[inset_0_0_20px_rgba(0,181,88,0.15)] rounded-sm backdrop-blur-sm group hover:border-[#00B558] transition-colors">
                <div className="flex flex-col pl-2">
-                 <span className="text-sm text-[#00B558] font-black tracking-widest leading-tight uppercase drop-shadow-sm">
-                   SIMULATION<br/>CONFIDENCE
+                 <span className="text-sm text-[#10b981] font-black tracking-widest leading-tight uppercase drop-shadow-sm">
+                   FLOOD RISK<br/>INDEX
                  </span>
-                 <span className="text-[10px] text-[#FCD34D] font-bold mt-2 uppercase tracking-widest">MODEL VALIDATION SCORE</span>
+                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">CURRENT · 2030 TARGET: 85</span>
                </div>
-               <span className="text-[4.5rem] pr-2 leading-none font-black text-[#FCD34D] drop-shadow-[0_0_20px_rgba(252,211,77,0.6)] tracking-tighter">98%</span>
+               <span className="text-[4.5rem] pr-2 leading-none font-black text-[#10b981] drop-shadow-[0_0_20px_rgba(16,185,129,0.6)] tracking-tighter">42</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 flex-[0.5] min-h-0">
-               <KpiCard act="Mobility Impact" metric="+34" unit="%" desc="Shade-Driven NMT Lift" icon={<Wind className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" compact centered />
-               <KpiCard act="Env. & Resilience" metric="5" unit="AREAS" desc="Flood High-Risk Zones" icon={<ShieldCheck className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" compact centered />
+            <div className="flex-[0.5] bg-gradient-to-br from-[#1e3a5f]/40 to-transparent border border-[#3b82f6]/50 p-2.5 flex items-center justify-between relative shadow-[inset_0_0_20px_rgba(59,130,246,0.15)] rounded-sm backdrop-blur-sm group hover:border-[#3b82f6] transition-colors">
+               <div className="flex flex-col pl-2">
+                 <span className="text-sm text-[#3b82f6] font-black tracking-widest leading-tight uppercase drop-shadow-sm">
+                   PROJECT<br/>IRR
+                 </span>
+                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">CURRENT · 2030 TARGET: 18%</span>
+               </div>
+               <span className="text-[4.5rem] pr-2 leading-none font-black text-[#3b82f6] drop-shadow-[0_0_20px_rgba(59,130,246,0.6)] tracking-tighter">8<span className="text-3xl">%</span></span>
             </div>
           </div>
         </WidgetPanel>

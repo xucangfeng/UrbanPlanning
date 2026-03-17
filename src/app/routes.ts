@@ -13,9 +13,9 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       { index: true, Component: Panorama },
-      { path: "act1", Component: Diagnostics },
+      { path: "diagnostics_and_forecasting", Component: Diagnostics },
       { path: "optimization", Component: Optimization },
-      { path: "act3", Component: Simulation },
+      { path: "simulation", Component: Simulation },
       { path: "act4", Component: Monitoring },
     ],
   },
