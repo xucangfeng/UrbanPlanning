@@ -305,7 +305,7 @@ export function AnalysisModal({ isOpen, onClose, data }: { isOpen: boolean, onCl
                   onClick={onClose}
                   className="px-6 py-2.5 bg-[#00B558] text-[#051105] text-[12px] font-black tracking-widest hover:bg-[#00d668] transition-all rounded-sm hover:scale-105 shadow-[0_0_15px_rgba(0,181,88,0.4)]"
                 >
-                   EXECUTE AI PLAN
+                   NOTIFY THE EXECUTIVE TEAM
                 </button>
              </div>
           </motion.div>

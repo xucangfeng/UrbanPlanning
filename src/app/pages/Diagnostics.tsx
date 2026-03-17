@@ -60,6 +60,26 @@ const WHITE_LAND_ALERTS = [
   { id: 103, type: "white_land", name: "Al Malqa Apex", lat: 24.7891, lng: 46.5982, severity: "CRITICAL", size: "32,000 SQM", duration: "6 YEARS", estValue: "SAR 120M", penalty: "SAR 3.0M/YR", cause: "Large scale speculative holding blocking key municipal utilities corridor expansion.", recommendation: "Eminent domain review triggered. Fast-track activation." }
 ];
 
+// --- MOCK HOUSING DEMAND ALERTS (dmd_1) ---
+const HOUSING_DEMAND_ALERTS = [
+  { id: 301, type: "housing", name: "Riyadh Region", lat: 24.7136, lng: 46.6753, severity: "CRITICAL", delay: "-35K BY 2030", deficit: "35,000", ownership: "55%", target: "70%", pop: "8.6M", cause: "Forecast horizon: 2030. Deficit based on 2016–2025 population growth rate (4.2% CAGR) and NHC housing delivery pipeline. Rapid growth driven by Vision 2030 corporate HQ relocations (1,100+ companies). Northern expansion (KAFD, Diriyah Gate) outpacing residential supply.", recommendation: "Fast-track 15,000 housing permits in Al Janadriyah, Khashm Al Aan corridors. Activate NHC Sakani Phase 8. Deliver 20,000 units by 2028, remaining 15,000 by 2030." },
+  { id: 302, type: "housing", name: "Makkah Region", lat: 21.4225, lng: 39.8262, severity: "CRITICAL", delay: "-42K BY 2030", deficit: "42,000", ownership: "52%", target: "70%", pop: "9.0M", cause: "Forecast horizon: 2030. Highest deficit nationally. Hajj/Umrah seasonal demand creates dual housing market. Ownership at 52% (Q1 2026) — lowest among tracked regions. Hospitality conversion of residential stock near Haram compounds shortage.", recommendation: "Zone 20,000 units in Al Awali, Al Shara'i by 2028. Mandate 60% residential in new mixed-use permits. Remaining 22,000 units via PPP by 2030." },
+  { id: 303, type: "housing", name: "Eastern Province", lat: 26.3927, lng: 49.9777, severity: "HIGH", delay: "-28K BY 2030", deficit: "28,000", ownership: "65%", target: "70%", pop: "5.1M", cause: "Forecast horizon: 2030. Ownership at 65% (Q1 2026) — 5pp gap to target. Aramco expansion zones (Dhahran, Jubail 2) attracting 200K+ skilled workers. 40% of existing stock built pre-2000 needs replacement.", recommendation: "Release 12,000 NHC units in Dhahran Valley by 2028. Incentivize private developers in Al Aziziyah industrial corridor for remaining 16,000 units by 2030." },
+  { id: 304, type: "housing", name: "Madinah Region", lat: 24.4672, lng: 39.6024, severity: "HIGH", delay: "-18K BY 2030", deficit: "18,000", ownership: "60%", target: "70%", pop: "2.2M", cause: "Forecast horizon: 2030. Ownership at 60% (Q1 2026) — 10pp gap. Knowledge Economic City Phase 2 drawing academic and tech talent. Visitor-to-resident conversion rate rising 8% YoY since 2022.", recommendation: "Accelerate 8,000-unit Prince Muhammad bin Salman project (completion 2028). Convert underutilized commercial in Al Manar for 10,000 units by 2030." },
+  { id: 305, type: "housing", name: "Asir Region", lat: 18.2164, lng: 42.5053, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "72%", target: "70%", pop: "2.3M", cause: "Forecast horizon: 2030. Ownership already at 72% (exceeds 70% target), but deficit driven by urbanization: rural-to-Abha migration at 3.1% annually since 2020. Tourism demand from Soudah Peaks project adds 5,000 temporary-to-permanent units needed.", recommendation: "Zone 6,000 units near Soudah corridor by 2028. Upgrade infrastructure in Khamis Mushait expansion zone for 9,000 units by 2030." },
+  { id: 306, type: "housing", name: "Qassim Region", lat: 26.3260, lng: 43.9750, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "71%", target: "70%", pop: "1.5M", cause: "Forecast horizon: 2030. Ownership at 71% (exceeds target), but deficit from agri-tech workforce influx and university expansion. Student housing shortage of 4,000 beds projected by 2028.", recommendation: "Release 5,000 NHC plots in Buraidah North by 2027. Partner with Qassim University for 2,000 student units by 2028. Remaining 8,000 via private sector by 2030." }
+];
+
+// --- MOCK ROAD NETWORK ALERTS (dmd_2) ---
+const ROAD_NETWORK_ALERTS = [
+  { id: 401, type: "road", name: "Riyadh – NEOM Corridor", lat: 26.5, lng: 42.0, severity: "CRITICAL", delay: "4.2K KM · 2029", length: "4,200 KM", status: "PLANNED", completion: "2029", cause: "Target completion: 2029. Critical northern arterial connecting capital to NEOM, Trojena, and The Line. Current route via Tabuk adds 6h detour. No direct high-speed expressway exists. Planning based on NTS 2021 corridor study.", recommendation: "Phase 1 (Riyadh–Hail, 850 km) by 2027. Phase 2 (Hail–NEOM, 3,350 km) by 2029. Begin ROW acquisition Q2 2026." },
+  { id: 402, type: "road", name: "Jeddah – KAEC Expressway", lat: 22.4, lng: 39.1, severity: "HIGH", delay: "1.8K KM · 2028", length: "1,800 KM", status: "IN PROGRESS", completion: "2028", cause: "Target completion: 2028. King Abdullah Economic City access road at 140% capacity during peak. Single carriageway bottleneck causing 45-min delays. Phase 1 (dual carriageway) 60% complete as of Q1 2026.", recommendation: "Complete dual carriageway by Q4 2027. Accelerate Rabigh bypass (300 km) for 2028 delivery." },
+  { id: 403, type: "road", name: "Eastern Province Ring Road", lat: 26.45, lng: 50.1, severity: "CRITICAL", delay: "3.5K KM · 2030", length: "3,500 KM", status: "DESIGN", completion: "2030", cause: "Target completion: 2030. Dammam-Jubail-Ras Al Khair industrial triangle lacks dedicated freight corridor. Design phase based on 2023 MOT freight demand study projecting 85% truck traffic increase by 2030.", recommendation: "Complete EIA by Q4 2026. Jubail–Ras Al Khair segment (highest ROI) by 2028. Full ring by 2030." },
+  { id: 404, type: "road", name: "Madinah – Yanbu Highway", lat: 23.9, lng: 38.5, severity: "HIGH", delay: "2.1K KM · 2027", length: "2,100 KM", status: "IN PROGRESS", completion: "2027", cause: "Target completion: 2027. Earliest delivery among tracked projects. Existing 2-lane highway severely congested by petrochemical logistics. Yanbu port expansion requires Grade-A access for 50K+ daily truck movements. 45% complete.", recommendation: "Phase 2 widening on track for Q2 2027. Add intelligent traffic management system for hazmat routing." },
+  { id: 405, type: "road", name: "Abha – Soudah Tourism Rd", lat: 18.25, lng: 42.3, severity: "HIGH", delay: "0.8K KM · 2028", length: "800 KM", status: "DESIGN", completion: "2028", cause: "Target completion: 2028. Soudah Development project expects 2M visitors/year by 2029. Current mountain roads: single lane, 30 km/h average, no shoulder. Geological survey required for 6 tunnel segments.", recommendation: "Begin geological survey Q1 2026. Construction start Q3 2026. Scenic expressway delivery by Q4 2028." },
+  { id: 406, type: "road", name: "Qassim Agricultural Route", lat: 26.1, lng: 44.2, severity: "HIGH", delay: "1.6K KM · 2029", length: "1,600 KM", status: "PLANNED", completion: "2029", cause: "Target completion: 2029. Qassim produces 40% of Saudi dates and vegetables. Farm-to-market roads are unpaved, causing 15% crop spoilage. Forecast based on MOT 2024 agricultural logistics audit.", recommendation: "Pave 600 km priority farm corridors by 2027. Install cold chain logistics hubs at 4 nodes. Full network by 2029." }
+];
+
 // --- MOCK COMMERCIAL ROI ALERTS (ast_1) ---
 const ROI_ALERTS = [
   { id: 201, type: "roi", name: "KAFD Fringe Retail", lat: 24.7600, lng: 46.6350, severity: "HIGH", currentYield: "3.2%", projectedYield: "8.5%", trend: "POSITIVE", cause: "New metro station opening within 200m radius. Anticipated 400% foot traffic increase.", recommendation: "Fast-track mixed-use rezoning applications. Subsidize facade upgrades." },
@@ -101,7 +121,9 @@ const MapBuoy = ({ alert, isHovered, onHover, onClick }: { alert: any, isHovered
       {/* Always-on Tooltip/Label for Dashboard */}
       <div className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#051105]/85 border backdrop-blur-md px-2.5 py-1.5 rounded-sm whitespace-nowrap opacity-100 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-300 ${isHovered ? 'border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-110 -translate-y-2' : 'border-opacity-50 scale-100'}`} style={{ borderColor: isHovered ? color : `${color}50` }}>
          <div className={`text-[9px] font-bold uppercase tracking-wider transition-colors ${isHovered ? 'text-white' : 'text-gray-300'}`}>{alert.name}</div>
-         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>{alert.delay} DELAY</div>
+         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>
+           {alert.type === 'commute' ? `${alert.delay} DELAY` : alert.delay}
+         </div>
       </div>
     </div>
   );
@@ -135,15 +157,6 @@ const DynamicDemandIcon = ({ color }: { color?: string }) => (
     <motion.rect x="17" y="6" width="3" height="14" rx="0.5" fill={color} fillOpacity="0.2" animate={{ height: [0, 14, 0], y: [20, 6, 20] }} transition={{ duration: 2, repeat: Infinity, delay: 0.6 }} />
     <motion.path d="M3 16 l7 -5 l6 -6" stroke={color} strokeLinecap="round" strokeLinejoin="round" 
       initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, repeat: Infinity }} />
-  </svg>
-);
-
-const DynamicCitizenIcon = ({ color }: { color?: string }) => (
-  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke={color} strokeWidth="1.5">
-    <circle cx="12" cy="12" r="2" fill={color} fillOpacity="0.2" />
-    <motion.circle cx="12" cy="12" r="6" strokeDasharray="3 3" strokeOpacity="0.6" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} style={{ originX: '50%', originY: '50%' }} />
-    <motion.circle cx="12" cy="12" r="9" strokeDasharray="1 4" strokeOpacity="0.3" animate={{ rotate: -360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} style={{ originX: '50%', originY: '50%' }} />
-    <motion.circle cx="12" cy="12" r="2" stroke={color} initial={{ scale: 1, opacity: 1 }} animate={{ scale: 4, opacity: 0 }} transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }} />
   </svg>
 );
 
@@ -203,56 +216,21 @@ const AGENTS_DATA = {
     id: "demand", title: "DEMAND FORECASTER", icon: DynamicDemandIcon, color: "#FCD34D",
     functions: [
       { 
-        id: "dmd_1", name: "HOUSING DEMAND GAP", 
-        desc: "N. RIYADH 3-BR SHORTAGE.",
+        id: "dmd_1", name: "HOUSING DEMAND FORECAST", 
+        desc: "PROJECTED HOUSING UNIT SHORTFALL BY 2030 ACROSS 6 SAUDI REGIONS BASED ON NHC SAKANI PROGRAM DATA (2016–2025) AND POPULATION GROWTH MODELS. VISION 2030 TARGET: 70% NATIONAL HOMEOWNERSHIP. BASELINE: 47% (2016). CURRENT (Q1 2026): 63%. DEFICIT = UNITS NEEDED TO CLOSE GAP BY 2030.",
         stats: [
-          { label: 'UNITS', value: '-8,240', color: '#ff4444' },
-          { label: 'ZONING SUGGESTS', value: '12', color: '#FCD34D' }
+          { label: 'BY-2030 DEFICIT', value: '-153K', color: '#ff4444' },
+          { label: 'Q1 2026', value: '63%', color: '#FCD34D' },
+          { label: '2030 TARGET', value: '70%', color: '#00B558' }
         ]
       },
       { 
-        id: "dmd_2", name: "UTILITY STRESS", 
-        desc: "FORECASTS PEAK DEMAND TO PREVENT GRID FAILURE.",
+        id: "dmd_2", name: "ROAD NETWORK EXPANSION", 
+        desc: "FORECAST BASED ON NATIONAL TRANSPORT STRATEGY (2021–2030) AND GIGA-PROJECT CORRIDOR STUDIES. CURRENT PAVED NETWORK: 76,000 KM (Q1 2026). TARGET: 100,000 KM BY 2030. INDIVIDUAL PROJECTS HAVE VARYING COMPLETION DATES (2027–2030) SHOWN IN MAP DETAILS.",
         stats: [
-          { label: 'RISK ZONES', value: '4', color: '#ff4444' },
-          { label: 'STABLE ZONES', value: '18', color: '#00B558' }
-        ]
-      },
-      { 
-        id: "dmd_3", name: "SCHOOL SEATS", 
-        desc: "CORRELATES BIRTH RATES TO SUGGEST NEW LOCATIONS.",
-        stats: [
-          { label: 'URGENT REQ', value: '3', color: '#FCD34D' },
-          { label: 'PLANNED', value: '5', color: '#00B558' }
-        ]
-      }
-    ]
-  },
-  citizen: {
-    id: "citizen", title: "CITIZEN INSIGHT", icon: DynamicCitizenIcon, color: "#00B558",
-    functions: [
-      { 
-        id: "ctz_1", name: "SENTIMENT SCORE (NPS)", 
-        desc: "PROCESSES ARABIC NLP FROM BALADY APP TO GAUGE DISTRICT-LEVEL RESIDENT SATISFACTION.",
-        stats: [
-          { label: 'ALERT ZONES', value: '7', color: '#ff4444' },
-          { label: 'IMPROVING', value: '14', color: '#00B558' }
-        ]
-      },
-      { 
-        id: "ctz_2", name: "DIGITAL ADOPTION", 
-        desc: "MONITORS AI-LED SERVICES TO IDENTIFY DIGITAL DIVIDE.",
-        stats: [
-          { label: 'LOW ADOPTION', value: '12', color: '#FCD34D' },
-          { label: 'ON TRACK', value: '34', color: '#00B558' }
-        ]
-      },
-      { 
-        id: "ctz_3", name: "RESOLUTION SPEED", 
-        desc: "TRACKS FAST AI-ROUTED COMPLAINTS RESOLUTION.",
-        stats: [
-          { label: 'DELAYED >48H', value: '28', color: '#ff4444' },
-          { label: 'RESOLVED', value: '156', color: '#00B558' }
+          { label: 'Q1 2026', value: '76K KM', color: '#FCD34D' },
+          { label: 'BY-2030 GAP', value: '24K KM', color: '#ff4444' },
+          { label: '2030 TARGET', value: '100K KM', color: '#00B558' }
         ]
       }
     ]
@@ -442,46 +420,54 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
 
     if (item.id === "dmd_1") {
       const data = [
-        { t: '1', v: 8.0 }, { t: '2', v: 6.5 }, { t: '3', v: 4.5 }, { t: '4', v: 3.0 }, { t: '5', v: 5.0 }, { t: '6', v: 8.5 }
+        { t: 'RYD', v: 35 }, { t: 'MKH', v: 42 }, { t: 'EST', v: 28 }, { t: 'MDN', v: 18 }, { t: 'ASR', v: 15 }, { t: 'QSM', v: 15 }
       ];
       return (
-        <div className={`absolute right-2 bottom-0 w-[180px] h-[60px] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`}>
+        <div className={`absolute right-0 bottom-0 w-[55%] h-[70%] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`}>
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={data} margin={{ top: 25, bottom: 0, left: 0, right: 0 }}>
-              <XAxis dataKey="t" hide />
+            <ComposedChart data={data} margin={{ top: 8, bottom: 0, left: 0, right: 4 }}>
+              <XAxis dataKey="t" tick={{ fontSize: 8, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-                labelFormatter={(label) => `DISTRICT: ${label}`}
-                formatter={(value: number) => [`${value}k UNITS`, 'Housing Gap']}
+                labelFormatter={(label) => {
+                  const names: Record<string, string> = { RYD: 'RIYADH', MKH: 'MAKKAH', EST: 'EASTERN', MDN: 'MADINAH', ASR: 'ASIR', QSM: 'QASSIM' };
+                  return names[label] || label;
+                }}
+                formatter={(value: number) => [`${value}K UNITS`, 'By-2030 Deficit']}
               />
-              <Bar dataKey="v" fill={color} opacity={0.6} barSize={10} radius={[2, 2, 0, 0]} isAnimationActive={false} />
+              <Bar dataKey="v" fill={color} opacity={0.6} barSize={12} radius={[2, 2, 0, 0]} isAnimationActive={false}>
+                <LabelList dataKey="v" position="top" fill="#FCD34D" fontSize={8} formatter={(v: number) => `${v}K`} />
+              </Bar>
             </ComposedChart>
           </ResponsiveContainer>
         </div>
       );
     }
 
-    if (item.id === "ctz_1") {
+    if (item.id === "dmd_2") {
       const data = [
-        { t: '1', v: 3 }, { t: '2', v: 4 }, { t: '3', v: 2 }, { t: '4', v: 7 }, { t: '5', v: 5 }, { t: '6', v: 9 }
+        { t: 'RYD', v: 4.2 }, { t: 'MKH', v: 1.8 }, { t: 'EST', v: 3.5 }, { t: 'MDN', v: 2.1 }, { t: 'ASR', v: 0.8 }, { t: 'QSM', v: 1.6 }
       ];
       return (
-        <div className={`absolute right-2 bottom-0 w-[180px] h-[60px] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`}>
+        <div className={`absolute right-0 bottom-0 w-[55%] h-[70%] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`}>
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={data}>
-              <XAxis dataKey="t" hide />
+            <ComposedChart data={data} margin={{ top: 8, bottom: 0, left: 0, right: 4 }}>
+              <XAxis dataKey="t" tick={{ fontSize: 8, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-                labelFormatter={(label) => `DISTRICT: ${label}`}
-                formatter={(value: number) => [`${value}/10`, 'Satisfaction Score']}
+                labelFormatter={(label) => {
+                  const names: Record<string, string> = { RYD: 'RIYADH', MKH: 'MAKKAH', EST: 'EASTERN', MDN: 'MADINAH', ASR: 'ASIR', QSM: 'QASSIM' };
+                  return names[label] || label;
+                }}
+                formatter={(value: number) => [`${value}K KM`, 'By-2030 Gap']}
               />
               <defs>
-                <linearGradient id="ctzGradMini" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={color} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={color} stopOpacity={0}/>
+                <linearGradient id="roadGradMini" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <Area type="monotone" dataKey="v" stroke={color} strokeWidth={2} fillOpacity={1} fill="url(#ctzGradMini)" isAnimationActive={false} />
+              <Area type="monotone" dataKey="v" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#roadGradMini)" isAnimationActive={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -549,8 +535,8 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
 
        <div className={`relative w-full flex-1 flex flex-col mt-2 z-10 min-h-[40px] ${(layout === 'half' && isRightPanel) ? 'justify-center' : ''}`}>
           {/* DESCRIPTION LAYER (Visible on Info Hover) */}
-          <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-             <p className={`font-medium tracking-wider text-gray-300 uppercase ${layout === 'full' ? 'text-[11px] leading-[1.5]' : 'text-[9px] leading-[1.3] line-clamp-4'}`}>
+          <div className={`absolute inset-0 flex items-start bg-[#070d07]/95 backdrop-blur-sm transition-opacity duration-300 z-20 overflow-y-auto p-1 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+             <p className={`font-medium tracking-wider text-gray-300 uppercase ${layout === 'full' ? 'text-[10px] leading-[1.6]' : 'text-[9px] leading-[1.5]'}`}>
                {item.desc}
              </p>
           </div>
@@ -915,14 +901,38 @@ export default function Diagnostics() {
   const handleMetricClick = (id: string) => {
     setActiveMetric(id);
     window.dispatchEvent(new CustomEvent('agent-metric-select', { detail: { id } }));
+    // Fly map to appropriate view based on selected metric
+    if (mapRef.current) {
+      if (id === 'dmd_1' || id === 'dmd_2') {
+        // Zoom out to show all Saudi regions
+        mapRef.current.flyTo({
+          center: [44.0, 23.5],
+          zoom: 5.0,
+          pitch: 20,
+          bearing: 0,
+          duration: 2000,
+          essential: true
+        });
+      } else if (id.startsWith('flw') || id.startsWith('idl') || id.startsWith('ast')) {
+        // Zoom to Riyadh
+        mapRef.current.flyTo({
+          center: [46.6853, 24.7136],
+          zoom: 11.2,
+          pitch: 45,
+          bearing: -15,
+          duration: 2000,
+          essential: true
+        });
+      }
+    }
   };
 
   // Generate GeoJSON for highlighting (Line for roads/traffic, Polygon for areas)
   const getHighlightGeoJSON = (lat: number, lng: number, type: string) => {
-    const isRoad = ['commute', 'traffic', 'emergency'].includes(type);
+    const isRoad = ['commute', 'traffic', 'emergency', 'road'].includes(type);
     
     if (isRoad) {
-      const offset = 0.015;
+      const offset = type === 'road' ? 0.5 : 0.015;
       return {
         type: 'FeatureCollection',
         features: [{
@@ -938,7 +948,7 @@ export default function Diagnostics() {
         }]
       };
     } else {
-      const size = 0.015;
+      const size = type === 'housing' ? 0.5 : 0.015;
       return {
         type: 'FeatureCollection',
         features: [{
@@ -961,12 +971,14 @@ export default function Diagnostics() {
 
   let currentAlerts: any[] = [];
   if (activeMetric === 'flw_1') currentAlerts = COMMUTE_ALERTS;
+  else if (activeMetric === 'dmd_1') currentAlerts = HOUSING_DEMAND_ALERTS;
+  else if (activeMetric === 'dmd_2') currentAlerts = ROAD_NETWORK_ALERTS;
   else if (activeMetric === 'idl_1') currentAlerts = WHITE_LAND_ALERTS;
   else if (activeMetric === 'ast_1') currentAlerts = ROI_ALERTS;
 
   const hoveredAlert = currentAlerts.find(a => a.id === hoveredAlertId);
   const hoveredHighlightGeoJSON = hoveredAlert ? getHighlightGeoJSON(hoveredAlert.lat, hoveredAlert.lng, hoveredAlert.type) : null;
-  const isRoad = hoveredAlert && ['commute', 'traffic', 'emergency'].includes(hoveredAlert.type);
+  const isRoad = hoveredAlert && ['commute', 'traffic', 'emergency', 'road'].includes(hoveredAlert.type);
 
   const activeAgent = Object.values(AGENTS_DATA).find(agent => agent.functions.some(f => f.id === activeMetric)) || AGENTS_DATA.flow;
   const activeColor = activeAgent.color;
@@ -1078,27 +1090,15 @@ export default function Diagnostics() {
         
         <WidgetPanel title={AGENTS_DATA.demand.title} icon={<AGENTS_DATA.demand.icon color={AGENTS_DATA.demand.color}/>} className="flex-1 min-h-0">
           <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.55] min-h-0 w-full">
+            <div className="flex-1 min-h-0 w-full">
                <FunctionCard item={AGENTS_DATA.demand.functions[0]} color={AGENTS_DATA.demand.color} isActive={activeMetric === AGENTS_DATA.demand.functions[0].id} onClick={() => handleMetricClick(AGENTS_DATA.demand.functions[0].id)} layout="full" />
             </div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={AGENTS_DATA.demand.functions[1]} color={AGENTS_DATA.demand.color} isActive={activeMetric === AGENTS_DATA.demand.functions[1].id} onClick={() => handleMetricClick(AGENTS_DATA.demand.functions[1].id)} layout="half" />
-               <FunctionCard item={AGENTS_DATA.demand.functions[2]} color={AGENTS_DATA.demand.color} isActive={activeMetric === AGENTS_DATA.demand.functions[2].id} onClick={() => handleMetricClick(AGENTS_DATA.demand.functions[2].id)} layout="half" />
+            <div className="flex-1 min-h-0 w-full">
+               <FunctionCard item={AGENTS_DATA.demand.functions[1]} color={AGENTS_DATA.demand.color} isActive={activeMetric === AGENTS_DATA.demand.functions[1].id} onClick={() => handleMetricClick(AGENTS_DATA.demand.functions[1].id)} layout="full" />
             </div>
           </div>
         </WidgetPanel>
 
-        <WidgetPanel title={AGENTS_DATA.citizen.title} icon={<AGENTS_DATA.citizen.icon color={AGENTS_DATA.citizen.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.55] min-h-0 w-full">
-               <FunctionCard item={AGENTS_DATA.citizen.functions[0]} color={AGENTS_DATA.citizen.color} isActive={activeMetric === AGENTS_DATA.citizen.functions[0].id} onClick={() => handleMetricClick(AGENTS_DATA.citizen.functions[0].id)} layout="full" />
-            </div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={AGENTS_DATA.citizen.functions[1]} color={AGENTS_DATA.citizen.color} isActive={activeMetric === AGENTS_DATA.citizen.functions[1].id} onClick={() => handleMetricClick(AGENTS_DATA.citizen.functions[1].id)} layout="half" />
-               <FunctionCard item={AGENTS_DATA.citizen.functions[2]} color={AGENTS_DATA.citizen.color} isActive={activeMetric === AGENTS_DATA.citizen.functions[2].id} onClick={() => handleMetricClick(AGENTS_DATA.citizen.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
       </motion.div>
 
       {/* CENTER VIEW - Radar HUD overlaying Map */}
