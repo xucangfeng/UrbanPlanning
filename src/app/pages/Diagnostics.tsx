@@ -282,6 +282,18 @@ const DynamicAssetIcon = ({ color }: { color?: string }) => (
 );
 
 // -- CORE AGENTS DATA WITH ADDED ALERTS & URGENCY STATS --
+// --- 全国拥堵城市排名数据 ---
+const CITY_CONGESTION_RANKING = [
+  { rank: 1, city: 'Riyadh', region: 'Riyadh', congestionIndex: 78, avgDelay: '+35 min', criticalRoads: 12, affected: '2.3M', status: 'CRITICAL' },
+  { rank: 2, city: 'Jeddah', region: 'Makkah', congestionIndex: 72, avgDelay: '+28 min', criticalRoads: 8, affected: '1.5M', status: 'CRITICAL' },
+  { rank: 3, city: 'Makkah', region: 'Makkah', congestionIndex: 68, avgDelay: '+32 min', criticalRoads: 6, affected: '1.2M', status: 'HIGH' },
+  { rank: 4, city: 'Dammam', region: 'Eastern', congestionIndex: 62, avgDelay: '+22 min', criticalRoads: 5, affected: '850K', status: 'HIGH' },
+  { rank: 5, city: 'Madinah', region: 'Madinah', congestionIndex: 58, avgDelay: '+18 min', criticalRoads: 4, affected: '620K', status: 'WARNING' },
+  { rank: 6, city: 'Khobar', region: 'Eastern', congestionIndex: 55, avgDelay: '+15 min', criticalRoads: 3, affected: '480K', status: 'WARNING' },
+  { rank: 7, city: 'Tabuk', region: 'Tabuk', congestionIndex: 48, avgDelay: '+12 min', criticalRoads: 2, affected: '320K', status: 'MODERATE' },
+  { rank: 8, city: 'Buraidah', region: 'Qassim', congestionIndex: 45, avgDelay: '+10 min', criticalRoads: 2, affected: '280K', status: 'MODERATE' },
+];
+
 const AGENTS_DATA = {
   flow: {
     id: "flow", title: "FLOW AGENT", icon: DynamicFlowIcon, color: "#00B558",
@@ -295,20 +307,13 @@ const AGENTS_DATA = {
           { label: 'ACTIVE CAMS', value: '142', color: '#00B558' }
         ]
       },
-      { 
-        id: "flw_2", name: "PT MODE SHARE", 
-        desc: "PREDICTS TRANSIT DEMAND SHIFTS TO OPTIMIZE METRO FREQUENCY.",
+      {
+        id: "flw_4", name: "CITY CONGESTION RANKING",
+        desc: "REAL-TIME NATIONAL TRAFFIC CONGESTION INDEX BY CITY. CRITICAL THRESHOLD: 60+.",
         stats: [
-          { label: 'SUGGESTED SHIFTS', value: '8', color: '#FCD34D' },
-          { label: 'MONITORING', value: '24', color: '#00B558' }
-        ]
-      },
-      { 
-        id: "flw_3", name: "PEDESTRIAN DENSITY", 
-        desc: "MONITORS WALKING PATTERNS FOR COOLING MIST FANS.",
-        stats: [
-          { label: 'HOTSPOTS', value: '6', color: '#ff4444' },
-          { label: 'ACTIVE FANS', value: '56', color: '#00B558' }
+          { label: 'CITIES', value: '8', color: '#00B558' },
+          { label: 'CRITICAL', value: '4', color: '#ff4444' },
+          { label: 'HIGH', value: '2', color: '#FCD34D' }
         ]
       }
     ]
@@ -437,10 +442,10 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
       const data = Array.from({length: 24}).map((_, i) => {
         // Base sine wave for daily rhythm (peak around 8-9am and 5-6pm)
         const rhythm = Math.max(0, Math.sin((i - 6) * Math.PI / 12) * 8 + Math.sin((i - 15) * Math.PI / 12) * 6);
-        
+
         // Predicted is smoothed rhythm + baseline noise
         const predicted = Math.max(0, Math.floor(rhythm + 2));
-        
+
         // Actual has more variance and specifically hits exactly 12 at hour 12
         let actual = null;
         if (i <= 12) {
@@ -449,8 +454,8 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
         }
 
         return {
-          t: i, 
-          n: predicted, 
+          t: i,
+          n: predicted,
           a: actual
         };
       });
@@ -460,7 +465,7 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
               <XAxis dataKey="t" hide />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
                 labelFormatter={(label) => `TIME: ${label}:00`}
                 formatter={(value: number, name: string) => {
@@ -600,7 +605,67 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
              </p>
           </div>
 
-          {/* MULTI-METRIC LAYER (Hidden on Info Hover) */}
+          {/* SPECIAL RENDERING FOR CITY CONGESTION RANKING TABLE */}
+          {item.id === 'flw_4' ? (
+            <div className={`w-full h-full transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+              <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#00B558]/30 scrollbar-track-transparent">
+                <table className="w-full text-[9px]">
+                  <thead className="sticky top-0 bg-[#070d07] z-10">
+                    <tr className="text-[#00B558] border-b border-[#00B558]/30">
+                      <th className="text-left py-1 px-1 font-bold">#</th>
+                      <th className="text-left py-1 px-1 font-bold">CITY</th>
+                      <th className="text-center py-1 px-1 font-bold">IDX</th>
+                      <th className="text-center py-1 px-1 font-bold">DELAY</th>
+                      <th className="text-center py-1 px-1 font-bold">STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CITY_CONGESTION_RANKING.map((city, idx) => {
+                      const statusColor = city.status === 'CRITICAL' ? '#ff4444' : 
+                                         city.status === 'HIGH' ? '#FCD34D' : 
+                                         city.status === 'WARNING' ? '#3b82f6' : '#00B558';
+                      const indexColor = city.congestionIndex >= 70 ? '#ff4444' :
+                                        city.congestionIndex >= 60 ? '#FCD34D' :
+                                        city.congestionIndex >= 50 ? '#3b82f6' : '#00B558';
+                      
+                      return (
+                        <tr 
+                          key={city.rank}
+                          className={`border-b border-[#00B558]/10 hover:bg-[#00B558]/5 transition-colors cursor-pointer
+                            ${idx % 2 === 0 ? 'bg-[#070d07]/40' : 'bg-[#070d07]/20'}`}
+                        >
+                          <td className="py-1 px-1 font-bold" style={{ color: indexColor }}>{city.rank}</td>
+                          <td className="py-1 px-1">
+                            <div className="font-bold text-white">{city.city}</div>
+                            <div className="text-[7px] text-gray-500">{city.region}</div>
+                          </td>
+                          <td className="py-1 px-1 text-center font-bold" style={{ color: indexColor }}>
+                            {city.congestionIndex}
+                          </td>
+                          <td className="py-1 px-1 text-center font-medium text-gray-300">
+                            {city.avgDelay}
+                          </td>
+                          <td className="py-1 px-1 text-center">
+                            <span 
+                              className="inline-block px-1 py-0.5 rounded text-[8px] font-bold"
+                              style={{ 
+                                backgroundColor: `${statusColor}20`,
+                                color: statusColor,
+                                border: `1px solid ${statusColor}40`
+                              }}
+                            >
+                              {city.status}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+          /* MULTI-METRIC LAYER (Hidden on Info Hover) */
           <div className={`w-full flex transition-opacity duration-300 relative ${isHoveringInfo ? 'opacity-0' : 'opacity-100'} 
             ${isRightPanel ? 'flex-1 flex-col justify-start items-start min-h-0' : 'items-end justify-between flex-1'}`}>
              
@@ -656,6 +721,7 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                </>
              )}
           </div>
+          )}
        </div>
     </div>
   );
@@ -1557,7 +1623,7 @@ export default function Diagnostics() {
       >
         <WidgetPanel title={AGENTS_DATA.flow.title} icon={<AGENTS_DATA.flow.icon color={AGENTS_DATA.flow.color}/>} className="flex-1 min-h-0">
           <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.55] min-h-0 w-full">
+            <div className="flex-[0.35] min-h-0 w-full">
                <FunctionCard 
                  item={AGENTS_DATA.flow.functions[0]} 
                  color={AGENTS_DATA.flow.color} 
@@ -1569,9 +1635,8 @@ export default function Diagnostics() {
                  layout="full" 
                />
             </div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={AGENTS_DATA.flow.functions[1]} color={AGENTS_DATA.flow.color} isActive={activeMetric === AGENTS_DATA.flow.functions[1].id} onClick={() => handleMetricClick(AGENTS_DATA.flow.functions[1].id)} layout="half" />
-               <FunctionCard item={AGENTS_DATA.flow.functions[2]} color={AGENTS_DATA.flow.color} isActive={activeMetric === AGENTS_DATA.flow.functions[2].id} onClick={() => handleMetricClick(AGENTS_DATA.flow.functions[2].id)} layout="half" />
+            <div className="flex-[0.65] min-h-0 w-full">
+               <FunctionCard item={AGENTS_DATA.flow.functions[1]} color={AGENTS_DATA.flow.color} isActive={activeMetric === AGENTS_DATA.flow.functions[1].id} onClick={() => handleMetricClick(AGENTS_DATA.flow.functions[1].id)} layout="full" />
             </div>
           </div>
         </WidgetPanel>
