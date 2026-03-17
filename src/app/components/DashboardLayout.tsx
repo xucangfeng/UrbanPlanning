@@ -90,7 +90,7 @@ export default function DashboardLayout() {
             <span className="text-[11px] font-medium text-slate-300 tracking-[0.1em] mb-0.5 opacity-90 uppercase">
               {routeInfo.subtitle}
             </span>
-            <h1 className="text-xl font-bold text-white tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+            <h1 className={`font-bold text-white tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] ${routeInfo.title.length > 35 ? 'text-[15px]' : 'text-xl'}`}>
               {routeInfo.title}
             </h1>
           </div>

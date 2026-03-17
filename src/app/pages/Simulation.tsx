@@ -317,11 +317,11 @@ function IndicatorRow({ ind, value, color }: { ind: Indicator; value: number; co
       </div>
       {/* Hover tooltip via portal */}
       {hover && createPortal(
-        <div className="fixed z-[200] w-[280px] p-3 bg-[#0d1a0d] border border-[#00B558]/30 rounded shadow-xl pointer-events-none"
+        <div className="fixed z-[200] w-[320px] p-3.5 bg-[#0d1a0d] border border-[#00B558]/30 rounded shadow-xl pointer-events-none"
           style={{ top: pos.top, left: pos.left }}>
-          <div className="text-[11px] font-bold text-gray-200 uppercase tracking-wider mb-1">{ind.name}</div>
-          <p className="text-[10px] leading-snug text-gray-400">{ind.desc}</p>
-          <div className="flex items-center gap-3 mt-1.5 text-[10px]">
+          <div className="text-[13px] font-bold text-gray-200 uppercase tracking-wider mb-1.5">{ind.name}</div>
+          <p className="text-[12px] leading-relaxed text-gray-400">{ind.desc}</p>
+          <div className="flex items-center gap-3 mt-2 text-[12px]">
             <span className="text-gray-500">Current: <b className="text-gray-300">{fmt(ind.current, ind.unit === "Ratio" ? 1 : 0)}</b></span>
             <span className="text-gray-500">2030 Target: <b style={{ color }}>{fmt(ind.target, ind.unit === "Ratio" ? 1 : 0)}</b></span>
           </div>
@@ -359,15 +359,28 @@ function AgentSection({ agent, delay, onSettings, children }: {
 }
 
 // ─── KPI Card (for UT traffic section) ────────────────────────
-function KPICard({ icon, label, current, simulated, unit, color, improved, inverse }: {
+function KPICard({ icon, label, current, simulated, unit, color, improved, inverse, desc, target }: {
   icon: React.ReactNode; label: string; current: number; simulated: number; unit: string;
-  color: string; improved: boolean; inverse?: boolean;
+  color: string; improved: boolean; inverse?: boolean; desc?: string; target?: number;
 }) {
   const changed = simulated !== current;
   const delta = inverse ? current - simulated : simulated - current;
   const deltaPct = current > 0 ? Math.round((delta / current) * 100) : simulated > 0 ? 100 : 0;
+  const [hover, setHover] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  const onEnter = () => {
+    if (ref.current && desc) {
+      const r = ref.current.getBoundingClientRect();
+      setPos({ top: r.top - 4, left: Math.min(r.left, window.innerWidth - 340) });
+    }
+    setHover(true);
+  };
+
   return (
-    <div className="flex-1 flex items-center gap-2 px-2.5 py-1.5 bg-[#060e06]/80 rounded border" style={{ borderColor: `${color}25` }}>
+    <div ref={ref} onMouseEnter={onEnter} onMouseLeave={() => setHover(false)}
+      className="flex-1 flex items-center gap-2 px-2.5 py-1.5 bg-[#060e06]/80 rounded border cursor-help" style={{ borderColor: `${color}25` }}>
       <div className="flex-shrink-0" style={{ color }}>{icon}</div>
       <div className="flex flex-col flex-1 min-w-0">
         <span className="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-500">{label}</span>
@@ -382,8 +395,22 @@ function KPICard({ icon, label, current, simulated, unit, color, improved, inver
             </span>
           )}
         </div>
-        <span className="text-[9px] text-gray-600">Baseline: {current.toLocaleString()} {unit}</span>
+        <span className="text-[12px] text-gray-600">Baseline: {current.toLocaleString()} {unit}</span>
       </div>
+      {hover && desc && createPortal(
+        <div className="fixed z-[200] w-[320px] p-3.5 bg-[#0d1a0d] border border-[#00B558]/30 rounded shadow-xl pointer-events-none"
+          style={{ top: pos.top, left: pos.left, transform: 'translateY(-100%)' }}>
+          <div className="text-[13px] font-bold text-gray-200 uppercase tracking-wider mb-1.5">{label}</div>
+          <p className="text-[12px] leading-relaxed text-gray-400">{desc}</p>
+          {target !== undefined && (
+            <div className="flex items-center gap-3 mt-2 text-[12px]">
+              <span className="text-gray-500">Current: <b className="text-gray-300">{current.toLocaleString()}</b></span>
+              <span className="text-gray-500">2030 Target: <b style={{ color }}>{target.toLocaleString()} {unit}</b></span>
+            </div>
+          )}
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
@@ -464,10 +491,10 @@ function UTContent({ params }: { params: UTParams }) {
       </div>
       {/* KPI strip */}
       <div className="flex gap-1.5 flex-shrink-0">
-        <KPICard icon={<TrendingUp className="w-4 h-4" />} label="Avg. Speed" current={18} simulated={kpis.avgSpeed} unit="km/h" color="#00B558" improved={kpis.avgSpeed > 18} />
-        <KPICard icon={<Clock className="w-4 h-4" />} label="Peak Delay" current={45} simulated={kpis.peakDelay} unit="min" color="#FCD34D" improved={kpis.peakDelay < 45} inverse />
-        <KPICard icon={<Car className="w-4 h-4" />} label="Throughput" current={12400} simulated={kpis.throughput} unit="veh/hr" color="#3b82f6" improved={kpis.throughput > 12400} />
-        <KPICard icon={<Leaf className="w-4 h-4" />} label="CO₂ Reduction" current={0} simulated={kpis.co2Reduction} unit="%" color="#10b981" improved={kpis.co2Reduction > 0} />
+        <KPICard icon={<TrendingUp className="w-4 h-4" />} label="Avg. Speed" current={18} simulated={kpis.avgSpeed} unit="km/h" color="#00B558" improved={kpis.avgSpeed > 18} desc="Average network-wide vehicle speed during peak hours. Riyadh's 2025 baseline of 18 km/h reflects chronic congestion on King Fahd Road, Makkah Road, and the Northern Ring Road." target={35} />
+        <KPICard icon={<Clock className="w-4 h-4" />} label="Peak Delay" current={45} simulated={kpis.peakDelay} unit="min" color="#FCD34D" improved={kpis.peakDelay < 45} inverse desc="Average additional travel time per trip during morning (7-9 AM) and evening (4-7 PM) peaks compared to free-flow conditions. Includes intersection wait times, merge delays, and signal cycle inefficiencies." target={15} />
+        <KPICard icon={<Car className="w-4 h-4" />} label="Throughput" current={12400} simulated={kpis.throughput} unit="veh/hr" color="#3b82f6" improved={kpis.throughput > 12400} desc="Vehicles per hour passing through Riyadh's 12 major arterial corridors during peak periods. Measures effective road capacity utilization after accounting for signal timing, lane management, and mode shift." target={18000} />
+        <KPICard icon={<Leaf className="w-4 h-4" />} label="CO₂ Reduction" current={0} simulated={kpis.co2Reduction} unit="%" color="#10b981" improved={kpis.co2Reduction > 0} desc="Percentage reduction in transport-related CO₂ emissions from baseline. Driven by reduced congestion, improved traffic flow, modal shift to metro/BRT, and optimized signal cycles reducing idle time." target={40} />
       </div>
     </>
   );
@@ -623,10 +650,10 @@ function EFContent({ params }: { params: EFParams }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? '#3b82f6' : '#9ca3af' }}>{metrics.irr}%</span>
-              <span className="text-[8px] text-gray-600">Target: 18%</span>
+              <span className="text-[10px] text-gray-600">Target: 18%</span>
             </div>
           </div>
-          <span className="text-[9px] text-gray-600 mt-1">Baseline: 8%</span>
+          <span className="text-[12px] text-gray-600 mt-1">Baseline: 8%</span>
         </div>
         {/* Self-Sufficiency Gauge */}
         <div className="flex-1 flex flex-col items-center justify-center bg-[#070d07]/60 rounded border border-[#10b981]/15 py-3 px-2">
@@ -639,10 +666,10 @@ function EFContent({ params }: { params: EFParams }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? '#10b981' : '#9ca3af' }}>{metrics.selfSuff}%</span>
-              <span className="text-[8px] text-gray-600">Target: 75%</span>
+              <span className="text-[10px] text-gray-600">Target: 75%</span>
             </div>
           </div>
-          <span className="text-[9px] text-gray-600 mt-1">Baseline: 25%</span>
+          <span className="text-[12px] text-gray-600 mt-1">Baseline: 25%</span>
         </div>
         {/* Funding Gap */}
         <div className="flex-1 flex flex-col items-center justify-center bg-[#070d07]/60 rounded border border-[#f59e0b]/15 py-3 px-2">
@@ -655,10 +682,10 @@ function EFContent({ params }: { params: EFParams }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? (metrics.gap <= 6 ? '#10b981' : '#f59e0b') : '#9ca3af' }}>{metrics.gap}B</span>
-              <span className="text-[8px] text-gray-600">Target: ≤3B</span>
+              <span className="text-[10px] text-gray-600">Target: ≤3B</span>
             </div>
           </div>
-          <span className="text-[9px] text-gray-600 mt-1">Baseline: 12B SAR</span>
+          <span className="text-[12px] text-gray-600 mt-1">Baseline: 12B SAR</span>
         </div>
       </div>
 
@@ -920,9 +947,9 @@ function ERContent({ params }: { params: ERParams }) {
       </div>
       {/* KPI strip */}
       <div className="flex gap-1.5 flex-shrink-0">
-        <KPICard icon={<Droplets className="w-4 h-4" />} label="Flood Risk" current={42} simulated={kpis.floodRisk} unit="Score" color="#10b981" improved={kpis.floodRisk > 42} />
-        <KPICard icon={<TreePine className="w-4 h-4" />} label="Heat Island" current={0} simulated={kpis.heatReduction} unit="°C" color="#FCD34D" improved={kpis.heatReduction > 0} />
-        <KPICard icon={<Shield className="w-4 h-4" />} label="Resilience" current={35} simulated={kpis.resilienceScore} unit="%" color="#3b82f6" improved={kpis.resilienceScore > 35} />
+        <KPICard icon={<Droplets className="w-4 h-4" />} label="Flood Risk" current={42} simulated={kpis.floodRisk} unit="Score" color="#10b981" improved={kpis.floodRisk > 42} desc="Composite score measuring flood resilience across wadi channels, basins, and 340km drain network. Improved by drainage expansion, retention basins, and building code compliance." target={85} />
+        <KPICard icon={<TreePine className="w-4 h-4" />} label="Heat Island" current={0} simulated={kpis.heatReduction} unit="°C" color="#FCD34D" improved={kpis.heatReduction > 0} desc="Reduction in urban heat island intensity from vegetation, cool roofs, reflective surfaces, and shade infrastructure. Riyadh's baseline UHI is +4–6°C above surrounding desert." target={3.5} />
+        <KPICard icon={<Shield className="w-4 h-4" />} label="Resilience" current={35} simulated={kpis.resilienceScore} unit="%" color="#3b82f6" improved={kpis.resilienceScore > 35} desc="Building stock meeting flood-proofing, heat-resistance, and water-efficiency standards. Saudi Building Code (SBC 601/602) mandated 2018; baseline adoption ~35%." target={90} />
       </div>
     </>
   );

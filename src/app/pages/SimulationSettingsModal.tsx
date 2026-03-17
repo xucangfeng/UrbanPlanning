@@ -63,11 +63,11 @@ function ModalShell({ title, color, onClose, onApply, onReset, descriptions, chi
           {children}
           {/* Function descriptions */}
           <div className="border-t pt-3 mt-1" style={{ borderColor: `${color}15` }}>
-            <span className="text-[9px] font-bold tracking-widest uppercase text-gray-600 mb-2 block">Indicator Descriptions</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-gray-600 mb-2 block">Setting Descriptions</span>
             {descriptions.map(d => (
-              <div key={d.name} className="mb-2">
-                <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wider">{d.name}</span>
-                <p className="text-[9px] text-gray-500 leading-snug mt-0.5">{d.desc}</p>
+              <div key={d.name} className="mb-2.5">
+                <span className="text-[12px] font-bold text-gray-300 uppercase tracking-wider">{d.name}</span>
+                <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">{d.desc}</p>
               </div>
             ))}
           </div>
@@ -113,9 +113,11 @@ const EF_DESCS = [
   { name: "Anchor Tenant Incentive", desc: "Tax or rent concessions offered to attract major employers (corporate HQs, universities, hospitals) to anchor a neighbourhood. Creates employment gravity, drives foot traffic for surrounding retail, and attracts follow-on private investment." },
 ];
 const ER_DESCS = [
-  { name: "Flood Risk Index", desc: "Composite score measuring urban flood resilience across Riyadh's wadi channels, low-lying basins, and drainage network. Combines capacity of 340km storm drain network with terrain risk modeling." },
-  { name: "Heat Island Reduction", desc: "Reduction in urban heat island intensity from increased vegetation cover, cool roofs, reflective surfaces, and shade infrastructure. Riyadh's baseline UHI is +4–6°C above surrounding desert." },
-  { name: "Climate Resilience Score", desc: "Composite score of building stock meeting updated flood-proofing, heat-resistance, and water-efficiency standards. Saudi Building Code (SBC 601/602) mandated in 2018; current adoption at ~35% of new construction as of 2025 (MOMRA enforcement data)." },
+  { name: "Drainage Infrastructure Expansion", desc: "Kilometres of new storm drain capacity added to Riyadh's existing 340km network. Targets wadi overflow zones (Hanifah, Al Aqiq) and low-lying urban basins. Each 10km reduces flood zone radius by ~12% in affected catchments." },
+  { name: "Retention Basins & Flood Barriers", desc: "Number of new retention basins and flood barrier facilities constructed at key flood-prone nodes (wadi confluences, highway underpasses, district outfall points). Each facility stores ~50,000m³ of stormwater runoff during peak events." },
+  { name: "Urban Green Cover", desc: "Percentage of city area under vegetation canopy (parks, street trees, green corridors). Baseline 8% is among the lowest globally for a major city. Each 1% increase reduces local surface temperature by ~0.15°C and improves stormwater absorption." },
+  { name: "Cool Roof & Reflective Surface Coverage", desc: "Percentage of rooftops and paved surfaces treated with high-albedo (reflective) coatings or cool-roof materials. Reflects solar radiation instead of absorbing it, reducing building cooling loads by 10–20% and ambient air temperature by up to 2°C in dense districts." },
+  { name: "Climate-Resilient Building Code", desc: "Adoption rate of updated Saudi Building Code (SBC 601/602) standards for flood-proofing, heat resistance, and water efficiency in new construction. Baseline ~35% reflects current MOMRA enforcement. Higher adoption reduces structural flood damage and cooling energy demand." },
 ];
 
 export function UTSettingsModal({ params, onChange, onApply, onReset, onClose }: {
