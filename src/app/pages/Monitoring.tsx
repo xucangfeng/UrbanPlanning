@@ -1,440 +1,413 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Target, Maximize, Square, ArrowRight, Info, Eye, Activity, Siren, Wind, Train, Zap } from "lucide-react";
-import { WidgetPanel } from "../components/WidgetPanel";
+import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
-import Map, { Marker, Source, Layer, MapRef } from 'react-map-gl/maplibre';
-import { ComposedChart, Area, Line, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import { 
+  Target, BrainCircuit, ShieldAlert,
+  Eye, Building2, Activity, AlertTriangle, MapPin, Layers, TrendingUp
+} from "lucide-react";
+import { WidgetPanel } from "../components/WidgetPanel";
+import { AgentTerminal } from "../components/AgentTerminal";
+import { 
+  ComposedChart, Area, Line, Bar, Cell,
+  ResponsiveContainer, ReferenceLine, CartesianGrid, XAxis, YAxis, Tooltip
+} from 'recharts';
 
-const SafeSource = ({ children, ...props }: any) => {
-  const cleanProps = { ...props };
-  Object.keys(cleanProps).forEach(k => { if (k.startsWith('data-fg') || k.startsWith('data-fgid')) delete cleanProps[k]; });
-  return React.createElement(Source, cleanProps, children);
-};
-
-const SafeLayer = (props: any) => {
-  const cleanProps = { ...props };
-  Object.keys(cleanProps).forEach(k => { if (k.startsWith('data-fg') || k.startsWith('data-fgid')) delete cleanProps[k]; });
-  return React.createElement(Layer, cleanProps);
-};
-
-// --- MOCK MONITORING DATA ---
-const CROWD_ALERTS = [
-  { id: 1, type: "crowd", name: "Riyadh Season Gate", lat: 24.76, lng: 46.60, severity: "CRITICAL", delay: "OVERCAPACITY", cause: "Mass exit event", recommendation: "Open overflow gates." }
-];
-const SENSOR_ALERTS = [
-  { id: 2, type: "sensor", name: "Olaya Node Alpha", lat: 24.70, lng: 46.68, severity: "HIGH", delay: "OFFLINE", cause: "Power interruption", recommendation: "Dispatch technician." }
-];
-const EMERGENCY_ALERTS = [
-  { id: 3, type: "emergency", name: "King Fahd Corridor", lat: 24.73, lng: 46.66, severity: "CRITICAL", delay: "DISPATCHED", cause: "Multi-vehicle collision", recommendation: "Hold all red lights." }
-];
-
-const MONITORING_AGENTS = {
-  urban: {
-    id: "urban", title: "URBAN MONITORING", icon: Eye, color: "#00B558",
-    functions: [
-      { 
-        id: "urb_1", name: "DIGITAL TWIN SYNC", desc: "ENSURES THE 3D MODEL REFLECTS PHYSICAL CHANGES WITH ZERO DATA LATENCY.",
-        stats: [{ label: 'LATENCY', value: '<5ms', color: '#00B558' }, { label: 'SYNC', value: '100%', color: '#3b82f6' }]
-      },
-      { 
-        id: "urb_2", name: "GEOSPATIAL ACCURACY", desc: "USES LIDAR AND AI TO MAINTAIN CENTIMETER-LEVEL PRECISION IN THE CITY MAP.",
-        stats: [{ label: 'PRECISION', value: '1.2cm', color: '#00B558' }, { label: 'DRIFT', value: '0', color: '#FCD34D' }]
-      },
-      { 
-        id: "urb_3", name: "DATA STREAM HEALTH", desc: "AUTONOMOUSLY REPAIRS OR FLAGS FAULTY SENSORS ACROSS THE SMART CITY NETWORK.",
-        stats: [{ label: 'REPAIRED', value: '42', color: '#3b82f6' }, { label: 'FAULTS', value: '0', color: '#00B558' }]
-      }
+// --- MOCK DATA (STRICTLY ALIGNED WITH KPIs) ---
+const generateData = () => {
+  return {
+    twinDrift: [
+      { time: 'JAN', reported: 490, detected: 490 },
+      { time: 'FEB', reported: 492, detected: 493 },
+      { time: 'MAR', reported: 494, detected: 496 },
+      { time: 'APR', reported: 495, detected: 498 },
+      { time: 'MAY', reported: 496, detected: 501 },
+      { time: 'JUN', reported: 497, detected: 504 },
+      { time: 'JUL', reported: 498, detected: 507 },
+      { time: 'AUG', reported: 499, detected: 509 },
+      { time: 'SEP', reported: 499, detected: 511 },
+      { time: 'OCT', reported: 500, detected: 512 },
+      { time: 'NOV', reported: 500, detected: 513.5 },
+      { time: 'DEC', reported: 500, detected: 514.2 }
+    ],
+    populationPressure: [
+      { time: '24 Q1', influx: 75, capacity: 100 },
+      { time: '24 Q3', influx: 81, capacity: 100 },
+      { time: '25 Q1', influx: 86, capacity: 100 },
+      { time: '25 Q3', influx: 92, capacity: 100 },
+      { time: '26 Q1', influx: 97, capacity: 100 },
+      { time: '26 Q3', influx: 102, capacity: 100 },
+      { time: '27 Q1', influx: 108, capacity: 100 },
+      { time: '27 Q3', influx: 115, capacity: 100 }
+    ],
+    amanahMatrix: [
+      { name: "RIYADH", violations: 142, enforcementRate: 45, color: "#FF4444", feeLeak: "12.4M" },
+      { name: "JEDDAH", violations: 89, enforcementRate: 62, color: "#FCD34D", feeLeak: "8.1M" },
+      { name: "MECCA", violations: 34, enforcementRate: 88, color: "#00B558", feeLeak: "1.2M" },
+      { name: "MEDINA", violations: 12, enforcementRate: 94, color: "#00B558", feeLeak: "0.4M" },
+      { name: "DAMMAM", violations: 76, enforcementRate: 58, color: "#FCD34D", feeLeak: "6.7M" },
+      { name: "AL HASA", violations: 45, enforcementRate: 72, color: "#00B558", feeLeak: "2.1M" },
+    ],
+    assetYield: [
+      { time: 'M1', target: 85, actual: 12 },
+      { time: 'M2', target: 85, actual: 18 },
+      { time: 'M3', target: 85, actual: 24 },
+      { time: 'M4', target: 85, actual: 28 },
+      { time: 'M5', target: 85, actual: 30 },
+      { time: 'M6', target: 85, actual: 31.6 },
+      { time: 'M7', target: 85, actual: 31.4 },
+      { time: 'M8', target: 85, actual: 32.0 },
+      { time: 'M9', target: 85, actual: 31.6 },
+      { time: 'M10', target: 85, actual: 31.2 },
+      { time: 'M11', target: 85, actual: 31.5 },
+      { time: 'M12', target: 85, actual: 31.6 }
     ]
-  },
-  condition: {
-    id: "condition", title: "CONDITION WATCH", icon: Activity, color: "#FCD34D",
-    functions: [
-      { 
-        id: "cnd_1", name: "PREDICTIVE MAINT. SCORE", desc: "PREDICTS STRUCTURAL FAILURES IN BRIDGES AND ROADS BEFORE THEY OCCUR.",
-        stats: [{ label: 'RISK', value: 'LOW', color: '#00B558' }, { label: 'ALERTS', value: '2', color: '#ff4444' }]
-      },
-      { 
-        id: "cnd_2", name: "ASSET LIFESPAN", desc: "AI SUGGESTS EARLY INTERVENTIONS TO EXTEND THE LIFE OF MUNICIPAL ASSETS.",
-        stats: [{ label: 'EXTENSION', value: '+14%', color: '#00B558' }, { label: 'DEGRADE', value: '-2%', color: '#3b82f6' }]
-      },
-      { 
-        id: "cnd_3", name: "ENERGY WASTE DETECTION", desc: "FLAGS BUILDINGS WITH ABNORMAL HVAC PATTERNS FOR IMMEDIATE ENERGY AUDITS.",
-        stats: [{ label: 'WASTE', value: '4.2%', color: '#FCD34D' }, { label: 'AUDITS', value: '8', color: '#ff4444' }]
-      }
-    ]
-  },
-  tracker: {
-    id: "tracker", title: "CHANGE TRACKER", icon: Target, color: "#ff4444",
-    functions: [
-      { 
-        id: "trk_1", name: "UNAUTHORIZED DEV. RATE", desc: "SAT-AI VIOLATIONS",
-        stats: [{ label: 'SITES', value: '12', color: '#ff4444' }, { label: 'NEW', value: '2', color: '#ff4444' }]
-      },
-      { 
-        id: "trk_2", name: "PERMIT COMPLIANCE", desc: "COMPARES FINISHED BUILDINGS AGAINST APPROVED BLUEPRINTS VIA DRONE SCANS.",
-        stats: [{ label: 'COMPLIANCE', value: '98%', color: '#00B558' }, { label: 'VIOLS', value: '3', color: '#FCD34D' }]
-      },
-      { 
-        id: "trk_3", name: "ZONING VIOLATION DETECTION", desc: "ALERTS PLANNERS WHEN RESIDENTIAL PROPERTIES ARE USED FOR COMMERCIAL PURPOSES.",
-        stats: [{ label: 'DETECTED', value: '12', color: '#ff4444' }, { label: 'RESOLVED', value: '8', color: '#3b82f6' }]
-      }
-    ]
-  },
-  learning: {
-    id: "learning", title: "CONT. LEARNING", icon: Zap, color: "#00B558",
-    functions: [
-      { 
-        id: "lrn_1", name: "MODEL ACCURACY LIFT", desc: "THE RATE AT WHICH THE CITY'S BRAIN UPDATES BASED ON NEW DATA.",
-        stats: [{ label: 'LIFT', value: '+8.3%', color: '#00B558' }, { label: 'EPOCHS', value: '1.4k', color: '#00B558' }]
-      },
-      { 
-        id: "lrn_2", name: "FORECAST VARIANCE", desc: "THE STEADY DECREASE IN PREDICTION ERROR AS THE AI LEARNS FROM HISTORY.",
-        stats: [{ label: 'ERROR', value: '1.2%', color: '#00B558' }, { label: 'IMPROVE', value: '+4%', color: '#FCD34D' }]
-      },
-      { 
-        id: "lrn_3", name: "KNOWLEDGE TRANSFER RATE", desc: "SPEED AT WHICH INSIGHTS FROM RIYADH ARE APPLIED TO OTHER SAUDI CITIES.",
-        stats: [{ label: 'SPEED', value: 'FAST', color: '#00B558' }, { label: 'NODES', value: '14', color: '#00B558' }]
-      }
-    ]
-  }
-};
-
-const MapBuoy = ({ alert, isHovered, onHover, onClick }: { alert: any, isHovered: boolean, onHover: (hovered: boolean) => void, onClick: () => void }) => {
-  const isCritical = alert.severity === "CRITICAL";
-  const color = isCritical ? "#ff4444" : "#FCD34D";
-  
-  return (
-    <div 
-      onClick={onClick} 
-      onMouseEnter={() => onHover(true)} 
-      onMouseLeave={() => onHover(false)} 
-      className={`relative group cursor-pointer flex items-center justify-center pointer-events-auto transition-transform duration-300 ${isHovered ? 'scale-125 z-50' : 'hover:scale-110 z-40'}`}
-    >
-      <motion.div className="absolute rounded-full border border-solid" style={{ borderColor: color }} initial={{ width: 10, height: 10, opacity: 1 }} animate={{ width: 50, height: 50, opacity: 0 }} transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }} />
-      <motion.div className="absolute rounded-full border border-solid" style={{ borderColor: color }} initial={{ width: 10, height: 10, opacity: 1 }} animate={{ width: 50, height: 50, opacity: 0 }} transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 1 }} />
-      <div className="w-2.5 h-2.5 rounded-full relative z-10" style={{ backgroundColor: color, boxShadow: `0 0 15px ${color}` }}></div>
-      <div className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#051105]/85 border backdrop-blur-md px-2.5 py-1.5 rounded-sm whitespace-nowrap opacity-100 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-300 ${isHovered ? 'border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-110 -translate-y-2' : 'border-opacity-50 scale-100'}`} style={{ borderColor: isHovered ? color : `${color}50` }}>
-         <div className={`text-[9px] font-bold uppercase tracking-wider transition-colors ${isHovered ? 'text-white' : 'text-gray-300'}`}>{alert.name}</div>
-         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>{alert.delay}</div>
-      </div>
-    </div>
-  );
-};
-
-function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { item: any, color: string, isActive: boolean, onClick: () => void, layout?: "full"|"half" }) {
-  const [isHoveringInfo, setIsHoveringInfo] = useState(false);
-  const rgbColor = color === '#FCD34D' ? '252,211,77' : color === '#3b82f6' ? '59,130,246' : color === '#ff4444' ? '255,68,68' : '0,181,88';
-  const primaryStat = item.stats[0];
-  const isRightPanel = item.id.startsWith('trk') || item.id.startsWith('lrn');
-
-  const renderMiniChart = () => {
-    if (layout !== "full") return null;
-
-    const chartClass = isRightPanel 
-      ? `absolute inset-0 w-full h-full transition-opacity duration-300 ${isActive ? 'opacity-100 z-20' : 'opacity-70'}`
-      : `absolute right-0 bottom-0 w-[240px] h-[75px] transition-opacity duration-300 ${isActive ? 'opacity-90 z-20' : 'opacity-40'}`;
-
-    const data = Array.from({length: 6}).map((_, i) => ({ year: `202${i+1}`, val: 40 + Math.random()*40, pen: Math.random()*10 }));
-    
-    // Determine context based on agent ID
-    let valLabel = 'Metric Value';
-    let penLabel = 'Variance';
-    let valUnit = '';
-    let penUnit = '';
-
-    if (item.id.startsWith('urb')) {
-       valLabel = 'Sync Coverage'; valUnit = '%';
-       penLabel = 'Latency'; penUnit = 'ms';
-    } else if (item.id.startsWith('cnd')) {
-       valLabel = 'Asset Health'; valUnit = '/100';
-       penLabel = 'Anomalies'; penUnit = '';
-    } else if (item.id.startsWith('trk')) {
-       valLabel = 'Compliance Rate'; valUnit = '%';
-       penLabel = 'Violations'; penUnit = '';
-    } else if (item.id.startsWith('lrn')) {
-       valLabel = 'Model Accuracy'; valUnit = '%';
-       penLabel = 'Data Drift'; penUnit = '%';
-    }
-
-    return (
-      <div className={chartClass}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
-            <XAxis dataKey="year" hide />
-            <Tooltip 
-              contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-              labelFormatter={(label) => `YEAR: ${label}`}
-              formatter={(value: number, name: string) => {
-                if (name === 'val') return [`${value.toFixed(1)}${valUnit}`, valLabel];
-                if (name === 'pen') return [`${value.toFixed(1)}${penUnit}`, penLabel];
-                return [value, name];
-              }}
-            />
-            <defs>
-              <linearGradient id={`grad-${item.id}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={color} stopOpacity={0.4}/>
-                <stop offset="95%" stopColor={color} stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <Area type="monotone" dataKey="val" stroke={color} strokeWidth={2} fillOpacity={1} fill={`url(#grad-${item.id})`} isAnimationActive={false} />
-            {!isRightPanel && (
-               <Bar dataKey="pen" fill={color} opacity={0.3} barSize={4} radius={[2, 2, 0, 0]} isAnimationActive={false} />
-            )}
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    );
   };
+};
 
+const colors = {
+  blue: { border: "border-[#3B82F6]/30 hover:border-[#3B82F6]", bg: "bg-[#3B82F6]/5 hover:bg-[#3B82F6]/20", text: "text-[#3B82F6]", shadow: "hover:shadow-[0_0_20px_rgba(59,130,246,0.4),inset_0_0_15px_rgba(59,130,246,0.2)]" },
+  red: { border: "border-[#FF4444]/30 hover:border-[#FF4444]", bg: "bg-[#FF4444]/5 hover:bg-[#FF4444]/20", text: "text-[#FF4444]", shadow: "hover:shadow-[0_0_20px_rgba(255,68,68,0.4),inset_0_0_15px_rgba(255,68,68,0.2)]" },
+  yellow: { border: "border-[#FCD34D]/30 hover:border-[#FCD34D]", bg: "bg-[#FCD34D]/5 hover:bg-[#FCD34D]/20", text: "text-[#FCD34D]", shadow: "hover:shadow-[0_0_20px_rgba(252,211,77,0.4),inset_0_0_15px_rgba(252,211,77,0.2)]" },
+  green: { border: "border-[#00B558]/30 hover:border-[#00B558]", bg: "bg-[#00B558]/5 hover:bg-[#00B558]/20", text: "text-[#00B558]", shadow: "hover:shadow-[0_0_20px_rgba(0,181,88,0.4),inset_0_0_15px_rgba(0,181,88,0.2)]" },
+  white: { border: "border-gray-500/40 hover:border-white", bg: "bg-white/[0.02] hover:bg-white/[0.1]", text: "text-white", shadow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.2),inset_0_0_15px_rgba(255,255,255,0.1)]" },
+};
+
+const InfoCircle = () => (
+  <div className="w-[14px] h-[14px] rounded-full border border-current flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+    <span className="text-[9px] font-bold">i</span>
+  </div>
+);
+
+function KpiCard({ act, metric, unit, desc, icon, colorConfig, flex = "flex-1", centered = false, className = "", onClick }: any) {
+  const { border, bg, text, shadow } = colorConfig;
   return (
-    <div 
-      onClick={onClick}
-      className={`relative transition-all duration-300 cursor-pointer flex flex-col group min-h-0 h-full ${layout === 'full' ? 'p-4' : 'p-3'} ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
-      style={{ borderColor: isActive ? color : `${color}40` }}
-    >
-       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
-       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
-       <div className="flex justify-between items-start w-full gap-2 relative z-10">
-         <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] ${layout === 'full' ? 'text-[15px] w-[80%] line-clamp-2' : 'text-[11px] line-clamp-2'}`} style={{ color }}>{item.name}</h4>
-         <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-3.5 h-3.5" style={{ color }} /></div>
+    <div onClick={onClick} className={`p-2 border ${border} ${bg} ${shadow} rounded-md flex flex-col group min-h-0 relative transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:z-50 ${flex} ${className} ${onClick ? 'cursor-pointer hover:ring-1 hover:ring-current' : 'cursor-default'}`}>
+       <div className={`flex justify-between items-start shrink-0 mb-1 z-20 relative`}>
+         <div className={`flex items-center gap-1.5 ${text}`}>
+            <div className="opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-md">{icon}</div>
+            <span className="text-[10px] xl:text-[11px] font-bold tracking-widest uppercase group-hover:text-white transition-colors">{act}</span>
+         </div>
+         <div className={text}><InfoCircle /></div>
        </div>
-       <div className={`relative w-full flex-1 flex flex-col mt-2 z-10 min-h-[40px]`}>
-          <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-             <p className={`font-medium tracking-wider text-gray-300 uppercase ${layout === 'full' ? 'text-[11px] leading-[1.5]' : 'text-[9px] leading-[1.3] line-clamp-4'}`}>{item.desc}</p>
+       <div className={`flex flex-col flex-1 min-h-0 z-20 relative ${centered ? 'justify-center items-center' : 'justify-end'}`}>
+          <div className="flex items-baseline justify-center w-full">
+             <span className={`font-black tracking-tighter leading-none ${centered ? 'text-[22px] xl:text-[26px]' : 'text-[32px] xl:text-[38px]'} uppercase ${text} group-hover:scale-105 group-hover:text-white transition-all origin-left duration-300 drop-shadow-lg`}>
+               {metric}
+               {unit === '%' && <span className="text-xs xl:text-sm ml-0.5">%</span>}
+             </span>
+             {unit && unit !== '%' && <span className={`text-[9px] xl:text-[10px] font-bold tracking-widest uppercase ml-1.5 ${text}`}>{unit}</span>}
           </div>
-          <div className={`w-full flex transition-opacity duration-300 relative flex-1 flex-col min-h-0 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
-             {isRightPanel ? (
-               <div className="flex flex-col w-full h-full justify-between">
-                 <div className="flex justify-between items-end gap-2 w-full mt-0.5 relative z-10">
-                   <span className="font-black leading-none tracking-tighter" style={{ color: primaryStat.color, fontSize: layout === 'full' ? '50px' : '38px', textShadow: `0 0 20px ${primaryStat.color}60` }}>{primaryStat.value}</span>
-                   <span className="text-gray-400 font-bold tracking-widest uppercase leading-tight text-[11px] mb-1.5 text-right flex-1 line-clamp-2">{primaryStat.label}</span>
-                 </div>
-                 <div className={`flex flex-col w-full relative z-10`}>
-                   {item.stats.slice(1).map((stat: any, idx: number) => (
-                     <div key={idx} className={`flex justify-between items-center w-full border-t border-slate-800/50 ${layout === 'full' ? 'py-1.5' : 'py-1 mt-0.5'}`}>
-                       <span className={`text-slate-500 font-bold tracking-wider uppercase ${layout === 'full' ? 'text-[10px]' : 'text-[9px]'}`}>{stat.label}</span>
-                       <span className={`font-black tracking-widest ${layout === 'full' ? 'text-[14px]' : 'text-[12px]'}`} style={{ color: stat.color || color }}>{stat.value}</span>
-                     </div>
-                   ))}
-                 </div>
-                 {layout === 'full' && (
-                   <div className="flex-1 w-full min-h-[40px] mt-1 relative z-0">{renderMiniChart()}</div>
-                 )}
-               </div>
-             ) : (
-               <div className="flex flex-col w-full h-full justify-between relative z-10">
-                 <div className="flex items-end gap-1.5 mt-0.5">
-                   <span className="font-black leading-none tracking-tighter" style={{ color: primaryStat.color, fontSize: layout === 'full' ? '50px' : '36px', textShadow: `0 0 20px ${primaryStat.color}60` }}>{primaryStat.value}</span>
-                   <span className="text-gray-400 font-bold tracking-widest uppercase leading-tight text-[11px] mb-1.5 max-w-[50%] line-clamp-2">{primaryStat.label}</span>
-                 </div>
-                 {item.stats.length > 1 && (
-                   <div className={`flex ${layout === 'full' ? 'gap-6' : 'gap-4'} w-fit border-t border-white/10 ${layout === 'full' ? 'pt-2.5 pb-0.5' : 'pt-1.5'} mt-auto relative z-20`}>
-                     {item.stats.slice(1).map((stat: any, idx: number) => (
-                       <div key={idx} className="flex flex-col">
-                         <span className="text-slate-500 font-bold tracking-wider text-[9px] uppercase leading-none">{stat.label}</span>
-                         <span className={`font-black tracking-widest ${layout === 'full' ? 'text-[14px]' : 'text-[12px]'} mt-[5px] leading-none`} style={{ color: stat.color || color }}>{stat.value}</span>
-                       </div>
-                     ))}
-                   </div>
-                 )}
-                 {renderMiniChart()}
-               </div>
-             )}
-          </div>
+          <span className={`text-[9px] xl:text-[10px] font-medium text-gray-500 tracking-wider mt-0.5 uppercase w-full truncate ${centered ? 'text-center mt-1.5' : 'text-left'} group-hover:text-gray-300 transition-colors`}>
+            {desc}
+          </span>
        </div>
+    </div>
+  )
+}
+
+function ActionAlert({ title, desc, value, valColor = "text-[#FF4444]" }: any) {
+  return (
+    <div className="shrink-0 flex items-center justify-between bg-[#FF4444]/5 border border-[#FF4444]/20 px-3 py-2.5 rounded-md group cursor-default relative transition-all duration-300 hover:scale-[1.02] hover:translate-x-1 hover:bg-[#FF4444]/20 hover:border-[#FF4444] hover:shadow-[0_0_20px_rgba(255,68,68,0.4),inset_0_0_10px_rgba(255,68,68,0.2)] hover:z-50">
+      <div className="flex flex-col gap-0.5 z-20 relative">
+        <span className="text-[10px] xl:text-[11px] text-[#FF4444] font-bold tracking-widest uppercase group-hover:text-white transition-colors drop-shadow-md">RECOMMENDATION: {title}</span>
+        <span className="text-[9px] xl:text-[10px] text-gray-400 group-hover:text-gray-200 transition-colors uppercase tracking-wider">{desc}</span>
+      </div>
+      <span className={`text-[18px] xl:text-[20px] font-black drop-shadow-[0_0_8px_rgba(255,68,68,0.8)] group-hover:scale-110 transition-transform origin-right z-20 relative ${valColor}`}>{value}</span>
     </div>
   );
 }
 
-// Generate GeoJSON for highlighting (Line for roads/traffic, Polygon for areas)
-const getHighlightGeoJSON = (lat: number, lng: number, type: string) => {
-  const isRoad = ['traffic', 'commute', 'emergency'].includes(type);
-  
-  if (isRoad) {
-    const offset = 0.015;
-    return {
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'LineString',
-          coordinates: [
-            [lng - offset, lat - offset],
-            [lng + offset, lat + offset]
-          ]
-        },
-        properties: {}
-      }]
-    };
-  } else {
-    const size = 0.015;
-    return {
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[
-            [lng - size, lat - size],
-            [lng + size, lat - size],
-            [lng + size, lat + size],
-            [lng - size, lat + size],
-            [lng - size, lat - size]
-          ]]
-        },
-        properties: {}
-      }]
-    };
+const ChartContainer = ({ children, title, subtitle, alert, hoverBorderColor = "hover:border-[#00B558]", hoverShadow = "hover:shadow-[0_0_20px_rgba(0,181,88,0.2),inset_0_0_15px_rgba(0,181,88,0.1)]" }: any) => (
+  <div className={`flex-1 min-h-0 flex flex-col group cursor-default p-2.5 rounded-md border border-transparent relative transition-all duration-300 ${hoverBorderColor} hover:bg-[#020603]/90 ${hoverShadow} hover:scale-[1.01] hover:z-50`}>
+    <div className="flex justify-between items-end shrink-0 mb-2 z-20 relative px-1">
+      <div className="flex flex-col">
+         <span className="text-[10px] xl:text-[11px] font-bold text-gray-400 tracking-widest uppercase group-hover:text-white transition-colors drop-shadow-md">{title}</span>
+         <span className="text-[8.5px] xl:text-[9.5px] text-gray-500 font-medium tracking-widest uppercase group-hover:text-gray-300 transition-colors mt-0.5">{subtitle}</span>
+      </div>
+      {alert && <span className="text-[10px] text-[#ff4444] font-bold tracking-wider animate-pulse drop-shadow-md">{alert}</span>}
+    </div>
+    <div className="flex-1 w-full min-h-0 relative z-20 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-auto">
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+const CustomTooltip = ({ active, payload, label, unit = '' }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-[#051105]/95 border border-[#00B558]/50 p-2.5 rounded shadow-[0_0_20px_rgba(0,181,88,0.3)] backdrop-blur-md z-50">
+        <p className="text-[10px] text-gray-300 mb-1.5 border-b border-[#00B558]/30 pb-1.5 uppercase tracking-wider">{`TIME: ${label}`}</p>
+        {payload.map((entry: any, index: number) => (
+          <p key={`item-${index}`} className="text-[11px] font-black tracking-widest uppercase drop-shadow-md" style={{ color: entry.color }}>
+            {`${entry.name}: ${entry.value}${unit}`}
+          </p>
+        ))}
+      </div>
+    );
   }
+  return null;
 };
 
 export default function Monitoring() {
-  const [activeMetric, setActiveMetric] = useState("urb_1");
-  const [selectedAlert, setSelectedAlert] = useState<any>(null);
-  const [hoveredAlertId, setHoveredAlertId] = useState<number | null>(null);
-  const mapRef = useRef<MapRef>(null);
+  const data = useMemo(() => generateData(), []);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [activeTarget, setActiveTarget] = useState<string | null>(null);
 
-  const handleMapLoad = useCallback(() => {
-    if (mapRef.current) {
-      mapRef.current.flyTo({ center: [46.6853, 24.7136], zoom: 12, pitch: 60, bearing: 30, duration: 2500, essential: true });
-    }
-  }, []);
-
-  const handleMetricClick = (id: string) => { 
-    setActiveMetric(id); 
-    window.dispatchEvent(new CustomEvent('agent-metric-select', { detail: { id } }));
+  const handleMetricClick = (metric: string) => {
+    setActiveTarget(metric);
+    setIsTerminalOpen(true);
   };
 
-  let currentAlerts: any[] = [];
-  if (activeMetric.startsWith('urb')) currentAlerts = CROWD_ALERTS;
-  else if (activeMetric.startsWith('cnd')) currentAlerts = SENSOR_ALERTS;
-  else if (activeMetric.startsWith('trk')) currentAlerts = EMERGENCY_ALERTS;
-
-  const activeAgent = Object.values(MONITORING_AGENTS).find(agent => agent.functions.some(f => f.id === activeMetric)) || MONITORING_AGENTS.urban;
-  const activeColor = activeAgent.color;
-  const activeRgb = activeColor === '#FCD34D' ? '252,211,77' : activeColor === '#3b82f6' ? '59,130,246' : activeColor === '#ff4444' ? '255,68,68' : '0,181,88';
-
-  const hoveredAlert = currentAlerts.find(a => a.id === hoveredAlertId);
-  const hoveredHighlightGeoJSON = hoveredAlert ? getHighlightGeoJSON(hoveredAlert.lat, hoveredAlert.lng, hoveredAlert.type) : null;
-  const isRoad = hoveredAlert && ['traffic', 'commute', 'emergency'].includes(hoveredAlert.type);
-
   return (
-    <div className="relative h-full w-full pt-[80px] pb-4 flex justify-between px-6 overflow-hidden pointer-events-none uppercase bg-[#051005]">
-      <div className="absolute inset-0 z-0 pointer-events-auto">
-        <Map ref={mapRef} style={{ width: '100%', height: '100%' }} onLoad={handleMapLoad} 
-          onMove={(e) => { (window as any).lastMapViewState = { ...e.viewState }; }}
-          initialViewState={(window as any).lastMapViewState || { longitude: 46.68, latitude: 24.71, zoom: 11, pitch: 45, bearing: 0 }} 
-          mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" interactive={true}>
-          {/* Highlighted Region Layer */}
-          {hoveredHighlightGeoJSON && hoveredAlert && (
-            <SafeSource id="hovered-region" type="geojson" data={hoveredHighlightGeoJSON as any}>
-              {isRoad ? (
-                <>
-                  <SafeLayer 
-                    id="hovered-region-line-bg" 
-                    type="line" 
-                    layout={{ 'line-join': 'round', 'line-cap': 'round' }}
-                    paint={{'line-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : activeColor, 'line-width': 8, 'line-opacity': 0.3, 'line-blur': 4}} 
-                  />
-                  <SafeLayer 
-                    id="hovered-region-line" 
-                    type="line" 
-                    layout={{ 'line-join': 'round', 'line-cap': 'round' }}
-                    paint={{'line-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : activeColor, 'line-width': 3, 'line-opacity': 1}} 
-                  />
-                </>
-              ) : (
-                <>
-                  <SafeLayer 
-                    id="hovered-region-fill" 
-                    type="fill" 
-                    paint={{'fill-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : activeColor, 'fill-opacity': 0.15}} 
-                  />
-                  <SafeLayer 
-                    id="hovered-region-line" 
-                    type="line" 
-                    paint={{'line-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : activeColor, 'line-width': 2, 'line-dasharray': [2, 2]}} 
-                  />
-                </>
-              )}
-            </SafeSource>
-          )}
-          {currentAlerts.map(alert => (
-            <Marker key={alert.id} longitude={alert.lng} latitude={alert.lat} anchor="center">
-              <MapBuoy alert={alert} isHovered={hoveredAlertId === alert.id} onHover={(hovered) => setHoveredAlertId(hovered ? alert.id : null)} onClick={() => setSelectedAlert(alert)} />
-            </Marker>
-          ))}
-        </Map>
-        <div className="absolute inset-0 bg-[#051005]/50 pointer-events-none z-10" />
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="relative h-full w-full bg-[#020603] uppercase text-[#00B558] overflow-hidden"
+    >
+      <div className="absolute inset-0 z-0 pointer-events-none" style={{ 
+        backgroundImage: `
+          linear-gradient(to right, rgba(0,181,88,0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0,181,88,0.03) 1px, transparent 1px)
+        `, 
+        backgroundSize: '40px 40px',
+      }} />
+
+      <div className="relative z-10 w-full h-full pt-[80px] pb-4 px-4 flex flex-col min-h-0 gap-4 pointer-events-auto">
+        
+        {/* =========================================
+            TOP ROW: INCREASED HEIGHT TO 52% (was 42%)
+            This gives the top charts massive vertical space to breathe
+            ========================================= */}
+        <div className="flex-[0.52] flex gap-4 min-h-0">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="w-[25%] flex flex-col min-w-0 h-full"
+          >
+            <WidgetPanel title="SPATIAL TRUTH" icon={<Eye className="w-4 h-4 text-[#3B82F6]" />} className="flex-1 min-h-0">
+              <div className="flex flex-col h-full min-h-0 p-3 gap-3">
+                <div className="flex gap-3 shrink-0">
+                  <KpiCard act="Masterplan" metric="500" unit="KM²" desc="Approved Alloc" icon={<MapPin className="w-3.5 h-3.5" />} colorConfig={colors.blue} />
+                  <KpiCard onClick={() => handleMetricClick('+2.8%')} act="Deviation" metric="+2.8" unit="%" desc="Footprint Drift" icon={<AlertTriangle className="w-3.5 h-3.5" />} colorConfig={colors.red} />
+                </div>
+                
+                <ChartContainer title="Urban Sprawl Truth Gap" subtitle="Lidar Scans vs Amanah Reports" alert="DISCREPANCY: 14.2 KM²" hoverBorderColor="hover:border-[#3B82F6]" hoverShadow="hover:shadow-[0_0_20px_rgba(59,130,246,0.2),inset_0_0_15px_rgba(59,130,246,0.1)]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={data.twinDrift} margin={{ top: 10, right: 0, bottom: 5, left: -20 }}>
+                      <defs>
+                        <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.2}/>
+                          <stop offset="100%" stopColor="#3B82F6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                      <XAxis dataKey="time" stroke="#475569" fontSize={9} tickLine={false} axisLine={false} dy={5} />
+                      <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} domain={['dataMin - 5', 'dataMax + 5']} dx={-5} />
+                      <Tooltip content={<CustomTooltip unit=" KM²" />} cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                      <Area type="step" dataKey="reported" name="Amanah" stroke="#3B82F6" strokeWidth={1.5} fill="url(#blueGrad)" isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                      <Line type="step" dataKey="detected" name="Lidar TRUTH" stroke="#FF4444" strokeWidth={2.5} dot={{ r: 0 }} activeDot={{ r: 5, fill: '#ff4444', stroke: '#020603', strokeWidth: 2 }} isAnimationActive={true} animationDuration={1500} animationEasing="ease-out" />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+
+                <ActionAlert title="Fin. Exposure" desc="Est. infrastructure cost if developed" value="2.4B SAR" />
+              </div>
+            </WidgetPanel>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="w-[75%] flex flex-col min-w-0 h-full"
+          >
+            <WidgetPanel title="CAPEX UTILIZATION & ASSET LIFECYCLE" icon={<Building2 className="w-4 h-4 text-[#FCD34D]" />} className="flex-1 min-h-0">
+               <div className="flex flex-col h-full min-h-0 p-3 gap-3">
+                <div className="flex gap-3 shrink-0">
+                  <KpiCard act="Idle Rate" metric="68.4" unit="%" desc="Ghost Asset Detection" icon={<Building2 className="w-3.5 h-3.5"/>} colorConfig={colors.yellow} />
+                  <KpiCard act="ROI Goal" metric="85" unit="%" desc="Proj. Capacity Target" icon={<Target className="w-3.5 h-3.5"/>} colorConfig={colors.white} />
+                  <KpiCard act="Recommendation" metric="DEFER" unit="PH2" desc="System recommendation - pending review" icon={<Layers className="w-3.5 h-3.5"/>} colorConfig={colors.red} />
+                </div>
+
+                <ChartContainer title="Asset Lifecycle Yield" subtitle="Actual Usage vs Promised Target" hoverBorderColor="hover:border-[#FCD34D]" hoverShadow="hover:shadow-[0_0_20px_rgba(252,211,77,0.2),inset_0_0_15px_rgba(252,211,77,0.1)]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={data.assetYield} margin={{ top: 20, right: 0, bottom: 5, left: -20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                      <XAxis dataKey="time" stroke="#475569" fontSize={9} tickLine={false} axisLine={false} dy={5} />
+                      <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} domain={[0, 100]} dx={-5} />
+                      <Tooltip content={<CustomTooltip unit="%" />} cursor={{ fill: '#1e293b', opacity: 0.4 }} />
+                      <ReferenceLine y={85} stroke="#3B82F6" strokeDasharray="4 4" label={{ position: 'top', value: 'TARGET 85%', fill: '#3B82F6', fontSize: 10, fontWeight: 'bold' }} />
+                      <Bar dataKey="actual" name="Actual Use" fill="#FCD34D" fillOpacity={0.9} barSize={16} isAnimationActive={true} animationDuration={1000} animationEasing="ease-out" radius={[2, 2, 0, 0]}>
+                        {data.assetYield.map((entry, index) => (
+                          <Cell key={`cell-${index}`} className="hover:opacity-100 hover:fill-[#fff] transition-all cursor-default" />
+                        ))}
+                      </Bar>
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+            </WidgetPanel>
+          </motion.div>
+
+        </div>
+
+        {/* =========================================
+            BOTTOM ROW: DECREASED HEIGHT TO 48% (was 58%)
+            Compressed to give top row more chart space
+            ========================================= */}
+        <div className="flex-[0.48] flex gap-4 min-h-0">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="w-[25%] flex flex-col min-w-0 h-full"
+          >
+            <WidgetPanel title="CARRYING CAPACITY" icon={<BrainCircuit className="w-4 h-4 text-[#FCD34D]" />} className="flex-1 min-h-0">
+              <div className="flex flex-col h-full min-h-0 p-3 gap-3">
+                <div className="flex gap-3 shrink-0">
+                  <KpiCard act="Target Pop" metric="15.0" unit="M" desc="Riyadh Expansion" icon={<Target className="w-3.5 h-3.5" />} colorConfig={colors.green} />
+                  <KpiCard act="Velocity" metric="+14" unit="K" desc="Net Influx/Mo" icon={<Activity className="w-3.5 h-3.5" />} colorConfig={colors.yellow} />
+                </div>
+
+                <ChartContainer title="Infrastructure Strain" subtitle="Based on water, power, transport load" alert="INDEX: 92.4" hoverBorderColor="hover:border-[#FCD34D]" hoverShadow="hover:shadow-[0_0_20px_rgba(252,211,77,0.2),inset_0_0_15px_rgba(252,211,77,0.1)]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={data.populationPressure} margin={{ top: 15, right: 0, bottom: 5, left: -20 }}>
+                      <defs>
+                        <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#FCD34D" stopOpacity={0.2}/>
+                          <stop offset="100%" stopColor="#FCD34D" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                      <XAxis dataKey="time" stroke="#475569" fontSize={9} tickLine={false} axisLine={false} dy={5} />
+                      <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} domain={[60, 120]} dx={-5} />
+                      <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                      
+                      <Line type="monotone" dataKey="capacity" name="Max Capacity" stroke="#00B558" strokeWidth={2} strokeDasharray="4 4" dot={false} isAnimationActive={true} animationDuration={1000} />
+                      <Area type="monotone" dataKey="influx" name="Demand Load" stroke="#FCD34D" strokeWidth={2} fill="url(#goldGrad)" isAnimationActive={true} animationDuration={1500} animationEasing="ease-out" activeDot={{ r: 4, fill: '#FCD34D', stroke: '#020603', strokeWidth: 2 }} />
+                      
+                      <ReferenceLine x="26 Q3" stroke="#FF4444" strokeDasharray="3 3" label={{ position: 'top', value: 'COLLAPSE', fill: '#FF4444', fontSize: 8, fontWeight: 'bold' }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+
+                <ActionAlert title="Utility Risk" desc="Projected collapse timeline" value="Q3 2026" />
+              </div>
+            </WidgetPanel>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+            className="w-[50%] flex flex-col min-w-0 h-full pb-[64px]"
+          >
+            <WidgetPanel title="ENFORCEMENT AUDIT" icon={<Activity className="w-4 h-4 text-[#00B558]" />} className="flex-1 min-h-0">
+              <div className="flex flex-col h-full min-h-0 p-3 gap-3">
+                
+                <div className="flex-1 min-h-0 flex flex-col group">
+                  <div className="flex justify-between items-center border-b border-[#00B558]/20 pb-2 mb-2 shrink-0">
+                     <span className="text-[11px] text-[#00B558]/80 font-bold tracking-[0.2em] uppercase">Amanah Matrix</span>
+                     <div className="flex items-center gap-2">
+                        <span className="text-[8px] text-gray-500">Target: 80%</span>
+                        <div className="flex items-center gap-2 bg-[#00B558]/10 px-2 py-1 rounded border border-[#00B558]/30">
+                           <div className="w-1.5 h-1.5 bg-[#00B558] rounded-full animate-pulse shadow-[0_0_8px_#00B558]" />
+                           <span className="text-[9px] text-[#00B558] tracking-widest font-bold">LIVE</span>
+                        </div>
+                     </div>
+                  </div>
+                  
+                  <div className="flex text-[9px] xl:text-[10px] text-[#00B558]/60 font-bold tracking-widest px-3 pb-2 shrink-0 border-b border-[#00B558]/10 mb-2">
+                     <div className="w-[25%]">REGION</div>
+                     <div className="w-[20%] text-center">VIOLATIONS</div>
+                     <div className="w-[20%] text-center">FEE LEAK</div>
+                     <div className="flex-1 text-right pr-2">ENFORCEMENT</div>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar justify-start min-h-0 pointer-events-auto">
+                    {data.amanahMatrix.map((amanah, idx) => {
+                      const rowHoverClass = amanah.name === "RIYADH" ? "hover:border-[#FF4444] hover:bg-[#FF4444]/10 hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" : 
+                                            amanah.name === "JEDDAH" || amanah.name === "DAMMAM" ? "hover:border-[#FCD34D] hover:bg-[#FCD34D]/10 hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" :
+                                            "hover:border-[#00B558] hover:bg-[#00B558]/10 hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]";
+
+                      return (
+                        <div 
+                          key={idx} 
+                          className={`flex items-center py-2 px-3 border border-transparent rounded bg-[#00B558]/[0.02] cursor-default shrink-0 relative transition-all duration-300 hover:translate-x-2 hover:scale-[1.01] hover:z-50 ${rowHoverClass}`}
+                        >
+                          <div className="w-[25%] flex items-center gap-2.5">
+                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: amanah.color, boxShadow: `0 0 6px ${amanah.color}` }} />
+                            <span className="text-[10px] xl:text-[11px] font-black tracking-widest text-gray-200">{amanah.name}</span>
+                          </div>
+                          <div className="w-[20%] text-center text-[11px] xl:text-[12px] font-mono tracking-wider font-bold" style={{ color: amanah.color }}>
+                            {amanah.violations}
+                          </div>
+                          <div className="w-[20%] text-center text-[11px] xl:text-[12px] font-mono tracking-wider text-[#FF4444] font-bold drop-shadow-md">
+                            {amanah.feeLeak}
+                          </div>
+                          <div className="flex-1 flex items-center gap-3 pl-4">
+                            <div className="flex-1 h-1 bg-[#0f172a] rounded-full overflow-hidden">
+                              <div className="h-full rounded-full" style={{ width: `${amanah.enforcementRate}%`, backgroundColor: amanah.color }} />
+                            </div>
+                            <span className="w-8 text-right text-[10px] xl:text-[11px] font-black" style={{ color: amanah.color }}>{amanah.enforcementRate}%</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            </WidgetPanel>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            className="w-[25%] flex flex-col min-w-0 h-full"
+          >
+            <WidgetPanel title="ZONING COMPLIANCE" icon={<ShieldAlert className="w-4 h-4 text-[#FF4444]" />} className="flex-1 min-h-0">
+              <div className="flex flex-col h-full min-h-0 p-3 gap-3">
+                <div className="text-[9px] text-gray-500 text-center -mt-1 mb-1">Critical violations identified via satellite & ground truth</div>
+                <KpiCard act="Critical Violations" metric="353" desc="Severe land-use breaches" icon={<ShieldAlert className="w-3.5 h-3.5"/>} colorConfig={colors.red} flex="flex-1" centered={true} />
+                <div className="flex gap-2 shrink-0">
+                  <KpiCard act="Mandate" metric="95.0" unit="%" desc="Legal baseline" icon={<Target className="w-3.5 h-3.5"/>} colorConfig={colors.white} flex="flex-1" />
+                  <KpiCard act="National YTD" metric="69.4" unit="%" desc="Current compliance" icon={<TrendingUp className="w-3.5 h-3.5"/>} colorConfig={colors.yellow} flex="flex-1" />
+                </div>
+                <ActionAlert title="Fee Leakage" desc="Potential revenue recovery" value="450M SAR" />
+              </div>
+            </WidgetPanel>
+          </motion.div>
+
+        </div>
       </div>
 
-      <div className="absolute inset-y-0 left-0 w-[500px] bg-gradient-to-r from-[#051005] via-[#0c1a06]/90 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-[500px] bg-gradient-to-l from-[#051005] via-[#0c1a06]/90 to-transparent z-10 pointer-events-none" />
-
-      {/* LEFT SIDEBAR */}
-      <motion.div initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pr-4 pointer-events-auto">
-        <WidgetPanel title={MONITORING_AGENTS.urban.title} icon={<MONITORING_AGENTS.urban.icon className="w-5 h-5" color={MONITORING_AGENTS.urban.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={MONITORING_AGENTS.urban.functions[0]} color={MONITORING_AGENTS.urban.color} isActive={activeMetric === MONITORING_AGENTS.urban.functions[0].id} onClick={() => handleMetricClick(MONITORING_AGENTS.urban.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={MONITORING_AGENTS.urban.functions[1]} color={MONITORING_AGENTS.urban.color} isActive={activeMetric === MONITORING_AGENTS.urban.functions[1].id} onClick={() => handleMetricClick(MONITORING_AGENTS.urban.functions[1].id)} layout="half" />
-               <FunctionCard item={MONITORING_AGENTS.urban.functions[2]} color={MONITORING_AGENTS.urban.color} isActive={activeMetric === MONITORING_AGENTS.urban.functions[2].id} onClick={() => handleMetricClick(MONITORING_AGENTS.urban.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-        <WidgetPanel title={MONITORING_AGENTS.condition.title} icon={<MONITORING_AGENTS.condition.icon className="w-5 h-5" color={MONITORING_AGENTS.condition.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.55] min-h-0 w-full"><FunctionCard item={MONITORING_AGENTS.condition.functions[0]} color={MONITORING_AGENTS.condition.color} isActive={activeMetric === MONITORING_AGENTS.condition.functions[0].id} onClick={() => handleMetricClick(MONITORING_AGENTS.condition.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.45] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={MONITORING_AGENTS.condition.functions[1]} color={MONITORING_AGENTS.condition.color} isActive={activeMetric === MONITORING_AGENTS.condition.functions[1].id} onClick={() => handleMetricClick(MONITORING_AGENTS.condition.functions[1].id)} layout="half" />
-               <FunctionCard item={MONITORING_AGENTS.condition.functions[2]} color={MONITORING_AGENTS.condition.color} isActive={activeMetric === MONITORING_AGENTS.condition.functions[2].id} onClick={() => handleMetricClick(MONITORING_AGENTS.condition.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-      </motion.div>
-
-      {/* CENTER VIEW */}
-      <div className="flex-1 relative pointer-events-none flex flex-col items-center justify-center z-20">
-        <div className="absolute top-4 right-4 pointer-events-auto flex items-center bg-[#0d1f0d]/80 border border-[#D4AF37]/30 backdrop-blur-md rounded-sm overflow-hidden z-20">
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Target className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Square className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all border-r border-[#D4AF37]/30 hover:scale-110"><Maximize className="w-4 h-4" /></button>
-           <button className="p-2.5 text-[#006C35] hover:text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all hover:scale-110"><ArrowRight className="w-4 h-4" /></button>
-        </div>
-        <div className="relative flex items-center justify-center pointer-events-none opacity-60">
-          <div className="absolute w-2 h-2 rounded-full z-10 animate-pulse transition-colors duration-500" style={{ backgroundColor: activeColor, boxShadow: `0 0 15px ${activeColor}` }} />
-          <div className="absolute w-8 h-8 rounded-full border z-10 animate-ping transition-colors duration-500" style={{ borderColor: `${activeColor}80`, animationDuration: '3s' }} />
-          <motion.div className="absolute w-[300px] h-[300px] rounded-full border-[1px] border-dashed transition-colors duration-500" style={{ borderColor: `${activeColor}40`, boxShadow: `inset 0 0 50px rgba(${activeRgb},0.05)` }} animate={{ rotate: 360 }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }} />
-          <div className="absolute w-[100vw] h-[1px] transition-all duration-500" style={{ backgroundImage: `linear-gradient(to right, transparent, ${activeColor}20, transparent)` }} />
-          <div className="absolute h-[100vh] w-[1px] transition-all duration-500" style={{ backgroundImage: `linear-gradient(to bottom, transparent, ${activeColor}20, transparent)` }} />
-        </div>
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40">
-          <motion.path key={activeMetric} d="M 50% 50% L 35% 70%" fill="none" stroke={activeColor} strokeWidth="1.5" strokeDasharray="4 4" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.8 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
-        </svg>
-      </div>
-
-      {/* RIGHT SIDEBAR */}
-      <motion.div initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pl-4 pointer-events-auto">
-        <WidgetPanel title={MONITORING_AGENTS.tracker.title} icon={<MONITORING_AGENTS.tracker.icon className="w-5 h-5" color={MONITORING_AGENTS.tracker.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.6] min-h-0 w-full"><FunctionCard item={MONITORING_AGENTS.tracker.functions[0]} color={MONITORING_AGENTS.tracker.color} isActive={activeMetric === MONITORING_AGENTS.tracker.functions[0].id} onClick={() => handleMetricClick(MONITORING_AGENTS.tracker.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.4] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={MONITORING_AGENTS.tracker.functions[1]} color={MONITORING_AGENTS.tracker.color} isActive={activeMetric === MONITORING_AGENTS.tracker.functions[1].id} onClick={() => handleMetricClick(MONITORING_AGENTS.tracker.functions[1].id)} layout="half" />
-               <FunctionCard item={MONITORING_AGENTS.tracker.functions[2]} color={MONITORING_AGENTS.tracker.color} isActive={activeMetric === MONITORING_AGENTS.tracker.functions[2].id} onClick={() => handleMetricClick(MONITORING_AGENTS.tracker.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-        <WidgetPanel title={MONITORING_AGENTS.learning.title} icon={<MONITORING_AGENTS.learning.icon className="w-5 h-5" color={MONITORING_AGENTS.learning.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.6] min-h-0 w-full"><FunctionCard item={MONITORING_AGENTS.learning.functions[0]} color={MONITORING_AGENTS.learning.color} isActive={activeMetric === MONITORING_AGENTS.learning.functions[0].id} onClick={() => handleMetricClick(MONITORING_AGENTS.learning.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.4] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={MONITORING_AGENTS.learning.functions[1]} color={MONITORING_AGENTS.learning.color} isActive={activeMetric === MONITORING_AGENTS.learning.functions[1].id} onClick={() => handleMetricClick(MONITORING_AGENTS.learning.functions[1].id)} layout="half" />
-               <FunctionCard item={MONITORING_AGENTS.learning.functions[2]} color={MONITORING_AGENTS.learning.color} isActive={activeMetric === MONITORING_AGENTS.learning.functions[2].id} onClick={() => handleMetricClick(MONITORING_AGENTS.learning.functions[2].id)} layout="half" />
-            </div>
-          </div>
-        </WidgetPanel>
-      </motion.div>
-    </div>
+      <AgentTerminal 
+        isOpen={isTerminalOpen} 
+        onClose={() => setIsTerminalOpen(false)} 
+        targetMetric={activeTarget}
+      />
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(0, 181, 88, 0.2);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 181, 88, 0.5);
+        }
+      `}</style>
+    </motion.div>
   );
 }
