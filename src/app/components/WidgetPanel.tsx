@@ -9,6 +9,11 @@ interface WidgetPanelProps {
 }
 
 export function WidgetPanel({ title, icon, children, className }: WidgetPanelProps) {
+  // Parse title to separate main title and agent name
+  const match = title.match(/^(.+?)\s*\((.+)\)$/);
+  const mainTitle = match ? match[1] : title;
+  const agentName = match ? match[2] : null;
+
   return (
     <div className={cn("flex flex-col relative z-10 w-full bg-[#0a140a]/90 p-2.5 rounded-md border border-[#00B558]/40 shadow-[inset_0_0_30px_rgba(0,181,88,0.1)] backdrop-blur-md", className)}>
       {/* Header */}
@@ -16,7 +21,12 @@ export function WidgetPanel({ title, icon, children, className }: WidgetPanelPro
         <div className="flex items-center space-x-2">
           {icon && <span className="w-4 h-4 drop-shadow-[0_0_8px_currentColor]">{icon}</span>}
           <h3 className="text-[#e2e8f0] text-sm font-bold tracking-widest drop-shadow-md uppercase">
-            {title}
+            {mainTitle}
+            {agentName && (
+              <span className="text-[10px] font-normal text-gray-400 ml-1.5 normal-case tracking-normal">
+                ({agentName})
+              </span>
+            )}
           </h3>
         </div>
         {/* Fading underline mimicking the image */}

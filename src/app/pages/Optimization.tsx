@@ -41,22 +41,22 @@ const OPTIMIZATION_AGENTS = {
     id: "zoning", title: "ZONING MIX ADVISOR", icon: Layers, color: "#FCD34D",
     functions: [
       { 
-        id: "zon_1", name: "MIXED-USE RATIO", desc: "SUGGESTS ZONING PIVOTS TO INTEGRATE RETAIL INTO RESIDENTIAL BLOCKS FOR WALKABILITY.",
+        id: "zon_1", name: "LAND USE BALANCE INDEX", desc: "COMPREHENSIVE SCORE MEASURING DEVIATION FROM VISION 2030 LAND ALLOCATION TARGETS. AI ANALYZES ZONING DATA TO IDENTIFY IMBALANCES AND SUGGESTS REZONING RECOMMENDATIONS.",
         stats: [
-          { label: 'OVER-LIMIT', value: '35%', color: '#ff4444' }, 
-          { label: 'TARGET', value: '25%', color: '#00B558' }, 
-          { label: 'RESID.', value: '20%', color: '#94a3b8' },
-          { label: 'COMM.', value: '25%', color: '#94a3b8' },
-          { label: 'PUBLIC/GREEN', value: '20%', color: '#94a3b8' }
-        ]
-      },
-      { 
-        id: "zon_2", name: "15-MIN CITY ACCESS", desc: "IDENTIFIES 'AMENITY DESERTS' WHERE RESIDENTS LACK ESSENTIAL SERVICES WITHIN WALKING DISTANCE.",
-        stats: [{ label: 'DESERTS', value: '8', color: '#ff4444' }, { label: 'COVERED', value: '82%', color: '#00B558' }]
-      },
-      { 
-        id: "zon_3", name: "COMMERCIAL DIVERSITY INDEX", desc: "ENSURES A BALANCED MIX OF SMES AND LARGE RETAIL IN NEW DEVELOPMENTS.",
-        stats: [{ label: 'INDEX SKEW', value: '15', color: '#ff4444' }, { label: 'BALANCED', value: '142', color: '#00B558' }]
+          { label: 'BALANCE SCORE', value: '73', color: '#FCD34D' }, 
+          { label: 'TREND', value: '+5', color: '#00B558' }, 
+          { label: 'RESIDENTIAL GAP', value: '-7%', color: '#ff4444' },
+          { label: 'COMMERCIAL SURPLUS', value: '+9%', color: '#ff4444' },
+          { label: 'SERVICE DEFICIT', value: '-3%', color: '#FCD34D' },
+          { label: 'GREEN SPACE GAP', value: '+1%', color: '#00B558' }
+        ],
+        balanceData: {
+          score: 73,
+          trend: '+5',
+          targets: { residential: 35, commercial: 25, service: 20, green: 20 },
+          actual: { residential: 28, commercial: 34, service: 17, green: 21 },
+          aiRecommendation: "Convert Al Olaya commercial zones to mixed-use residential. Projected score improvement: +12 points."
+        }
       }
     ]
   },
@@ -64,8 +64,25 @@ const OPTIMIZATION_AGENTS = {
     id: "parking", title: "ACCESS & PARKING", icon: Car, color: "#FCD34D",
     functions: [
       { 
-        id: "prk_1", name: "SMART PARKING TURNOVER", desc: "STRAIN <5%",
-        stats: [{ label: 'ZONES', value: '13', color: '#ff4444' }, { label: 'OPTIMIZED', value: '52', color: '#FCD34D' }]
+        id: "prk_1", name: "URBAN ACCESSIBILITY INDEX", desc: "COMPREHENSIVE INDEX MEASURING URBAN TRANSPORT EFFICIENCY AND ACCESSIBILITY. AI ANALYZES PARKING TURNOVER, PUBLIC TRANSIT COVERAGE, LAST-MILE CONNECTIVITY, AND EV INFRASTRUCTURE TO SUPPORT VISION 2030 TRANSPORTATION GOALS.",
+        stats: [
+          { label: 'EFFICIENCY SCORE', value: '72', color: '#FCD34D' },
+          { label: 'TREND', value: '+3', color: '#00B558' },
+          { label: 'PARKING TURNOVER', value: '65pt', color: '#ff4444' },
+          { label: 'TRANSIT COVERAGE', value: '85pt', color: '#00B558' },
+          { label: 'EV INFRASTRUCTURE', value: '64pt', color: '#ff4444' }
+        ],
+        accessibilityData: {
+          score: 72,
+          trend: '+3',
+          status: 'NEEDS IMPROVEMENT',
+          dimensions: {
+            parkingTurnover: { current: 65, target: 100, gap: 35, weight: 0.30, label: 'PARKING TURNOVER' },
+            publicTransit: { current: 85, target: 100, gap: 15, weight: 0.25, label: 'PUBLIC TRANSIT' },
+            lastMile: { current: 73, target: 100, gap: 27, weight: 0.25, label: 'LAST-MILE CONNECT' },
+            evInfrastructure: { current: 64, target: 100, gap: 36, weight: 0.20, label: 'EV INFRASTRUCTURE' }
+          }
+        }
       },
       { 
         id: "prk_2", name: "EV CHARGING DENSITY", desc: "PREDICTS EV ADOPTION RATES TO SUGGEST OPTIMAL LOCATIONS FOR CHARGING HUBS.",
@@ -81,8 +98,26 @@ const OPTIMIZATION_AGENTS = {
     id: "priority", title: "PRIORITY CLASSIFIER", icon: Building, color: "#00B558",
     functions: [
       { 
-        id: "pri_1", name: "BOTTLENECK INDEX", desc: "DETECTS ADMINISTRATIVE STALLS IN ZONING APPROVALS TO TRIGGER AUTOMATED ESCALATION.",
-        stats: [{ label: 'STALLED', value: '3', color: '#ff4444' }, { label: 'RESOLVED', value: '9', color: '#00B558' }]
+        id: "pri_1", name: "PROJECT PRIORITY INDEX", desc: "AI-POWERED PRIORITY RANKING SYSTEM FOR URBAN DEVELOPMENT PROJECTS. EVALUATES BOTTLENECK IMPACT, TIME URGENCY, ROI, AND SYNERGY TO OPTIMIZE RESOURCE ALLOCATION AND ENSURE VISION 2030 TARGET ACHIEVEMENT.",
+        stats: [
+          { label: 'P0 URGENT', value: '1', color: '#ff4444' },
+          { label: 'P1 HIGH', value: '2', color: '#FCD34D' },
+          { label: 'BACKLOG', value: '3', color: '#ff4444' },
+          { label: 'AUTO-APPROVED', value: '75%', color: '#FCD34D' }
+        ],
+        priorityData: {
+          projects: [
+            { id: 'NM', name: 'New Murabba', score: 85, priority: 'P0', status: 'DELAYED', bottleneck: 92, urgency: 60, roi: 100, synergy: 87, delay: '180 days', action: '+25% WORKFORCE URGENT' },
+            { id: 'RME-PH3', name: 'Riyadh Metro PH3', score: 78, priority: 'P1', status: 'DELAYED', bottleneck: 85, urgency: 55, roi: 90, synergy: 75, delay: '120 days', action: 'ENGINEERING REVIEW' },
+            { id: 'NEOM-TL', name: 'NEOM - The Line', score: 72, priority: 'P1', status: 'AHEAD', bottleneck: 45, urgency: 70, roi: 95, synergy: 82, delay: 'On Track', action: 'PROCEED TO PHASE 2' },
+            { id: 'DG-P2', name: 'Diriyah Gate PH2', score: 68, priority: 'P2', status: 'AHEAD', bottleneck: 40, urgency: 50, roi: 88, synergy: 92, delay: 'On Track', action: 'ACCELERATE TOURISM' },
+            { id: 'RSG-P2', name: 'Red Sea Global PH2', score: 65, priority: 'P2', status: 'ON TRACK', bottleneck: 35, urgency: 45, roi: 85, synergy: 90, delay: 'On Track', action: 'SUSTAIN MOMENTUM' },
+            { id: 'QD', name: 'Qiddiya Entertainment', score: 62, priority: 'P2', status: 'ON TRACK', bottleneck: 30, urgency: 40, roi: 90, synergy: 85, delay: 'On Track', action: 'ENTERTAINMENT FOCUS' }
+          ],
+          totalBacklog: 3,
+          autoApprovalRate: 75,
+          avgApprovalTime: 45
+        }
       },
       { 
         id: "pri_2", name: "ZONING APPROVAL SPEED", desc: "AUTOMATES ROUTINE PERMIT APPROVALS WHILE FLAGGING COMPLEX CASES FOR HUMAN REVIEW.",
@@ -98,13 +133,28 @@ const OPTIMIZATION_AGENTS = {
     id: "greenery", title: "PARKS SELECTOR", icon: Sprout, color: "#00B558",
     functions: [
       { 
-        id: "grn_1", name: "GREEN SPACE PER CAPITA", desc: "IDENTIFIES OPTIMAL SITES FOR URBAN FORESTS TO MEET 'GREEN RIYADH' TARGETS.",
+        id: "grn_1", name: "GREEN SPACE COVERAGE INDEX", desc: "COMPREHENSIVE INDEX MEASURING GREEN SPACE SERVICE CAPACITY AND ACCESSIBILITY. AI IDENTIFIES OPTIMAL PARK LOCATIONS TO SUPPORT SAUDI GREEN INITIATIVE AND VISION 2030 SUSTAINABILITY TARGETS.",
         stats: [
-          { label: 'CURRENT (M²/CAPITA)', value: '1.7', color: '#FCD34D' },
-          { label: 'NEW LOCATIONS', value: '10', color: '#FCD34D' },
-          { label: 'AVG SIZE (M²)', value: '3K-10K', color: '#00B558' },
-          { label: 'COVERAGE GAIN', value: '+7%', color: '#00B558' }
-        ]
+          { label: 'COVERAGE SCORE', value: '44', color: '#ff4444' },
+          { label: 'TREND', value: '+5', color: '#00B558' },
+          { label: 'PER CAPITA', value: '11.3pt', color: '#ff4444' },
+          { label: 'ACCESSIBILITY', value: '57.8pt', color: '#FCD34D' },
+          { label: 'HEAT RELIEF', value: '70pt', color: '#00B558' }
+        ],
+        greenCoverageData: {
+          score: 44,
+          trend: '+5',
+          status: 'CRITICAL SHORTAGE',
+          dimensions: {
+            perCapita: { current: 11.3, target: 100, gap: 88.7, weight: 0.40, label: 'PER CAPITA AREA', actual: '1.7 m²' },
+            accessibility: { current: 57.8, target: 100, gap: 42.2, weight: 0.30, label: 'ACCESSIBILITY', actual: '52% coverage' },
+            heatRelief: { current: 70, target: 100, gap: 30, weight: 0.20, label: 'HEAT RELIEF', actual: '2.1°C cooling' },
+            irrigation: { current: 81.3, target: 100, gap: 18.7, weight: 0.10, label: 'IRRIGATION', actual: '65% smart' }
+          },
+          newParks: 10,
+          totalArea: '60,000 m²',
+          servicePopulation: '60,000 people'
+        }
       },
       { 
         id: "grn_2", name: "URBAN HEAT ISLAND REDUCT", desc: "PREDICTS TEMPERATURE DROPS RESULTING FROM PROPOSED CANOPY COVER INTERVENTIONS.",
@@ -120,16 +170,27 @@ const OPTIMIZATION_AGENTS = {
     id: "mobility", title: "INTERVENTION GUIDE", icon: Zap, color: "#00B558",
     functions: [
       { 
-        id: "mob_1", name: "OPTIMAL ROI", desc: "TRACKS THE AI-MONITORED TRANSITION OF UNPLANNED AREAS INTO MODERNIZED DISTRICTS.",
-        stats: [{ label: 'ROI YIELD', value: '47%', color: '#00B558' }, { label: 'TRANSITIONING', value: '34', color: '#00B558' }]
-      },
-      { 
-        id: "mob_2", name: "HERITAGE INTEGRATION", desc: "ENSURES NEW CONSTRUCTION RESPECTS THE 'VISUAL BUFFER' OF HISTORIC SITES LIKE DIRIYAH.",
-        stats: [{ label: 'CONFLICTS', value: '5', color: '#FCD34D' }, { label: 'ALIGNED', value: '12', color: '#00B558' }]
-      },
-      { 
-        id: "mob_3", name: "FACADE COMPLIANCE SCORE", desc: "COMPUTER VISION CHECKS IF BUILDING RENOVATIONS ALIGN WITH REGIONAL ARCHITECTURAL CODES.",
-        stats: [{ label: 'VIOLATIONS', value: '18', color: '#ff4444' }, { label: 'COMPLIANT', value: '92%', color: '#00B558' }]
+        id: "mob_1", name: "URBAN DEVELOPMENT POTENTIAL", desc: "COMPREHENSIVE INDEX MEASURING URBAN UPGRADE POTENTIAL BASED ON LAND USE EFFICIENCY, ACCESSIBILITY, SERVICE COVERAGE, AND INFRASTRUCTURE. AI IDENTIFIES PRIORITY INTERVENTION AREAS TO SUPPORT VISION 2030 POPULATION GROWTH TARGETS.",
+        stats: [
+          { label: 'POTENTIAL SCORE', value: '84', color: '#00B558' },
+          { label: 'STATUS', value: 'PRIORITY', color: '#FCD34D' },
+          { label: 'ACCESSIBILITY GAP', value: '27pt', color: '#ff4444' },
+          { label: 'SERVICE GAP', value: '25pt', color: '#ff4444' },
+          { label: 'EFFICIENCY GAP', value: '15pt', color: '#FCD34D' }
+        ],
+        potentialData: {
+          score: 84,
+          status: 'PRIORITY UPGRADE',
+          dimensions: {
+            accessibility: { current: 73, target: 100, gap: 27, weight: 0.25 },
+            service: { current: 75, target: 100, gap: 25, weight: 0.25 },
+            efficiency: { current: 85, target: 100, gap: 15, weight: 0.30 },
+            infrastructure: { current: 98, target: 100, gap: 2, weight: 0.20 }
+          },
+          demandIntensity: 1.56,
+          populationDensity: 125,
+          growthTarget: '150K → 250K'
+        }
       }
     ]
   }
@@ -161,72 +222,97 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
   const [isHoveringInfo, setIsHoveringInfo] = useState(false);
   const rgbColor = color === '#FCD34D' ? '252,211,77' : color === '#3b82f6' ? '59,130,246' : color === '#ff4444' ? '255,68,68' : '0,181,88';
   
-  if (item.id === 'zon_1') {
-    const radarData = [
-      { subject: 'RESIDENTIAL', A: 80, B: 60, fullMark: 100 },
-      { subject: 'COMMERCIAL', A: 50, B: 70, fullMark: 100 },
-      { subject: 'SERVICE', A: 60, B: 80, fullMark: 100 },
-      { subject: 'PUBLIC', A: 40, B: 50, fullMark: 100 },
-      { subject: 'GREEN', A: 70, B: 60, fullMark: 100 },
-      { subject: 'MIXED', A: 50, B: 50, fullMark: 100 },
+  // ZONING MIX ADVISOR - LAND USE BALANCE INDEX (zon_1) - 简洁专业
+  if (item.id === 'zon_1' && item.balanceData) {
+    const { score, trend, targets, actual } = item.balanceData;
+    
+    // 计算各用途偏差
+    const categories = [
+      { name: 'RESIDENTIAL', target: targets.residential, actual: actual.residential, gap: actual.residential - targets.residential },
+      { name: 'COMMERCIAL', target: targets.commercial, actual: actual.commercial, gap: actual.commercial - targets.commercial },
+      { name: 'SERVICE', target: targets.service, actual: actual.service, gap: actual.service - targets.service },
+      { name: 'GREEN', target: targets.green, actual: actual.green, gap: actual.green - targets.green },
     ];
+    
+    // 评分颜色
+    const scoreColor = score >= 85 ? '#00B558' : score >= 70 ? '#FCD34D' : '#ff4444';
+
     return (
       <div 
         onClick={onClick}
-        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-2.5 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
         style={{ borderColor: isActive ? color : `${color}40` }}
       >
          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
-         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-1">
-           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[14px] w-[80%]`} style={{ color }}>{item.name}</h4>
-           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-3.5 h-3.5" style={{ color }} /></div>
+         
+         {/* Header */}
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-2">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
          </div>
-         <div className="relative w-full flex-1 flex mt-1 z-10 min-h-[40px] gap-2">
-            <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-               <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         
+         {/* Info Overlay */}
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         </div>
+         
+         <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+            {/* Core Score */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[52px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 30px ${scoreColor}70` }}>{score}</span>
+                  <span className="text-[16px] text-gray-500 font-bold">/100</span>
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-[#00B558]/15 border border-[#00B558]/40">
+                    <span className="text-[#00B558] text-[11px] font-black">{trend}</span>
+                  </div>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase">vs 2025</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
+                <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
+                  {score >= 85 ? 'HEALTHY' : score >= 70 ? 'NEEDS ATTENTION' : 'CRITICAL'}
+                </div>
+              </div>
             </div>
             
-            {/* Chart Area */}
-            <div className={`w-[55%] flex flex-col items-center justify-center transition-opacity duration-300 relative ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
-                <div className="w-full flex-1 min-h-[100px] relative -ml-2">
-                   <ResponsiveContainer width="100%" height="100%">
-                     <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
-                       <PolarGrid stroke="#334155" />
-                       <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 7, fontWeight: 'bold', fontFamily: 'inherit', letterSpacing: '0.05em' }} />
-                       <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                       <Tooltip 
-                         contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-                         formatter={(value: number, name: string) => [`${value}%`, name]}
-                       />
-                       <Radar name="Current" dataKey="A" stroke="#00B558" strokeWidth={1.5} fill="#00B558" fillOpacity={0.3} />
-                       <Radar name="Target" dataKey="B" stroke="#ff4444" strokeWidth={1.5} fill="#ff4444" fillOpacity={0.2} />
-                     </RadarChart>
-                   </ResponsiveContainer>
-                </div>
-                <div className="flex items-center gap-4 mt-1 text-[9px] font-bold tracking-wider">
-                  <div className="flex items-center gap-1"><div className="w-2 h-2 border border-[#00B558] bg-[#00B558]/30"></div><span className="text-[#00B558]">CURRENT</span></div>
-                  <div className="flex items-center gap-1"><div className="w-2 h-2 border border-[#ff4444] bg-[#ff4444]/30"></div><span className="text-[#ff4444]">TARGET</span></div>
-                </div>
-            </div>
-
-            {/* Stats Area */}
-            <div className={`w-[45%] flex flex-col justify-center gap-1 transition-opacity duration-300 relative ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
-                {item.stats.slice(0, 2).map((stat: any, idx: number) => (
-                    <div key={idx} className="flex flex-col">
-                        <span className="text-slate-500 font-bold tracking-wider text-[8px] uppercase leading-tight mb-[1px]">{stat.label}</span>
-                        <span className="font-black tracking-widest text-[14px] leading-tight" style={{ color: stat.color || color, textShadow: `0 0 10px ${stat.color}60` }}>{stat.value}</span>
+            {/* All Categories with Target vs Actual */}
+            <div className="flex-1 flex flex-col justify-center gap-2.5">
+              {categories.map((cat, idx) => {
+                const barWidth = (cat.actual / 50) * 100; // max 50%
+                const targetWidth = (cat.target / 50) * 100;
+                const gapColor = Math.abs(cat.gap) >= 5 ? '#ff4444' : Math.abs(cat.gap) >= 3 ? '#FCD34D' : '#00B558';
+                
+                return (
+                  <div key={idx} className="flex flex-col gap-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">{cat.name}</span>
+                      <span className={`text-[11px] font-black ${Math.abs(cat.gap) >= 5 ? 'text-[#ff4444]' : Math.abs(cat.gap) >= 3 ? 'text-[#FCD34D]' : 'text-[#00B558]'}`}>
+                        {cat.gap > 0 ? '+' : ''}{cat.gap}%
+                      </span>
                     </div>
-                ))}
-                <div className="h-[1px] w-full bg-slate-800/50 my-[2px]"></div>
-                <div className="flex flex-col gap-0.5">
-                  {item.stats.slice(2).map((stat: any, idx: number) => (
-                      <div key={idx} className="flex justify-between items-center w-full">
-                          <span className="text-slate-500 font-bold tracking-wider text-[8px] uppercase">{stat.label}</span>
-                          <span className="font-black tracking-widest text-[10px]" style={{ color: stat.color }}>{stat.value}</span>
+                    <div className="relative h-4 bg-[#0f172a]/50 rounded overflow-hidden">
+                      {/* Target marker */}
+                      <div className="absolute top-0 bottom-0 w-0.5 bg-gray-500 z-10" style={{ left: `${targetWidth}%` }} />
+                      {/* Actual bar */}
+                      <div className="h-full rounded transition-all" style={{ 
+                        width: `${barWidth}%`, 
+                        backgroundColor: gapColor,
+                        opacity: 0.8
+                      }} />
+                      {/* Labels */}
+                      <div className="absolute inset-0 flex items-center justify-between px-2">
+                        <span className="text-[9px] text-white font-bold">{cat.actual}%</span>
+                        <span className="text-[9px] text-gray-500 font-bold">{cat.target}%</span>
                       </div>
-                  ))}
-                </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
          </div>
       </div>
@@ -234,7 +320,389 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
   }
 
   const primaryStat = item.stats[0];
-  const isListLayout = item.id.startsWith('zon') || item.id.startsWith('mob') || item.id === 'grn_1';
+  // INTERVENTION GUIDE - URBAN DEVELOPMENT POTENTIAL (mob_1) - 干预优先级决策
+  if (item.id === 'mob_1' && item.potentialData) {
+    const { score, status, dimensions, demandIntensity, growthTarget } = item.potentialData;
+    
+    // 评分颜色（越高越需要干预）
+    const scoreColor = score >= 85 ? '#ff4444' : score >= 70 ? '#FCD34D' : '#00B558';
+    
+    // 干预优先级列表
+    const interventions = [
+      { priority: 'P0', action: 'TRAFFIC SYSTEM UPGRADE', investment: '500M SAR', impact: '-8min commute', roi: 'HIGH' },
+      { priority: 'P1', action: 'SERVICE FACILITIES', investment: '300M SAR', impact: '+12% coverage', roi: 'MEDIUM' },
+      { priority: 'P2', action: 'LAND USE OPTIMIZATION', investment: '100M SAR', impact: '+15% efficiency', roi: 'MEDIUM' }
+    ];
+
+    return (
+      <div 
+        onClick={onClick}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        style={{ borderColor: isActive ? color : `${color}40` }}
+      >
+         <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
+         <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
+         
+         {/* Header */}
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-3">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
+         </div>
+         
+         {/* Info Overlay */}
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         </div>
+         
+         <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+            {/* Top Summary */}
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/50">
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col">
+                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">POTENTIAL INDEX</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-[32px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 20px ${scoreColor}70` }}>{score}</span>
+                    <span className="text-[11px] text-gray-500 font-bold">/100</span>
+                  </div>
+                </div>
+                <div className="flex flex-col items-start px-2 py-1 rounded bg-[#FCD34D]/10 border border-[#FCD34D]/30">
+                  <span className="text-[8px] text-gray-500 font-bold uppercase">DEMAND</span>
+                  <span className="text-[11px] text-[#FCD34D] font-black">{demandIntensity}x</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">POPULATION GROWTH</div>
+                <div className="text-[13px] font-black text-[#00B558]">{growthTarget}</div>
+              </div>
+            </div>
+            
+            {/* Intervention Priority List */}
+            <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-auto">
+              <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-1">INTERVENTION PRIORITIES</div>
+              
+              {interventions.map((intv, idx) => {
+                const priorityColor = intv.priority === 'P0' ? '#ff4444' : intv.priority === 'P1' ? '#FCD34D' : '#00B558';
+                const roiColor = intv.roi === 'HIGH' ? '#00B558' : '#FCD34D';
+                
+                return (
+                  <div key={idx} className="flex items-center gap-2 p-2 rounded bg-[#0f172a]/30 border border-slate-700/30 hover:bg-[#0f172a]/50 transition-colors">
+                    {/* Priority Badge */}
+                    <div className="flex-shrink-0 w-8 h-8 rounded flex items-center justify-center font-black text-[11px]" style={{ backgroundColor: `${priorityColor}20`, color: priorityColor, border: `1px solid ${priorityColor}50` }}>
+                      {intv.priority}
+                    </div>
+                    
+                    {/* Action & Impact */}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] text-white font-bold uppercase tracking-wide truncate">{intv.action}</div>
+                      <div className="text-[9px] text-[#00B558] font-bold">{intv.impact}</div>
+                    </div>
+                    
+                    {/* Investment & ROI */}
+                    <div className="flex flex-col items-end flex-shrink-0">
+                      <div className="text-[10px] text-gray-300 font-bold">{intv.investment}</div>
+                      <div className="text-[8px] font-black uppercase" style={{ color: roiColor }}>ROI: {intv.roi}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Bottom Stats */}
+            <div className="mt-3 pt-3 border-t border-slate-700/50 grid grid-cols-2 gap-2">
+              <div className="flex flex-col">
+                <span className="text-[8px] text-gray-500 font-bold uppercase">TOTAL INVESTMENT</span>
+                <span className="text-[13px] text-white font-black">900M SAR</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[8px] text-gray-500 font-bold uppercase">TIMELINE</span>
+                <span className="text-[13px] text-white font-black">2026 Q4 - 2028</span>
+              </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
+
+  // ACCESS & PARKING - URBAN ACCESSIBILITY INDEX (prk_1) - 雷达图展示
+  if (item.id === 'prk_1' && item.accessibilityData) {
+    const { score, trend, status, dimensions } = item.accessibilityData;
+    
+    // 评分颜色
+    const scoreColor = score >= 85 ? '#00B558' : score >= 70 ? '#FCD34D' : '#ff4444';
+    
+    // 雷达图数据
+    const radarData = Object.entries(dimensions).map(([key, val]: [string, any]) => ({
+      dimension: val.label,
+      value: val.current,
+      fullMark: 100
+    }));
+
+    return (
+      <div 
+        onClick={onClick}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        style={{ borderColor: isActive ? color : `${color}40` }}
+      >
+         <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
+         <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
+         
+         {/* Header */}
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-2">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
+         </div>
+         
+         {/* Info Overlay */}
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         </div>
+         
+         <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+            {/* Core Score */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[48px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 30px ${scoreColor}70` }}>{score}</span>
+                  <span className="text-[14px] text-gray-500 font-bold">/100</span>
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-[#00B558]/15 border border-[#00B558]/40">
+                    <span className="text-[#00B558] text-[10px] font-black">{trend}</span>
+                  </div>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase">vs 2025</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <div className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
+                <div className="text-[10px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
+                  {score >= 85 ? 'EXCELLENT' : score >= 70 ? 'GOOD' : score >= 50 ? 'NEEDS IMPROVEMENT' : 'CRITICAL'}
+                </div>
+              </div>
+            </div>
+            
+            {/* Radar Chart */}
+            <div className="flex-1 min-h-0 flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData}>
+                  <PolarGrid stroke="#334155" />
+                  <PolarAngleAxis dataKey="dimension" tick={{ fill: '#94a3b8', fontSize: 9, fontWeight: 'bold' }} />
+                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 8 }} />
+                  <Radar name="Current" dataKey="value" stroke={color} fill={color} fillOpacity={0.3} strokeWidth={2} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+            
+            {/* Dimension Bars */}
+            <div className="mt-3 pt-3 border-t border-slate-700/50 grid grid-cols-2 gap-2">
+              {Object.entries(dimensions).slice(0, 4).map(([key, dim]: [string, any]) => {
+                const dimColor = dim.current >= 85 ? '#00B558' : dim.current >= 70 ? '#FCD34D' : '#ff4444';
+                return (
+                  <div key={key} className="flex flex-col">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-[8px] text-gray-500 font-bold uppercase">{dim.label}</span>
+                      <span className="text-[10px] font-black" style={{ color: dimColor }}>{dim.current}pt</span>
+                    </div>
+                    <div className="h-1.5 bg-[#1e293b] rounded-full overflow-hidden">
+                      <div className="h-full rounded-full transition-all" style={{ width: `${dim.current}%`, backgroundColor: dimColor }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+         </div>
+      </div>
+    );
+  }
+
+  // PARKS SELECTOR - GREEN SPACE COVERAGE INDEX (grn_1) - 维度展示
+  if (item.id === 'grn_1' && item.greenCoverageData) {
+    const { score, trend, status, dimensions, newParks, totalArea, servicePopulation } = item.greenCoverageData;
+    
+    // 评分颜色（绿地严重不足）
+    const scoreColor = score >= 85 ? '#00B558' : score >= 70 ? '#FCD34D' : score >= 50 ? '#FCD34D' : '#ff4444';
+
+    return (
+      <div 
+        onClick={onClick}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        style={{ borderColor: isActive ? color : `${color}40` }}
+      >
+         <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
+         <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
+         
+         {/* Header */}
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-2 flex-shrink-0">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
+         </div>
+         
+         {/* Info Overlay */}
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         </div>
+         
+         <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+            {/* Core Score */}
+            <div className="flex items-start justify-between mb-2 flex-shrink-0">
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[36px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 30px ${scoreColor}70` }}>{score}</span>
+                  <span className="text-[12px] text-gray-500 font-bold">/100</span>
+                </div>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#00B558]/15 border border-[#00B558]/40">
+                    <span className="text-[#00B558] text-[9px] font-black">{trend}</span>
+                  </div>
+                  <span className="text-[8px] text-gray-400 font-bold uppercase">vs 2025</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-0.5">
+                <div className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
+                <div className="text-[9px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
+                  {score >= 85 ? 'EXCELLENT' : score >= 70 ? 'GOOD' : score >= 50 ? 'INSUFFICIENT' : 'CRITICAL'}
+                </div>
+              </div>
+            </div>
+            
+            {/* Dimension Bars */}
+            <div className="flex-1 flex flex-col gap-1.5 min-h-0 overflow-auto">
+              {Object.entries(dimensions).map(([key, dim]: [string, any]) => {
+                const dimColor = dim.current >= 85 ? '#00B558' : dim.current >= 70 ? '#FCD34D' : '#ff4444';
+                return (
+                  <div key={key} className="flex flex-col gap-0.5 flex-shrink-0">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[8px] text-gray-400 font-bold uppercase tracking-wide">{dim.label}</span>
+                      <span className="text-[9px] font-black" style={{ color: dimColor }}>{dim.actual}</span>
+                    </div>
+                    <div className="relative h-2.5 bg-[#0f172a]/50 rounded overflow-hidden flex-shrink-0">
+                      <div className="h-full rounded transition-all" style={{ 
+                        width: `${dim.current}%`, 
+                        backgroundColor: dimColor,
+                        opacity: 0.8
+                      }} />
+                      <div className="absolute inset-0 flex items-center justify-end px-1.5">
+                        <span className="text-[8px] text-white font-bold">{dim.current}pt</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Bottom Info */}
+            <div className="mt-2 pt-2 border-t border-slate-700/50 grid grid-cols-3 gap-1.5 flex-shrink-0">
+              <div className="flex flex-col">
+                <span className="text-[7px] text-gray-500 font-bold uppercase">NEW PARKS</span>
+                <span className="text-[11px] text-white font-black">{newParks} sites</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[7px] text-gray-500 font-bold uppercase">TOTAL AREA</span>
+                <span className="text-[11px] text-white font-black">{totalArea}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[7px] text-gray-500 font-bold uppercase">SERVICE</span>
+                <span className="text-[11px] text-white font-black">{servicePopulation}</span>
+              </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
+
+  // PRIORITY CLASSIFIER - PROJECT PRIORITY INDEX (pri_1) - 项目优先级列表
+  if (item.id === 'pri_1' && item.priorityData) {
+    const { projects, totalBacklog, autoApprovalRate, avgApprovalTime } = item.priorityData;
+    
+    return (
+      <div 
+        onClick={onClick}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        style={{ borderColor: isActive ? color : `${color}40` }}
+      >
+         <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
+         <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
+         
+         {/* Header */}
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-2">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
+         </div>
+         
+         {/* Info Overlay */}
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         </div>
+         
+         <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
+            {/* Top Summary */}
+            <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-700/50">
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col">
+                  <span className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">BACKLOG</span>
+                  <span className="text-[20px] font-black leading-none text-[#ff4444]">{totalBacklog}</span>
+                </div>
+                <div className="flex flex-col items-start px-1.5 py-0.5 rounded bg-[#00B558]/10 border border-[#00B558]/30">
+                  <span className="text-[6px] text-gray-500 font-bold uppercase">AUTO-APPROVED</span>
+                  <span className="text-[9px] text-[#00B558] font-black">{autoApprovalRate}%</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">AVG TIME</div>
+                <div className="text-[11px] font-black text-white">{avgApprovalTime} days</div>
+              </div>
+            </div>
+            
+            {/* Project Priority List */}
+            <div className="flex-1 flex flex-col gap-1 min-h-0 overflow-auto">
+              <div className="text-[7px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">PROJECT RANKING</div>
+              
+              {projects.map((project, idx) => {
+                const priorityColor = project.priority === 'P0' ? '#ff4444' : project.priority === 'P1' ? '#FCD34D' : '#00B558';
+                
+                return (
+                  <div key={idx} className="flex items-center gap-1.5 p-1.5 rounded bg-[#0f172a]/30 border border-slate-700/30 hover:bg-[#0f172a]/50 transition-colors">
+                    {/* Priority Badge */}
+                    <div className="flex-shrink-0 w-6 h-6 rounded flex items-center justify-center font-black text-[9px]" style={{ backgroundColor: `${priorityColor}20`, color: priorityColor, border: `1px solid ${priorityColor}50` }}>
+                      {project.priority}
+                    </div>
+                    
+                    {/* Project Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[8px] text-white font-bold uppercase tracking-wide truncate">{project.id}</span>
+                        <span className={`text-[6px] px-1 py-0.5 rounded font-bold ${project.status === 'DELAYED' ? 'bg-[#ff4444]/20 text-[#ff4444]' : 'bg-[#00B558]/20 text-[#00B558]'}`}>
+                          {project.status}
+                        </span>
+                      </div>
+                      <div className="text-[7px] text-gray-400 font-bold uppercase">{project.delay}</div>
+                    </div>
+                    
+                    {/* Score */}
+                    <div className="flex flex-col items-end flex-shrink-0">
+                      <span className="text-[12px] font-black" style={{ color: priorityColor }}>{project.score}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Bottom Stats */}
+            <div className="mt-1.5 pt-1.5 border-t border-slate-700/50 grid grid-cols-2 gap-1.5">
+              <div className="flex flex-col">
+                <span className="text-[6px] text-gray-500 font-bold uppercase">P0 URGENT ACTION</span>
+                <span className="text-[8px] text-[#ff4444] font-black truncate">New Murabba: +25% workforce</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[6px] text-gray-500 font-bold uppercase">P1 FOCUS</span>
+                <span className="text-[8px] text-[#FCD34D] font-black truncate">Metro PH3: Engineering review</span>
+              </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
+
+  const isListLayout = item.id === 'grn_1';
 
   const renderMiniChart = () => {
     const chartClass = isListLayout 
@@ -588,31 +1056,13 @@ export default function Optimization() {
       {/* LEFT SIDEBAR */}
       <motion.div initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pr-4 pointer-events-auto">
         <WidgetPanel title={OPTIMIZATION_AGENTS.greenery.title} icon={<OPTIMIZATION_AGENTS.greenery.icon className="w-5 h-5" color={OPTIMIZATION_AGENTS.greenery.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.65] min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.greenery.functions[0]} color={OPTIMIZATION_AGENTS.greenery.color} isActive={activeMetric === OPTIMIZATION_AGENTS.greenery.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.greenery.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.35] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={OPTIMIZATION_AGENTS.greenery.functions[1]} color={OPTIMIZATION_AGENTS.greenery.color} isActive={activeMetric === OPTIMIZATION_AGENTS.greenery.functions[1].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.greenery.functions[1].id)} layout="half" />
-               <FunctionCard item={OPTIMIZATION_AGENTS.greenery.functions[2]} color={OPTIMIZATION_AGENTS.greenery.color} isActive={activeMetric === OPTIMIZATION_AGENTS.greenery.functions[2].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.greenery.functions[2].id)} layout="half" />
-            </div>
-          </div>
+          <div className="h-full w-full"><FunctionCard item={OPTIMIZATION_AGENTS.greenery.functions[0]} color={OPTIMIZATION_AGENTS.greenery.color} isActive={activeMetric === OPTIMIZATION_AGENTS.greenery.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.greenery.functions[0].id)} layout="full" /></div>
         </WidgetPanel>
         <WidgetPanel title={OPTIMIZATION_AGENTS.parking.title} icon={<OPTIMIZATION_AGENTS.parking.icon className="w-5 h-5" color={OPTIMIZATION_AGENTS.parking.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.65] min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.parking.functions[0]} color={OPTIMIZATION_AGENTS.parking.color} isActive={activeMetric === OPTIMIZATION_AGENTS.parking.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.parking.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.35] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={OPTIMIZATION_AGENTS.parking.functions[1]} color={OPTIMIZATION_AGENTS.parking.color} isActive={activeMetric === OPTIMIZATION_AGENTS.parking.functions[1].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.parking.functions[1].id)} layout="half" />
-               <FunctionCard item={OPTIMIZATION_AGENTS.parking.functions[2]} color={OPTIMIZATION_AGENTS.parking.color} isActive={activeMetric === OPTIMIZATION_AGENTS.parking.functions[2].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.parking.functions[2].id)} layout="half" />
-            </div>
-          </div>
+          <div className="h-full w-full"><FunctionCard item={OPTIMIZATION_AGENTS.parking.functions[0]} color={OPTIMIZATION_AGENTS.parking.color} isActive={activeMetric === OPTIMIZATION_AGENTS.parking.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.parking.functions[0].id)} layout="full" /></div>
         </WidgetPanel>
         <WidgetPanel title={OPTIMIZATION_AGENTS.priority.title} icon={<OPTIMIZATION_AGENTS.priority.icon className="w-5 h-5" color={OPTIMIZATION_AGENTS.priority.color}/>} className="flex-1 min-h-0">
-          <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.65] min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.priority.functions[0]} color={OPTIMIZATION_AGENTS.priority.color} isActive={activeMetric === OPTIMIZATION_AGENTS.priority.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.priority.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.35] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={OPTIMIZATION_AGENTS.priority.functions[1]} color={OPTIMIZATION_AGENTS.priority.color} isActive={activeMetric === OPTIMIZATION_AGENTS.priority.functions[1].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.priority.functions[1].id)} layout="half" />
-               <FunctionCard item={OPTIMIZATION_AGENTS.priority.functions[2]} color={OPTIMIZATION_AGENTS.priority.color} isActive={activeMetric === OPTIMIZATION_AGENTS.priority.functions[2].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.priority.functions[2].id)} layout="half" />
-            </div>
-          </div>
+          <div className="h-full w-full"><FunctionCard item={OPTIMIZATION_AGENTS.priority.functions[0]} color={OPTIMIZATION_AGENTS.priority.color} isActive={activeMetric === OPTIMIZATION_AGENTS.priority.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.priority.functions[0].id)} layout="full" /></div>
         </WidgetPanel>
       </motion.div>
 
@@ -640,20 +1090,12 @@ export default function Optimization() {
       <motion.div initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-20 w-[420px] flex flex-col gap-4 pt-2 h-full min-h-0 overflow-hidden pl-4 pointer-events-auto">
         <WidgetPanel title={OPTIMIZATION_AGENTS.zoning.title} icon={<OPTIMIZATION_AGENTS.zoning.icon className="w-5 h-5" color={OPTIMIZATION_AGENTS.zoning.color}/>} className="flex-1 min-h-0">
           <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.65] min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.zoning.functions[0]} color={OPTIMIZATION_AGENTS.zoning.color} isActive={activeMetric === OPTIMIZATION_AGENTS.zoning.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.zoning.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.35] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={OPTIMIZATION_AGENTS.zoning.functions[1]} color={OPTIMIZATION_AGENTS.zoning.color} isActive={activeMetric === OPTIMIZATION_AGENTS.zoning.functions[1].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.zoning.functions[1].id)} layout="half" />
-               <FunctionCard item={OPTIMIZATION_AGENTS.zoning.functions[2]} color={OPTIMIZATION_AGENTS.zoning.color} isActive={activeMetric === OPTIMIZATION_AGENTS.zoning.functions[2].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.zoning.functions[2].id)} layout="half" />
-            </div>
+            <div className="flex-1 min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.zoning.functions[0]} color={OPTIMIZATION_AGENTS.zoning.color} isActive={activeMetric === OPTIMIZATION_AGENTS.zoning.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.zoning.functions[0].id)} layout="full" /></div>
           </div>
         </WidgetPanel>
         <WidgetPanel title={OPTIMIZATION_AGENTS.mobility.title} icon={<OPTIMIZATION_AGENTS.mobility.icon className="w-5 h-5" color={OPTIMIZATION_AGENTS.mobility.color}/>} className="flex-1 min-h-0">
           <div className="flex flex-col gap-2 h-full">
-            <div className="flex-[0.65] min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.mobility.functions[0]} color={OPTIMIZATION_AGENTS.mobility.color} isActive={activeMetric === OPTIMIZATION_AGENTS.mobility.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.mobility.functions[0].id)} layout="full" /></div>
-            <div className="flex-[0.35] min-h-0 w-full grid grid-cols-2 gap-2">
-               <FunctionCard item={OPTIMIZATION_AGENTS.mobility.functions[1]} color={OPTIMIZATION_AGENTS.mobility.color} isActive={activeMetric === OPTIMIZATION_AGENTS.mobility.functions[1].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.mobility.functions[1].id)} layout="half" />
-               <FunctionCard item={OPTIMIZATION_AGENTS.mobility.functions[2]} color={OPTIMIZATION_AGENTS.mobility.color} isActive={activeMetric === OPTIMIZATION_AGENTS.mobility.functions[2].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.mobility.functions[2].id)} layout="half" />
-            </div>
+            <div className="flex-1 min-h-0 w-full"><FunctionCard item={OPTIMIZATION_AGENTS.mobility.functions[0]} color={OPTIMIZATION_AGENTS.mobility.color} isActive={activeMetric === OPTIMIZATION_AGENTS.mobility.functions[0].id} onClick={() => handleMetricClick(OPTIMIZATION_AGENTS.mobility.functions[0].id)} layout="full" /></div>
           </div>
         </WidgetPanel>
       </motion.div>
