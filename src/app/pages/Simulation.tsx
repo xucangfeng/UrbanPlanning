@@ -55,9 +55,11 @@ const AGENTS: AgentDef[] = [
   {
     id: "EF", name: "Economic and Financial Analyzer Agent", color: "#3b82f6",
     indicators: [
-      { id: "EF-1", name: "Non-Oil GDP Contribution", desc: "Tracks real estate's impact on diversifying the national economy.", current: 35, target: 45, unit: "%", aiRole: "Fiscal Alert" },
-      { id: "EF-2", name: "Foreign FDI in Urban", desc: "Predicts investor sentiment to suggest the best time for land auctions.", current: 245, target: 500, unit: "SAR B", aiRole: "Market Sentiment" },
-      { id: "EF-3", name: "Job Creation Potential", desc: "Correlates zoning with industry growth to forecast local employment.", current: 520, target: 800, unit: "K Jobs", aiRole: "Economic AI" },
+      { id: "EF-1", name: "Project IRR", desc: "Internal Rate of Return for the neighbourhood development. Accounts for construction, land, infrastructure, and mixed-use revenue.", current: 8, target: 18, unit: "%", aiRole: "IRR Model" },
+      { id: "EF-2", name: "Fiscal Self-Sufficiency", desc: "% of neighbourhood costs covered by locally-generated revenue (property fees, rents, parking).", current: 25, target: 75, unit: "%", aiRole: "Revenue AI" },
+      { id: "EF-3", name: "Funding Gap", desc: "Unfunded infrastructure deficit. Reduced by PPP, land value capture, and developer contributions.", current: 12, target: 3, unit: "SAR B", aiRole: "Finance AI", inverse: true },
+      { id: "EF-4", name: "Job-Housing Balance", desc: "Ratio of jobs to housing units. 1.0 = equilibrium. Mixed-use and anchor tenants drive this up.", current: 0.6, target: 1.2, unit: "Ratio", aiRole: "Planning AI" },
+      { id: "EF-5", name: "Private Investment Leverage", desc: "SAR private capital per SAR public. Higher = more attractive market conditions.", current: 1.8, target: 4.5, unit: "×", aiRole: "Market AI" },
     ],
   },
   {
@@ -252,9 +254,11 @@ const SO_BAR_BASE = [
   { n: "Equity", cur: 88, tgt: 100 },
 ];
 const EF_BAR_BASE = [
-  { n: "GDP %", cur: 35, tgt: 45 },
-  { n: "FDI (B)", cur: 245, tgt: 500 },
-  { n: "Jobs (K)", cur: 520, tgt: 800 },
+  { n: "IRR", cur: 8, tgt: 18 },
+  { n: "Self-Suff.", cur: 25, tgt: 75 },
+  { n: "Gap (B)", cur: 12, tgt: 3 },
+  { n: "Job-Hous.", cur: 0.6, tgt: 1.2 },
+  { n: "Leverage", cur: 1.8, tgt: 4.5 },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────
@@ -551,45 +555,140 @@ function SOContent({ params }: { params: SOParams }) {
   );
 }
 
-// ─── EF Content ───────────────────────────────────────────────
+// ─── EF Content — Economic & Financial Simulation ─────────────
 function EFContent({ params }: { params: EFParams }) {
   const a = AGENTS[3];
-  const values = useMemo(() => [
-    mul(35, params.diversificationRate * 0.4 + 0.6),
-    mul(245, params.fdiAttraction),
-    mul(520, params.jobGrowth),
-  ], [params]);
 
-  const barData = useMemo(() => EF_BAR_BASE.map((d, i) => ({
-    n: d.n,
-    current: d.cur,
-    simulated: values[i],
-  })), [values]);
+  // Economic model calculations
+  const metrics = useMemo(() => {
+    const { mixedUseRatio, pppShare, farBonus, landValueCapture, anchorIncentive } = params;
+    const mixedGain = (mixedUseRatio - 15) / 45; // 0 → 1
+    const pppGain = (pppShare - 20) / 50;
+    const farGain = farBonus / 30;
+    const lvcGain = (landValueCapture - 5) / 35;
+    const anchorGain = anchorIncentive / 50;
 
-  // Normalize for display
-  const displayData = useMemo(() => barData.map((d, i) => ({
-    n: d.n,
-    current: (EF_BAR_BASE[i].cur / EF_BAR_BASE[i].tgt) * 100,
-    simulated: (d.simulated / EF_BAR_BASE[i].tgt) * 100,
-  })), [barData]);
+    // IRR: mixed-use boosts revenue, PPP reduces cost, FAR adds density revenue
+    const irr = parseFloat((8 + mixedGain * 4.5 + pppGain * 2.5 + farGain * 2.0 + lvcGain * 0.5 + anchorGain * 0.5).toFixed(1));
+    // Self-sufficiency: mixed-use generates local revenue, LVC captures value
+    const selfSuff = Math.min(85, Math.round(25 + mixedGain * 25 + lvcGain * 15 + farGain * 8 + anchorGain * 7));
+    // Funding gap: PPP fills gap, LVC and FAR contribute
+    const gap = parseFloat(Math.max(1.5, 12 - pppGain * 4.0 - lvcGain * 2.5 - farGain * 1.5 - mixedGain * 0.8).toFixed(1));
+    // Job-housing: mixed-use and anchor tenants drive up
+    const jobHousing = parseFloat(Math.min(1.4, 0.6 + mixedGain * 0.30 + anchorGain * 0.25 + farGain * 0.10).toFixed(2));
+    // Leverage: PPP and incentives attract private capital
+    const leverage = parseFloat(Math.min(5.5, 1.8 + pppGain * 1.2 + anchorGain * 0.8 + mixedGain * 0.4 + farGain * 0.3).toFixed(1));
+
+    return { irr, selfSuff, gap, jobHousing, leverage };
+  }, [params]);
+
+  const values = [metrics.irr, metrics.selfSuff, metrics.gap, metrics.jobHousing, metrics.leverage];
+
+  // Funding sources breakdown (for stacked bar)
+  const fundingSources = useMemo(() => {
+    const total = 12; // Total programme cost SAR B
+    const pppAmount = (params.pppShare / 100) * total;
+    const lvcAmount = (params.landValueCapture / 100) * total * 0.6;
+    const farAmount = (params.farBonus / 100) * total * 0.4;
+    const anchorAmount = (params.anchorIncentive / 100) * total * 0.3;
+    const govAmount = Math.max(0, total - pppAmount - lvcAmount - farAmount - anchorAmount);
+    return [
+      { name: "Gov. Budget", current: 9.6, simulated: govAmount, color: "#64748b" },
+      { name: "PPP", current: 2.4, simulated: pppAmount, color: "#3b82f6" },
+      { name: "Land Value Capture", current: 0, simulated: lvcAmount, color: "#10b981" },
+      { name: "FAR Contrib.", current: 0, simulated: farAmount, color: "#8b5cf6" },
+      { name: "Anchor Co-invest", current: 0, simulated: anchorAmount, color: "#f59e0b" },
+    ];
+  }, [params]);
+
+  const fundingBarData = useMemo(() => ([
+    { label: "Current", ...Object.fromEntries(fundingSources.map(s => [s.name, s.current])) },
+    { label: "Simulated", ...Object.fromEntries(fundingSources.map(s => [s.name, s.simulated])) },
+  ]), [fundingSources]);
+
+  const hasChanges = params.mixedUseRatio > 15 || params.pppShare > 20 || params.farBonus > 0 || params.landValueCapture > 5 || params.anchorIncentive > 0;
 
   return (
     <>
-      <div className="flex-1 min-h-0 bg-[#070d07]/60 rounded border border-[#3b82f6]/10 p-1">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={displayData} margin={{ top: 2, right: 4, left: -22, bottom: 0 }}>
-            <CartesianGrid stroke="#0a1a0a" strokeDasharray="3 3" />
-            <XAxis dataKey="n" tick={{ fontSize: 9, fill: "#3a5a3a" }} />
-            <YAxis tick={{ fontSize: 9, fill: "#3a5a3a" }} domain={[0, 120]} />
-            <Tooltip contentStyle={{ backgroundColor: "#0a140a", border: "1px solid #3b82f630", fontSize: 9 }} />
-            <Bar dataKey="current" fill="#ffffff15" name="Current" radius={[2, 2, 0, 0]} />
-            <Bar dataKey="simulated" fill="#3b82f680" name="Simulated" radius={[2, 2, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+      {/* Top section: Gauge KPIs + Funding chart side by side */}
+      <div className="flex gap-3 flex-shrink-0">
+        {/* IRR Gauge */}
+        <div className="flex-1 flex flex-col items-center justify-center bg-[#070d07]/60 rounded border border-[#3b82f6]/15 py-3 px-2">
+          <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-1">Project IRR</span>
+          <div className="relative w-20 h-20">
+            <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#1a2f1a" strokeWidth="5" />
+              <circle cx="40" cy="40" r="32" fill="none" stroke={metrics.irr >= 12 ? "#3b82f6" : "#64748b"}
+                strokeWidth="5" strokeDasharray={`${(metrics.irr / 20) * 201} 201`} strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? '#3b82f6' : '#9ca3af' }}>{metrics.irr}%</span>
+              <span className="text-[8px] text-gray-600">Target: 18%</span>
+            </div>
+          </div>
+          <span className="text-[9px] text-gray-600 mt-1">Baseline: 8%</span>
+        </div>
+        {/* Self-Sufficiency Gauge */}
+        <div className="flex-1 flex flex-col items-center justify-center bg-[#070d07]/60 rounded border border-[#10b981]/15 py-3 px-2">
+          <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-1">Fiscal Self-Sufficiency</span>
+          <div className="relative w-20 h-20">
+            <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#1a2f1a" strokeWidth="5" />
+              <circle cx="40" cy="40" r="32" fill="none" stroke={metrics.selfSuff >= 50 ? "#10b981" : "#64748b"}
+                strokeWidth="5" strokeDasharray={`${(metrics.selfSuff / 100) * 201} 201`} strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? '#10b981' : '#9ca3af' }}>{metrics.selfSuff}%</span>
+              <span className="text-[8px] text-gray-600">Target: 75%</span>
+            </div>
+          </div>
+          <span className="text-[9px] text-gray-600 mt-1">Baseline: 25%</span>
+        </div>
+        {/* Funding Gap */}
+        <div className="flex-1 flex flex-col items-center justify-center bg-[#070d07]/60 rounded border border-[#f59e0b]/15 py-3 px-2">
+          <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-1">Funding Gap</span>
+          <div className="relative w-20 h-20">
+            <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#1a2f1a" strokeWidth="5" />
+              <circle cx="40" cy="40" r="32" fill="none" stroke={metrics.gap <= 6 ? "#10b981" : "#f59e0b"}
+                strokeWidth="5" strokeDasharray={`${((12 - metrics.gap) / 12) * 201} 201`} strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[18px] font-black tracking-tight" style={{ color: hasChanges ? (metrics.gap <= 6 ? '#10b981' : '#f59e0b') : '#9ca3af' }}>{metrics.gap}B</span>
+              <span className="text-[8px] text-gray-600">Target: ≤3B</span>
+            </div>
+          </div>
+          <span className="text-[9px] text-gray-600 mt-1">Baseline: 12B SAR</span>
+        </div>
       </div>
-      {a.indicators.map((ind, i) => (
-        <IndicatorRow key={ind.id} ind={ind} value={values[i]} color={a.color} />
-      ))}
+
+      {/* Funding sources stacked bar */}
+      <div className="flex-1 min-h-0 flex flex-col gap-1">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">Funding Sources Breakdown (SAR Billions)</span>
+          {hasChanges && <span className="text-[8px] px-1 py-[1px] rounded bg-[#3b82f6]/15 text-[#3b82f6] font-bold tracking-wider uppercase">Modified</span>}
+        </div>
+        <div className="flex-1 min-h-0 bg-[#070d07]/60 rounded border border-[#3b82f6]/10 p-2">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={fundingBarData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+              <CartesianGrid stroke="#0a1a0a" strokeDasharray="3 3" horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 10, fill: "#3a5a3a" }} domain={[0, 14]} unit=" B" />
+              <YAxis type="category" dataKey="label" tick={{ fontSize: 11, fill: "#6b7280", fontWeight: 700 }} width={75} />
+              <Tooltip contentStyle={{ backgroundColor: "#0a140a", border: "1px solid #3b82f630", fontSize: 10 }} formatter={(v: number) => `${v.toFixed(1)}B SAR`} />
+              {fundingSources.map(s => (
+                <Bar key={s.name} dataKey={s.name} stackId="a" fill={s.color} radius={0} />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Indicator rows */}
+      <div className="flex flex-col gap-0 flex-shrink-0">
+        {a.indicators.map((ind, i) => (
+          <IndicatorRow key={ind.id} ind={ind} value={values[i]} color={a.color} />
+        ))}
+      </div>
     </>
   );
 }
@@ -914,11 +1013,11 @@ export default function Simulation() {
         {/* Tab bar */}
         <div className="flex items-center gap-0 mb-1 flex-shrink-0">
           {([
-            { id: "UT" as const, agent: AGENTS[0], label: "Urban Test Agent" },
-            { id: "MI" as const, agent: AGENTS[1], label: "Mobility Intelligence" },
-            { id: "SO" as const, agent: AGENTS[2], label: "Strategic Optimization" },
-            { id: "EF" as const, agent: AGENTS[3], label: "Economic Forecasting" },
-            { id: "ER" as const, agent: AGENTS[4], label: "Environmental & Resilience" },
+            { id: "UT" as const, agent: AGENTS[0], label: "Urban Test Agent", ready: true },
+            { id: "EF" as const, agent: AGENTS[3], label: "Economic Forecasting", ready: true },
+            { id: "ER" as const, agent: AGENTS[4], label: "Environmental & Resilience", ready: true },
+            { id: "MI" as const, agent: AGENTS[1], label: "Mobility Intelligence", ready: false },
+            { id: "SO" as const, agent: AGENTS[2], label: "Strategic Optimization", ready: false },
           ]).map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] uppercase border-b-2 transition-all cursor-pointer ${
@@ -929,24 +1028,43 @@ export default function Simulation() {
               style={{ color: tab.agent.color }}>
               <AgentBadge id={tab.id} color={tab.agent.color} />
               {tab.label}
+              {!tab.ready && <span className="text-[7px] px-1 py-[0.5px] rounded bg-[#ffffff08] text-gray-500 font-bold tracking-wider uppercase ml-0.5">Soon</span>}
             </button>
           ))}
           <div className="ml-auto">
-            <button onClick={() => open(activeTab)}
-              className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-sm border transition-all hover:bg-[#00B558]/10 cursor-pointer flex-shrink-0"
-              style={{ color: AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color, borderColor: `${AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color}40` }}>
-              <Settings className="w-3 h-3" />Settings
-            </button>
+            {activeTab !== "MI" && activeTab !== "SO" && (
+              <button onClick={() => open(activeTab)}
+                className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold tracking-widest uppercase rounded-sm border transition-all hover:bg-[#00B558]/10 cursor-pointer flex-shrink-0"
+                style={{ color: AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color, borderColor: `${AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color}40` }}>
+                <Settings className="w-3 h-3" />Settings
+              </button>
+            )}
           </div>
         </div>
         {/* Tab content */}
         <div className="flex-1 flex flex-col bg-[#060e06]/90 border rounded-lg overflow-hidden min-h-0 p-2 gap-1.5"
           style={{ borderColor: `${AGENTS[['UT','MI','SO','EF','ER'].indexOf(activeTab)].color}30` }}>
           {activeTab === "UT" && <UTContent params={utP} />}
-          {activeTab === "MI" && <MIContent params={miP} />}
-          {activeTab === "SO" && <SOContent params={soP} />}
           {activeTab === "EF" && <EFContent params={efP} />}
           {activeTab === "ER" && <ERContent params={erP} />}
+          {(activeTab === "MI" || activeTab === "SO") && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-4">
+              <div className="relative">
+                <div className="w-16 h-16 rounded-full border-2 border-dashed flex items-center justify-center"
+                  style={{ borderColor: `${AGENTS[activeTab === "MI" ? 1 : 2].color}30` }}>
+                  <Brain className="w-7 h-7" style={{ color: AGENTS[activeTab === "MI" ? 1 : 2].color, opacity: 0.4 }} />
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <span className="text-[14px] font-black tracking-[0.2em] uppercase text-gray-400">Coming Soon</span>
+                <span className="text-[11px] text-gray-600 max-w-[360px] text-center leading-relaxed">
+                  {activeTab === "MI"
+                    ? "The Mobility Intelligence Agent will analyse pedestrian, cycling, and transit mode share with shade and cooling intervention recommendations."
+                    : "The Strategic Optimization Agent will rank planning scenarios by sustainability, cost-benefit ratio, and social equity trade-offs."}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

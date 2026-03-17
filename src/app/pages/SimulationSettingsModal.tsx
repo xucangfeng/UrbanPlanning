@@ -6,13 +6,13 @@ import { X, RotateCcw, Play } from "lucide-react";
 export interface UTParams { additionalLanes: number; metroShift: number; signalOptimization: number; congestionPricing: number; }
 export interface MIParams { shadeInfra: number; transitExpansion: number; cyclingInvestment: number; }
 export interface SOParams { sustainabilityWeight: number; investmentScale: number; equityPriority: number; }
-export interface EFParams { diversificationRate: number; fdiAttraction: number; jobGrowth: number; }
+export interface EFParams { mixedUseRatio: number; pppShare: number; farBonus: number; landValueCapture: number; anchorIncentive: number; }
 export interface ERParams { drainageExpansion: number; greenCover: number; retentionBasins: number; buildingCode: number; coolRoof: number; }
 
 export const DEFAULT_UT: UTParams = { additionalLanes: 0, metroShift: 0, signalOptimization: 30, congestionPricing: 0 };
 export const DEFAULT_MI: MIParams = { shadeInfra: 1.0, transitExpansion: 1.0, cyclingInvestment: 1.0 };
 export const DEFAULT_SO: SOParams = { sustainabilityWeight: 1.0, investmentScale: 1.0, equityPriority: 1.0 };
-export const DEFAULT_EF: EFParams = { diversificationRate: 1.0, fdiAttraction: 1.0, jobGrowth: 1.0 };
+export const DEFAULT_EF: EFParams = { mixedUseRatio: 15, pppShare: 20, farBonus: 0, landValueCapture: 5, anchorIncentive: 0 };
 export const DEFAULT_ER: ERParams = { drainageExpansion: 0, greenCover: 8, retentionBasins: 0, buildingCode: 35, coolRoof: 5 };
 
 // ── Slider ────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ function SliderRow({ label, value, min, max, step, unit, onChange, formatValue, 
       <div className="flex justify-between items-center">
         <span className="text-[10px] font-bold tracking-widest uppercase text-gray-400">{label}</span>
         <span className="text-[12px] font-black tracking-wider" style={{ color }}>
-          {formatValue ? formatValue(value) : value}{unit}
+          {formatValue ? formatValue(value) : value}{(!formatValue || !formatValue(value).startsWith('None')) && unit}
         </span>
       </div>
       <div className="relative h-4 flex items-center">
@@ -106,9 +106,11 @@ const SO_DESCS = [
   { name: "Social Equity Score", desc: "Ensures urban interventions are distributed fairly across all demographic groups." },
 ];
 const EF_DESCS = [
-  { name: "Non-Oil GDP Contribution", desc: "Tracks real estate's impact on diversifying the national economy." },
-  { name: "Foreign FDI in Urban", desc: "Predicts investor sentiment to suggest the best time for land auctions." },
-  { name: "Job Creation Potential", desc: "Correlates zoning with industry growth to forecast local employment." },
+  { name: "Mixed-Use Development Ratio", desc: "Percentage of new development zones designated as mixed-use (retail + residential + office). Higher mixed-use creates walkable, self-sustaining neighbourhoods with diverse local revenue streams. Riyadh baseline ~15% reflects legacy single-use zoning." },
+  { name: "PPP Financing Share", desc: "Share of total infrastructure cost funded through Public-Private Partnerships. PPPs transfer construction and operational risk to private developers in exchange for revenue-sharing concessions (e.g., toll roads, district cooling). Reduces government fiscal burden and funding gap." },
+  { name: "FAR Bonus (Developer Incentive)", desc: "Floor Area Ratio bonus granted to developers who include public amenities (affordable units, parks, schools). Developers get extra buildable area; the city gets infrastructure contributions and density revenue without public spending." },
+  { name: "Land Value Capture Rate", desc: "Percentage of infrastructure-driven land value uplift recovered by the municipality through betterment levies, special assessment districts, or tax increment financing. When a metro station raises nearby land values 30-80%, LVC channels part of that windfall back into further development." },
+  { name: "Anchor Tenant Incentive", desc: "Tax or rent concessions offered to attract major employers (corporate HQs, universities, hospitals) to anchor a neighbourhood. Creates employment gravity, drives foot traffic for surrounding retail, and attracts follow-on private investment." },
 ];
 const ER_DESCS = [
   { name: "Flood Risk Index", desc: "Composite score measuring urban flood resilience across Riyadh's wadi channels, low-lying basins, and drainage network. Combines capacity of 340km storm drain network with terrain risk modeling." },
@@ -161,10 +163,12 @@ export function EFSettingsModal({ params, onChange, onApply, onReset, onClose }:
 }) {
   const upd = (k: keyof EFParams, v: number) => onChange({ ...params, [k]: v });
   return (
-    <ModalShell title="Economic and Financial Analyzer Agent" color="#3b82f6" onClose={onClose} onApply={onApply} onReset={onReset} descriptions={EF_DESCS}>
-      <SliderRow label="Diversification Rate" value={params.diversificationRate} min={0.5} max={3.0} step={0.1} unit="×" onChange={v => upd('diversificationRate', v)} color="#3b82f6" />
-      <SliderRow label="FDI Attraction Factor" value={params.fdiAttraction} min={0.5} max={3.0} step={0.1} unit="×" onChange={v => upd('fdiAttraction', v)} color="#3b82f6" />
-      <SliderRow label="Job Market Growth" value={params.jobGrowth} min={0.5} max={3.0} step={0.1} unit="×" onChange={v => upd('jobGrowth', v)} color="#3b82f6" />
+    <ModalShell title="Economic & Financial Analyzer — Riyadh Neighbourhood" color="#3b82f6" onClose={onClose} onApply={onApply} onReset={onReset} descriptions={EF_DESCS}>
+      <SliderRow label="Mixed-Use Development Ratio" value={params.mixedUseRatio} min={15} max={60} step={5} unit="%" onChange={v => upd('mixedUseRatio', v)} color="#3b82f6" />
+      <SliderRow label="PPP Financing Share" value={params.pppShare} min={10} max={70} step={5} unit="%" onChange={v => upd('pppShare', v)} color="#3b82f6" />
+      <SliderRow label="FAR Bonus (Developer Incentive)" value={params.farBonus} min={0} max={30} step={5} unit="%" onChange={v => upd('farBonus', v)} color="#3b82f6" formatValue={v => v === 0 ? 'None' : `+${v}`} />
+      <SliderRow label="Land Value Capture Rate" value={params.landValueCapture} min={0} max={40} step={5} unit="%" onChange={v => upd('landValueCapture', v)} color="#3b82f6" />
+      <SliderRow label="Anchor Tenant Incentive" value={params.anchorIncentive} min={0} max={50} step={5} unit="%" onChange={v => upd('anchorIncentive', v)} color="#3b82f6" formatValue={v => v === 0 ? 'None' : `${v}`} />
     </ModalShell>
   );
 }
