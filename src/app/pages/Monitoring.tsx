@@ -80,7 +80,7 @@ const InfoCircle = () => (
 function KpiCard({ act, metric, unit, desc, icon, colorConfig, flex = "flex-1", centered = false, className = "", onClick }: any) {
   const { border, bg, text, shadow } = colorConfig;
   return (
-    <div onClick={onClick} className={`p-3 border ${border} ${bg} ${shadow} rounded-md flex flex-col group min-h-0 relative transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:z-50 ${flex} ${className} ${onClick ? 'cursor-pointer hover:ring-1 hover:ring-current' : 'cursor-default'}`}>
+    <div onClick={onClick} className={`p-2 border ${border} ${bg} ${shadow} rounded-md flex flex-col group min-h-0 relative transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:z-50 ${flex} ${className} ${onClick ? 'cursor-pointer hover:ring-1 hover:ring-current' : 'cursor-default'}`}>
        <div className={`flex justify-between items-start shrink-0 mb-1 z-20 relative`}>
          <div className={`flex items-center gap-1.5 ${text}`}>
             <div className="opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-md">{icon}</div>
@@ -89,14 +89,14 @@ function KpiCard({ act, metric, unit, desc, icon, colorConfig, flex = "flex-1", 
          <div className={text}><InfoCircle /></div>
        </div>
        <div className={`flex flex-col flex-1 min-h-0 z-20 relative ${centered ? 'justify-center items-center' : 'justify-end'}`}>
-          <div className="flex items-baseline">
-             <span className={`font-black tracking-tighter leading-none text-[32px] xl:text-[38px] uppercase ${text} group-hover:scale-105 group-hover:text-white transition-all origin-left duration-300 drop-shadow-lg`}>
+          <div className="flex items-baseline justify-center w-full">
+             <span className={`font-black tracking-tighter leading-none ${centered ? 'text-[22px] xl:text-[26px]' : 'text-[32px] xl:text-[38px]'} uppercase ${text} group-hover:scale-105 group-hover:text-white transition-all origin-left duration-300 drop-shadow-lg`}>
                {metric}
-               {unit === '%' && <span className="text-sm xl:text-base ml-0.5">%</span>}
+               {unit === '%' && <span className="text-xs xl:text-sm ml-0.5">%</span>}
              </span>
-             {unit && unit !== '%' && <span className={`text-[10px] xl:text-[11px] font-bold tracking-widest uppercase ml-1.5 ${text}`}>{unit}</span>}
+             {unit && unit !== '%' && <span className={`text-[9px] xl:text-[10px] font-bold tracking-widest uppercase ml-1.5 ${text}`}>{unit}</span>}
           </div>
-          <span className={`text-[9px] xl:text-[10px] font-medium text-gray-500 tracking-wider mt-0.5 uppercase w-full truncate ${centered ? 'text-center mt-2' : 'text-left'} group-hover:text-gray-300 transition-colors`}>
+          <span className={`text-[9px] xl:text-[10px] font-medium text-gray-500 tracking-wider mt-0.5 uppercase w-full truncate ${centered ? 'text-center mt-1.5' : 'text-left'} group-hover:text-gray-300 transition-colors`}>
             {desc}
           </span>
        </div>
@@ -108,7 +108,7 @@ function ActionAlert({ title, desc, value, valColor = "text-[#FF4444]" }: any) {
   return (
     <div className="shrink-0 flex items-center justify-between bg-[#FF4444]/5 border border-[#FF4444]/20 px-3 py-2.5 rounded-md group cursor-default relative transition-all duration-300 hover:scale-[1.02] hover:translate-x-1 hover:bg-[#FF4444]/20 hover:border-[#FF4444] hover:shadow-[0_0_20px_rgba(255,68,68,0.4),inset_0_0_10px_rgba(255,68,68,0.2)] hover:z-50">
       <div className="flex flex-col gap-0.5 z-20 relative">
-        <span className="text-[10px] xl:text-[11px] text-[#FF4444] font-bold tracking-widest uppercase group-hover:text-white transition-colors drop-shadow-md">ACTION: {title}</span>
+        <span className="text-[10px] xl:text-[11px] text-[#FF4444] font-bold tracking-widest uppercase group-hover:text-white transition-colors drop-shadow-md">RECOMMENDATION: {title}</span>
         <span className="text-[9px] xl:text-[10px] text-gray-400 group-hover:text-gray-200 transition-colors uppercase tracking-wider">{desc}</span>
       </div>
       <span className={`text-[18px] xl:text-[20px] font-black drop-shadow-[0_0_8px_rgba(255,68,68,0.8)] group-hover:scale-110 transition-transform origin-right z-20 relative ${valColor}`}>{value}</span>
@@ -164,7 +164,7 @@ export default function Monitoring() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative h-full w-full bg-[#020603] uppercase font-mono text-[#00B558] overflow-hidden"
+      className="relative h-full w-full bg-[#020603] uppercase text-[#00B558] overflow-hidden"
     >
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ 
         backgroundImage: `
@@ -214,7 +214,7 @@ export default function Monitoring() {
                   </ResponsiveContainer>
                 </ChartContainer>
 
-                <ActionAlert title="Fin. Exposure" desc="Misaligned Capex" value="2.4B SAR" />
+                <ActionAlert title="Fin. Exposure" desc="Est. infrastructure cost if developed" value="2.4B SAR" />
               </div>
             </WidgetPanel>
           </motion.div>
@@ -230,7 +230,7 @@ export default function Monitoring() {
                 <div className="flex gap-3 shrink-0">
                   <KpiCard act="Idle Rate" metric="68.4" unit="%" desc="Ghost Asset Detection" icon={<Building2 className="w-3.5 h-3.5"/>} colorConfig={colors.yellow} />
                   <KpiCard act="ROI Goal" metric="85" unit="%" desc="Proj. Capacity Target" icon={<Target className="w-3.5 h-3.5"/>} colorConfig={colors.white} />
-                  <KpiCard act="Action" metric="DEFER" unit="PH2" desc="Halt New Funds" icon={<Layers className="w-3.5 h-3.5"/>} colorConfig={colors.red} />
+                  <KpiCard act="Recommendation" metric="DEFER" unit="PH2" desc="System recommendation - pending review" icon={<Layers className="w-3.5 h-3.5"/>} colorConfig={colors.red} />
                 </div>
 
                 <ChartContainer title="Asset Lifecycle Yield" subtitle="Actual Usage vs Promised Target" hoverBorderColor="hover:border-[#FCD34D]" hoverShadow="hover:shadow-[0_0_20px_rgba(252,211,77,0.2),inset_0_0_15px_rgba(252,211,77,0.1)]">
@@ -274,7 +274,7 @@ export default function Monitoring() {
                   <KpiCard act="Velocity" metric="+14" unit="K" desc="Net Influx/Mo" icon={<Activity className="w-3.5 h-3.5" />} colorConfig={colors.yellow} />
                 </div>
 
-                <ChartContainer title="Infrastructure Strain" subtitle="Demand Load vs Max Capacity Limit" alert="INDEX: 92.4" hoverBorderColor="hover:border-[#FCD34D]" hoverShadow="hover:shadow-[0_0_20px_rgba(252,211,77,0.2),inset_0_0_15px_rgba(252,211,77,0.1)]">
+                <ChartContainer title="Infrastructure Strain" subtitle="Based on water, power, transport load" alert="INDEX: 92.4" hoverBorderColor="hover:border-[#FCD34D]" hoverShadow="hover:shadow-[0_0_20px_rgba(252,211,77,0.2),inset_0_0_15px_rgba(252,211,77,0.1)]">
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={data.populationPressure} margin={{ top: 15, right: 0, bottom: 5, left: -20 }}>
                       <defs>
@@ -296,7 +296,7 @@ export default function Monitoring() {
                   </ResponsiveContainer>
                 </ChartContainer>
 
-                <ActionAlert title="Utility Risk" desc="Saturation Horizon" value="Q3 2026" />
+                <ActionAlert title="Utility Risk" desc="Projected collapse timeline" value="Q3 2026" />
               </div>
             </WidgetPanel>
           </motion.div>
@@ -313,9 +313,12 @@ export default function Monitoring() {
                 <div className="flex-1 min-h-0 flex flex-col group">
                   <div className="flex justify-between items-center border-b border-[#00B558]/20 pb-2 mb-2 shrink-0">
                      <span className="text-[11px] text-[#00B558]/80 font-bold tracking-[0.2em] uppercase">Amanah Matrix</span>
-                     <div className="flex items-center gap-2 bg-[#00B558]/10 px-2 py-1 rounded border border-[#00B558]/30">
-                        <div className="w-1.5 h-1.5 bg-[#00B558] rounded-full animate-pulse shadow-[0_0_8px_#00B558]" />
-                        <span className="text-[9px] text-[#00B558] tracking-widest font-bold">LIVE</span>
+                     <div className="flex items-center gap-2">
+                        <span className="text-[8px] text-gray-500">Target: 80%</span>
+                        <div className="flex items-center gap-2 bg-[#00B558]/10 px-2 py-1 rounded border border-[#00B558]/30">
+                           <div className="w-1.5 h-1.5 bg-[#00B558] rounded-full animate-pulse shadow-[0_0_8px_#00B558]" />
+                           <span className="text-[9px] text-[#00B558] tracking-widest font-bold">LIVE</span>
+                        </div>
                      </div>
                   </div>
                   
@@ -371,10 +374,13 @@ export default function Monitoring() {
           >
             <WidgetPanel title="ZONING COMPLIANCE" icon={<ShieldAlert className="w-4 h-4 text-[#FF4444]" />} className="flex-1 min-h-0">
               <div className="flex flex-col h-full min-h-0 p-3 gap-3">
-                <KpiCard act="Critical Violations" metric="353" desc="Municipal Decay Flags" icon={<ShieldAlert className="w-3.5 h-3.5"/>} colorConfig={colors.red} flex="flex-1" centered={true} />
-                <KpiCard act="Mandate" metric="95.0" unit="%" icon={<Target className="w-3.5 h-3.5"/>} colorConfig={colors.white} flex="shrink-0" />
-                <KpiCard act="National YTD" metric="69.4" unit="%" icon={<TrendingUp className="w-3.5 h-3.5"/>} colorConfig={colors.yellow} flex="shrink-0" />
-                <ActionAlert title="Fee Leakage" desc="Est. Municipal Loss" value="450M SAR" />
+                <div className="text-[9px] text-gray-500 text-center -mt-1 mb-1">Critical violations identified via satellite & ground truth</div>
+                <KpiCard act="Critical Violations" metric="353" desc="Severe land-use breaches" icon={<ShieldAlert className="w-3.5 h-3.5"/>} colorConfig={colors.red} flex="flex-1" centered={true} />
+                <div className="flex gap-2 shrink-0">
+                  <KpiCard act="Mandate" metric="95.0" unit="%" desc="Legal baseline" icon={<Target className="w-3.5 h-3.5"/>} colorConfig={colors.white} flex="flex-1" />
+                  <KpiCard act="National YTD" metric="69.4" unit="%" desc="Current compliance" icon={<TrendingUp className="w-3.5 h-3.5"/>} colorConfig={colors.yellow} flex="flex-1" />
+                </div>
+                <ActionAlert title="Fee Leakage" desc="Potential revenue recovery" value="450M SAR" />
               </div>
             </WidgetPanel>
           </motion.div>
