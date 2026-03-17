@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Target,
   Maximize,
@@ -884,6 +884,46 @@ export default function Diagnostics() {
   const [hoveredAlertId, setHoveredAlertId] = useState<number | null>(null);
   const [showTargetModal, setShowTargetModal] = useState(false);
   const mapRef = useRef<MapRef>(null);
+
+  // Load HiAgent chat SDK
+  useEffect(() => {
+    const scriptId = 'hiagent-sdk';
+    if (document.getElementById(scriptId)) return;
+
+    // Inject style to ensure the chat widget sits above all page layers
+    const style = document.createElement('style');
+    style.id = 'hiagent-style';
+    style.textContent = `
+      [class*="hiagent"], [id*="hiagent"],
+      div[style*="position: fixed"][style*="z-index"] iframe {
+        z-index: 99999 !important;
+        pointer-events: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = 'https://hiagent-byteplus.volcenginepaas.com/resources/product/llm/public/sdk/embedLite.js';
+    script.onload = () => {
+      if ((window as any).HiagentWebSDK) {
+        new (window as any).HiagentWebSDK.WebLiteClient({
+          appKey: 'd6sdi7elvndfd6e1neng',
+          baseUrl: 'https://hiagent-byteplus.volcenginepaas.com',
+          variables: {},
+        });
+      }
+    };
+    document.body.appendChild(script);
+    return () => {
+      const el = document.getElementById(scriptId);
+      if (el) el.remove();
+      const styleEl = document.getElementById('hiagent-style');
+      if (styleEl) styleEl.remove();
+      // Remove any chat widget the SDK injected
+      document.querySelectorAll('[class*="hiagent"], [id*="hiagent"]').forEach(el => el.remove());
+    };
+  }, []);
 
   const handleMapLoad = useCallback(() => {
     if (mapRef.current) {
