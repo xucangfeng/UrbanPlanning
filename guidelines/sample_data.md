@@ -154,6 +154,16 @@ INDEX = 100 × (V_ACTUAL / V_BASE) × C_MOD
 | 2030 Target | **65%** |
 | AI-Identified Spots | **12** |
 
+**The Three Primary Criteria**
+
+For a piece of land to be classified as "White," it must check these three boxes simultaneously:
+
+Vacancy: The land must be undeveloped or idle. There is no permanent structure on it that serves its intended purpose (simply putting a fence around it does not count as "development").
+
+Urban Boundary: The land must fall within the Urban Scope (the geographical limits of a city as defined by official maps). Land outside these borders is not subject to the white land fee.
+
+Service Readiness: This is the most critical technical detail. The land must have access to essential infrastructure, such as paved roads, electricity, water, and sewage. The logic is that if the government has already invested in the infrastructure around your land, you shouldn't be "hoarding" it while others need housing.
+
 **Map markers (12 spots across 6 regions):**
 
 | # | Location | Area | Years Idle | Severity |
