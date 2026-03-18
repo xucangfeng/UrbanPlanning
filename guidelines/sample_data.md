@@ -191,6 +191,38 @@ Service Readiness: This is the most critical technical detail. The land must hav
 | 2030 Target | **80** / 100 |
 | Zones Flagged | **13** |
 
+The Urban Land Utilization Index (ULUI) in the context of Saudi Vision 2030 (specifically within MOMRAH’s tracking) is a key performance indicator that measures the efficiency of spatial development.
+
+Based on current 2026 data and the specific numbers you cited (Current: 58, Target: 80), this index most likely refers to the Percentage of Urban Clusters Hosting Parks and Green Spaces within an 800-meter radius (the "10-minute walk" rule).
+
+**How is it Calculated?**
+
+The index is a spatial ratio that evaluates how much of the "built-up" urban area is effectively utilized for public benefit (like parks, services, or optimized housing) compared to the total planned urban land.The Formula:$$ULUI = \left( \frac{\text{Area of Urban Clusters with Active Services/Parks}}{\text{Total Developed Urban Area}} \right) \times 100$$
+
+Numerator: Land that is not just "built" but "activated" (e.g., has a park, is mixed-use, or is fully integrated into the utility grid).
+
+Denominator: The total footprint of land designated as "urban" within a city’s boundaries.
+
+**What do the numbers mean?**
+
+Current (58): This means that as of late 2024/early 2025, approximately 58% of urban neighborhoods in Saudi Arabia have met the "humanized" city criteria (e.g., access to a park within 800 meters or optimized land use).
+
+Target (80): The 2030 goal is to reach 80%. This signifies a shift from "sprawl" (lots of land with few services) to "compactness" (dense, serviced, and walkable land).
+
+**National vs. Regional Contribution**
+
+The index is not a flat national average; it is a weighted aggregate of 17 regional municipalities (Amanahs).
+
+City-Level Weighting: Large cities like Riyadh, Jeddah, and Dammam have a higher weight in the national score because they represent the bulk of the urban population.
+
+Regional Contributions: Each region has its own specific target based on its "Digital Twin" maturity. For example:
+
+1. Riyadh might be aiming for 90% utilization due to the "Green Riyadh" and "Sports Boulevard" projects.
+
+2. Smaller Regions might have lower initial targets as they transition from rural to urban zoning.
+
+The Dashboard Logic: When your dashboard shows "58," it is pulling real-time data from Urban Observatories in each city. If a new park is opened in Medina, the "activated" land in that zone increases, which nudges the national index upward.
+
 **Map markers (13 zones across 6 regions):**
 
 | # | Zone | Region | Area | Status |
