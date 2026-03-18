@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { WidgetPanel } from "../components/WidgetPanel";
 import {
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, LineChart, Line, BarChart, Bar
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, LineChart, Line, ComposedChart, Area
 } from "recharts";
 
 import { motion } from "motion/react";
@@ -39,22 +39,20 @@ const flowData = [
   { time: "24:00", value: 25 },
 ];
 
-const syncData = [
-  { time: "00:00", delay: 10 },
-  { time: "04:00", delay: 15 },
-  { time: "08:00", delay: 85 },
-  { time: "12:00", delay: 20 },
-  { time: "16:00", delay: 18 },
-  { time: "18:00", delay: 72 },
-  { time: "20:00", delay: 30 },
-  { time: "24:00", delay: 12 },
+const sprawlData = [
+  { time: 'JAN', reported: 490, detected: 490 },
+  { time: 'MAR', reported: 494, detected: 496 },
+  { time: 'MAY', reported: 496, detected: 501 },
+  { time: 'JUL', reported: 498, detected: 507 },
+  { time: 'SEP', reported: 499, detected: 511 },
+  { time: 'DEC', reported: 500, detected: 514.2 },
 ];
 
 const landUseData = [
-  { name: "OVER-LIMIT", value: 35, color: "#ff4444" },
-  { name: "COMMERCIAL", value: 25, color: "#FCD34D" },
-  { name: "PUBLIC/GREEN", value: 20, color: "#00B558" },
-  { name: "RESIDENTIAL", value: 20, color: "#006C35" },
+  { name: "COMMERCIAL", value: 34, color: "#FCD34D" },
+  { name: "RESIDENTIAL", value: 28, color: "#006C35" },
+  { name: "GREEN", value: 21, color: "#00B558" },
+  { name: "SERVICE", value: 17, color: "#3b82f6" },
 ];
 
 const renderFlowDot = (props: any) => {
@@ -65,41 +63,7 @@ const renderFlowDot = (props: any) => {
   return <circle key={`dot-flow-${index}`} cx={cx} cy={cy} r={3} fill="#0c1a06" stroke="#00B558" strokeWidth={1.5} />;
 };
 
-const renderSyncDot = (props: any) => {
-  const { cx, cy, payload, index } = props;
-  if (payload.delay > 60) {
-      return <circle key={`dot-sync-${index}`} cx={cx} cy={cy} r={4} fill="#ff4444" stroke="#fff" strokeWidth={1} />;
-  }
-  return <circle key={`dot-sync-${index}`} cx={cx} cy={cy} r={3} fill="#0c1a06" stroke="#FCD34D" strokeWidth={1.5} />;
-};
 
-const renderSyncBar = (props: any) => {
-  const { fill, x, y, width, height, payload, index } = props;
-  const isAlert = payload.delay > 60;
-  
-  // Create a rounded top bar
-  // Make sure we don't try to draw negative heights or arc over bounds
-  const pathHeight = Math.max(0, height);
-  const radius = Math.min(width / 2, pathHeight);
-  const pathY = y;
-  
-  const path = `
-    M${x},${pathY + pathHeight}
-    L${x},${pathY + radius}
-    A${radius},${radius},0,0,1,${x + width},${pathY + radius}
-    L${x + width},${pathY + pathHeight}
-    Z
-  `;
-
-  return (
-    <path 
-      key={`bar-sync-${index}`}
-      d={path}
-      fill={isAlert ? "#ff4444" : "#FCD34D"} 
-      opacity={isAlert ? 1 : 0.8} 
-    />
-  );
-};
 
 function MapLabel({ title, metric, desc, type }: { title: string, metric: string, desc: string, type: 'warning' | 'alert' }) {
   const color = type === 'alert' ? '#ff4444' : '#FCD34D';
@@ -170,18 +134,18 @@ export default function Panorama() {
           mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
           interactive={true}
         >
-          {/* Scatter 4 MapLabels within Saudi Arabia macro view */}
-          <Marker longitude={38.5} latitude={28.0} anchor="bottom">
-            <MapLabel title="WHITE LAND" metric="4 YRS" desc="AL YASMIN UNTAXED" type="warning" />
+          {/* Road Network Expansion — from Diagnostics dmd_2 data */}
+          <Marker longitude={42.0} latitude={26.5} anchor="bottom">
+            <MapLabel title="RIYADH–NEOM" metric="4.2K KM" desc="CORRIDOR PLANNED · 2029" type="alert" />
           </Marker>
-          <Marker longitude={48.5} latitude={26.5} anchor="bottom">
-            <MapLabel title="ZONING STRAIN" metric="35%" desc="KAFD COMMERCIAL OVERLOAD" type="alert" />
+          <Marker longitude={39.1} latitude={22.4} anchor="bottom">
+            <MapLabel title="JEDDAH–KAEC" metric="1.8K KM" desc="EXPRESSWAY IN PROGRESS · 2028" type="warning" />
           </Marker>
-          <Marker longitude={46.5} latitude={20.5} anchor="bottom">
-            <MapLabel title="CRITICAL FLOW" metric="12KM/H" desc="KING FAHD SPEED DROP" type="alert" />
+          <Marker longitude={50.1} latitude={26.45} anchor="bottom">
+            <MapLabel title="E. PROVINCE RING" metric="3.5K KM" desc="FREIGHT RING · 2030" type="alert" />
           </Marker>
-          <Marker longitude={41.5} latitude={22.5} anchor="bottom">
-            <MapLabel title="FLOOD RISK" metric="98%" desc="WADI HANIFAH LOAD" type="warning" />
+          <Marker longitude={42.3} latitude={18.25} anchor="bottom">
+            <MapLabel title="ABHA–SOUDAH" metric="0.8K KM" desc="TOURISM RD DESIGN · 2028" type="warning" />
           </Marker>
         </Map>
         {/* Dark map wash to ensure UI overlays pop */}
@@ -201,7 +165,8 @@ export default function Panorama() {
       >
         
         {/* Action 1: Diagnostics & Prediction */}
-        <WidgetPanel title="DIAGNOSTICS & PREDICTION" icon={<Activity className="w-4 h-4 text-[#00B558]" />} className="flex-[1.2] min-h-0">
+        <div onClick={() => navigate('/diagnostics_and_forecasting')} className="flex-[1.2] min-h-0 cursor-pointer">
+        <WidgetPanel title="DIAGNOSTICS & PREDICTION" icon={<Activity className="w-4 h-4 text-[#00B558]" />} className="h-full">
           <div className="flex flex-col gap-3 h-full">
             <div className="h-[60%] flex-none min-h-0 w-full relative p-2 bg-[#051105]/40 border border-[#00B558]/30 shadow-[inset_0_0_15px_rgba(0,181,88,0.05)]">
                <div className="absolute top-2 left-2 right-2 text-[10px] font-bold text-[#00B558] mb-1 flex justify-between tracking-widest z-10 uppercase">
@@ -229,9 +194,11 @@ export default function Panorama() {
             </div>
           </div>
         </WidgetPanel>
+        </div>
 
         {/* Action 2: Land Use Optimization */}
-        <WidgetPanel title="LAND USE OPTIMIZATION" icon={<PieChartIcon className="w-4 h-4 text-[#FCD34D]" />} className="flex-[0.8] min-h-0">
+        <div onClick={() => navigate('/optimization')} className="flex-[0.8] min-h-0 cursor-pointer">
+        <WidgetPanel title="LAND USE OPTIMIZATION" icon={<PieChartIcon className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
           <div className="flex gap-2 h-full">
             <div className="flex-[1.2] min-w-0 bg-[#051105]/40 border border-[#FCD34D]/30 p-2 flex flex-col items-center justify-between relative shadow-[inset_0_0_15px_rgba(252,211,77,0.05)]">
                <span className="absolute top-1.5 left-2 text-[10px] font-bold text-[#FCD34D]/90 tracking-widest uppercase drop-shadow-sm w-full text-center pr-4 z-10">ZONING ADVISOR</span>
@@ -251,7 +218,8 @@ export default function Panorama() {
                    </PieChart>
                  </ResponsiveContainer>
                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                   <span className="text-[#ff4444] text-[28px] font-black drop-shadow-[0_0_10px_rgba(255,68,68,0.8)] leading-none mt-1">35%</span>
+                   <span className="text-[#FCD34D] text-[22px] font-black drop-shadow-[0_0_10px_rgba(252,211,77,0.8)] leading-none mt-1">73</span>
+                   <span className="text-[7px] text-gray-500 font-bold tracking-wider uppercase mt-0.5">BALANCE</span>
                  </div>
                </div>
                
@@ -268,11 +236,12 @@ export default function Panorama() {
             </div>
             
             <div className="flex-[0.7] min-w-0 flex flex-col gap-2">
-               <KpiCard act="Intervention Guide" metric="47" unit="%" desc="Optimal ROI" icon={<Target className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" compact centered />
-               <KpiCard act="Access & Parking" metric="13" unit="ZONES" desc="Strain <5%" icon={<Crosshair className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" compact centered />
+               <KpiCard act="Intervention Guide" metric="84" unit="" desc="Potential Score" icon={<Target className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" compact centered />
+               <KpiCard act="Access & Parking" metric="72" unit="" desc="Accessibility Index" icon={<Crosshair className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" compact centered />
             </div>
           </div>
         </WidgetPanel>
+        </div>
 
       </motion.div>
 
@@ -324,7 +293,8 @@ export default function Panorama() {
       >
         
         {/* Action 3: Impact Simulation & Feasibility */}
-        <WidgetPanel title="IMPACT SIMULATION" icon={<Layers className="w-4 h-4 text-[#00B558]" />} className="flex-[0.9] min-h-0">
+        <div onClick={() => navigate('/simulation')} className="flex-[0.9] min-h-0 cursor-pointer">
+        <WidgetPanel title="IMPACT SIMULATION" icon={<Layers className="w-4 h-4 text-[#00B558]" />} className="h-full">
           <div className="flex flex-col gap-2 h-full">
             <div className="flex-[0.5] bg-gradient-to-br from-[#006C35]/40 to-transparent border border-[#00B558]/50 p-2.5 flex items-center justify-between relative shadow-[inset_0_0_20px_rgba(0,181,88,0.15)] rounded-sm backdrop-blur-sm group hover:border-[#00B558] transition-colors">
                <div className="flex flex-col pl-2">
@@ -346,37 +316,45 @@ export default function Panorama() {
             </div>
           </div>
         </WidgetPanel>
+        </div>
 
         {/* Action 4: Monitoring & Improvement */}
-        <WidgetPanel title="MONITORING & IMPROVEMENT" icon={<Wifi className="w-4 h-4 text-[#FCD34D]" />} className="flex-[1.1] min-h-0">
+        <div onClick={() => navigate('/monitoring')} className="flex-[1.1] min-h-0 cursor-pointer">
+        <WidgetPanel title="MONITORING & IMPROVEMENT" icon={<Wifi className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
           <div className="flex flex-col gap-3 h-full">
             <div className="grid grid-cols-2 gap-2 flex-1 min-h-0">
-               <KpiCard act="Change Tracker" metric="12" unit="SITES" desc="Sat-AI Violations" icon={<Activity className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
-               <KpiCard act="Cont. Learning" metric="+8.3" unit="%" desc="Model Accuracy Lift" icon={<TrendingUp className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" centered />
+               <KpiCard act="Change Tracker" metric="+2.8" unit="%" desc="Footprint Drift" icon={<Activity className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
+               <KpiCard act="Carrying Capacity" metric="+14" unit="K" desc="Net Influx/Mo" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
             </div>
             <div className="h-[60%] flex-none w-full min-h-0 border-t border-[#FCD34D]/30 pt-2 mt-1 relative">
                <div className="absolute top-2 right-2 text-[10px] font-bold text-[#FCD34D] mb-1 flex flex-col items-end tracking-widest z-10 uppercase">
-                 <span>Sync Delay</span>
-                 <span className="text-[#ff4444]">Threshold &gt;1H</span>
+                 <span>Urban Sprawl Gap</span>
+                 <span className="text-[#ff4444]">Drift: 14.2 KM²</span>
                </div>
                <ResponsiveContainer width="100%" height="100%">
-                 <BarChart data={syncData} margin={{ top: 15, right: 0, left: -25, bottom: -5 }} barSize={14}>
-                   <XAxis dataKey="time" stroke="#475569" fontSize={10} tickLine={false} axisLine={false} />
-                   <YAxis stroke="#475569" fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} />
+                 <ComposedChart data={sprawlData} margin={{ top: 15, right: 0, left: -20, bottom: -5 }}>
+                   <defs>
+                     <linearGradient id="sprawlBlueGrad" x1="0" y1="0" x2="0" y2="1">
+                       <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.2}/>
+                       <stop offset="100%" stopColor="#3B82F6" stopOpacity={0}/>
+                     </linearGradient>
+                   </defs>
                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                   <XAxis dataKey="time" stroke="#475569" fontSize={9} tickLine={false} axisLine={false} />
+                   <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} domain={[485, 520]} />
                    <Tooltip 
                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }} 
-                     cursor={{ fill: '#1e293b', opacity: 0.4 }} 
-                     formatter={(value: number) => [`${value} mins`, 'Sync Delay']}
-                     labelFormatter={(label) => `Time: ${label}`}
+                     cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }}
+                     formatter={(value: number) => [`${value} KM²`]}
                    />
-                   <ReferenceLine y={60} stroke="#ff4444" strokeDasharray="3 3" />
-                   <Bar dataKey="delay" shape={renderSyncBar} isAnimationActive={false} />
-                 </BarChart>
+                   <Area type="step" dataKey="reported" name="Amanah" stroke="#3B82F6" strokeWidth={1.5} fill="url(#sprawlBlueGrad)" isAnimationActive={true} />
+                   <Line type="step" dataKey="detected" name="LiDAR Truth" stroke="#FF4444" strokeWidth={2.5} dot={false} isAnimationActive={true} />
+                 </ComposedChart>
                </ResponsiveContainer>
             </div>
           </div>
         </WidgetPanel>
+        </div>
 
       </motion.div>
     </div>

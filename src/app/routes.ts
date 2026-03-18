@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
       { path: "diagnostics_and_forecasting", Component: Diagnostics },
       { path: "optimization", Component: Optimization },
       { path: "simulation", Component: Simulation },
-      { path: "act4", Component: Monitoring },
+      { path: "monitoring", Component: Monitoring },
     ],
   },
 ]);

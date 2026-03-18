@@ -16,7 +16,7 @@ const ROUTE_CONFIG: Record<string, { title: string; subtitle: string; city: stri
   '/diagnostics_and_forecasting': { title: 'DIAGNOSTICS AND FORECASTING',    subtitle: 'Anomaly Detection & Root Cause', city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
   '/optimization': { title: 'LAND USE OPTIMIZATION AND ZONING',  subtitle: 'Urban Planning Companion',       city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
   '/simulation':   { title: 'IMPACT SIMULATION AND FEASIBILITY ASSESSMENT',           subtitle: 'Predictive Modeling',            city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
-  '/act4':         { title: 'MONITORING AND IMPROVEMENT',    subtitle: 'Live Telemetry',                 city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
+  '/monitoring':         { title: 'MONITORING AND IMPROVEMENT',    subtitle: 'Live Telemetry',                 city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
 };
 
 function LiveClock() {
@@ -143,7 +143,7 @@ export default function DashboardLayout() {
             <NavItem to="/diagnostics_and_forecasting" label="DIAGNOSTICS" color="text-[#22c55e]" glow="rgba(34,197,94,0.8)" />
             <NavItem to="/optimization" label="OPTIMIZATION" color="text-[#facc15]" glow="rgba(250,204,21,0.8)" isTarget={true} />
             <NavItem to="/simulation" label="SIMULATION" color="text-[#047857]" glow="rgba(4,120,87,0.8)" />
-            <NavItem to="/act4" label="MONITORING" color="text-[#ca8a04]" glow="rgba(202,138,4,0.8)" />
+            <NavItem to="/monitoring" label="MONITORING" color="text-[#ca8a04]" glow="rgba(202,138,4,0.8)" />
           </nav>
         </div>
       </div>

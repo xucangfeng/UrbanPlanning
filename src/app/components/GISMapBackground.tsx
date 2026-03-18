@@ -14,10 +14,10 @@ const INITIAL_VIEW_STATE = {
 };
 
 const ZONES = [
-  { id: 'zone-1', name: 'Diagnostics', sub: 'Historical Data', lat: 24.7136, lng: 46.6753, color: '#00B558', icon: ActivityIcon, route: '/diagnostics' },
-  { id: 'zone-2', name: 'Optimization', sub: 'AI Suggestions', lat: 24.7600, lng: 46.6350, color: '#FCD34D', icon: Target, route: '/optimization' },
-  { id: 'zone-3', name: 'Simulation', sub: 'Future Modeling', lat: 24.6800, lng: 46.7200, color: '#00B558', icon: Wind, route: '/simulation' },
-  { id: 'zone-4', name: 'Monitoring', sub: 'Real-time Feeds', lat: 24.6400, lng: 46.7500, color: '#FCD34D', icon: ShieldCheck, route: '/monitoring' },
+  { id: 'zone-1', name: 'Diagnostics', sub: 'Riyadh — Flow & Demand', lat: 24.7136, lng: 46.6753, color: '#00B558', icon: ActivityIcon, route: '/diagnostics_and_forecasting' },
+  { id: 'zone-2', name: 'Optimization', sub: 'Jeddah — Land Use', lat: 21.5433, lng: 39.1728, color: '#FCD34D', icon: Target, route: '/optimization' },
+  { id: 'zone-3', name: 'Simulation', sub: 'NEOM — Future Modeling', lat: 28.0068, lng: 35.1440, color: '#00B558', icon: Wind, route: '/simulation' },
+  { id: 'zone-4', name: 'Monitoring', sub: 'Dammam \u2014 Real-time', lat: 26.3927, lng: 49.9777, color: '#FCD34D', icon: ShieldCheck, route: '/monitoring' },
 ];
 
 export function GISMapBackground() {

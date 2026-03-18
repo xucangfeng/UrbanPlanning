@@ -8,7 +8,7 @@ export default function ActPlaceholder() {
   const labels: Record<string, string> = {
     "/diagnostics_and_forecasting": "Act I: Diagnostics and Forecasting",
     "/simulation": "Act III: Impact Simulation and Feasibility Assessment",
-    "/act4": "Act IV: Monitoring and Improvement",
+    "/monitoring": "Act IV: Monitoring and Improvement",
   };
 
   const title = labels[path] || "Page Under Construction";
