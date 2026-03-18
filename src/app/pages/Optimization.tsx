@@ -429,78 +429,59 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
     
     // 评分颜色
     const scoreColor = score >= 85 ? '#00B558' : score >= 70 ? '#FCD34D' : '#ff4444';
-    
-    // 雷达图数据
-    const radarData = Object.entries(dimensions).map(([key, val]: [string, any]) => ({
-      dimension: val.label,
-      value: val.current,
-      fullMark: 100
-    }));
 
     return (
       <div 
         onClick={onClick}
-        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-4 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
+        className={`relative transition-all duration-300 cursor-pointer flex flex-col group h-full p-2.5 ${isActive ? `bg-[#051105]/80 border shadow-[inset_0_0_20px_rgba(${rgbColor},0.15)]` : `bg-[#070d07]/60 border shadow-[inset_0_0_10px_rgba(${rgbColor},0.05)] hover:bg-[#0c140c]/90`}`}
         style={{ borderColor: isActive ? color : `${color}40` }}
       >
          <div className="absolute top-0 right-0 w-2 h-2 border-t border-r opacity-50 transition-colors" style={{ borderColor: color }} />
          <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-50 transition-colors" style={{ borderColor: color }} />
          
          {/* Header */}
-         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-2">
-           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[13px]`} style={{ color }}>{item.name}</h4>
-           <div className="p-1 -mr-1 -mt-1 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-4 h-4" style={{ color }} /></div>
+         <div className="flex justify-between items-start w-full gap-2 relative z-10 mb-1 flex-shrink-0">
+           <h4 className={`font-black tracking-widest uppercase drop-shadow-sm leading-[1.15] text-[10px]`} style={{ color }}>{item.name}</h4>
+           <div className="p-0.5 -mr-0.5 -mt-0.5 cursor-help flex-none opacity-40 hover:opacity-100 transition-opacity" onMouseEnter={() => setIsHoveringInfo(true)} onMouseLeave={() => setIsHoveringInfo(false)}><Info className="w-3 h-3" style={{ color }} /></div>
          </div>
          
          {/* Info Overlay */}
-         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-4 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[11px] leading-[1.5]`}>{item.desc}</p>
+         <div className={`absolute inset-0 flex items-center bg-[#070d07]/90 backdrop-blur-sm transition-opacity duration-300 z-20 p-2.5 ${isHoveringInfo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <p className={`font-medium tracking-wider text-gray-300 uppercase text-[9px] leading-[1.4]`}>{item.desc}</p>
          </div>
          
          <div className={`relative w-full flex-1 flex flex-col z-10 min-h-0 transition-opacity duration-300 ${isHoveringInfo ? 'opacity-0' : 'opacity-100'}`}>
             {/* Core Score */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2 flex-shrink-0">
               <div className="flex flex-col">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-[48px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 30px ${scoreColor}70` }}>{score}</span>
-                  <span className="text-[14px] text-gray-500 font-bold">/100</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-[32px] font-black leading-none" style={{ color: scoreColor, textShadow: `0 0 30px ${scoreColor}70` }}>{score}</span>
+                  <span className="text-[10px] text-gray-500 font-bold">/100</span>
                 </div>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-[#00B558]/15 border border-[#00B558]/40">
-                    <span className="text-[#00B558] text-[10px] font-black">{trend}</span>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <div className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-[#00B558]/15 border border-[#00B558]/40">
+                    <span className="text-[#00B558] text-[8px] font-black">{trend}</span>
                   </div>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase">vs 2025</span>
+                  <span className="text-[7px] text-gray-400 font-bold uppercase">vs 2025</span>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <div className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
-                <div className="text-[10px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
+              <div className="flex flex-col items-end gap-0.5">
+                <div className="text-[6px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
+                <div className="text-[8px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
                   {score >= 85 ? 'EXCELLENT' : score >= 70 ? 'GOOD' : score >= 50 ? 'NEEDS IMPROVEMENT' : 'CRITICAL'}
                 </div>
               </div>
             </div>
             
-            {/* Radar Chart */}
-            <div className="flex-1 min-h-0 flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={radarData}>
-                  <PolarGrid stroke="#334155" />
-                  <PolarAngleAxis dataKey="dimension" tick={{ fill: '#94a3b8', fontSize: 9, fontWeight: 'bold' }} />
-                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 8 }} />
-                  <Radar name="Current" dataKey="value" stroke={color} fill={color} fillOpacity={0.3} strokeWidth={2} />
-                </RadarChart>
-              </ResponsiveContainer>
-            </div>
-            
             {/* Dimension Bars */}
-            <div className="mt-3 pt-3 border-t border-slate-700/50 grid grid-cols-2 gap-2">
-              {Object.entries(dimensions).slice(0, 4).map(([key, dim]: [string, any]) => {
+            <div className="flex-1 flex flex-col justify-center gap-1.5">
+              {Object.entries(dimensions).map(([key, dim]: [string, any]) => {
                 const dimColor = dim.current >= 85 ? '#00B558' : dim.current >= 70 ? '#FCD34D' : '#ff4444';
                 return (
-                  <div key={key} className="flex flex-col">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-[8px] text-gray-500 font-bold uppercase">{dim.label}</span>
-                      <span className="text-[10px] font-black" style={{ color: dimColor }}>{dim.current}pt</span>
+                  <div key={key}>
+                    <div className="flex justify-between items-center mb-0.5">
+                      <span className="text-[8px] text-gray-400 font-bold uppercase">{dim.label}</span>
+                      <span className="text-[9px] font-black" style={{ color: dimColor }}>{dim.current}pt</span>
                     </div>
                     <div className="h-1.5 bg-[#1e293b] rounded-full overflow-hidden">
                       <div className="h-full rounded-full transition-all" style={{ width: `${dim.current}%`, backgroundColor: dimColor }} />
@@ -867,16 +848,96 @@ const greeneryBoundary8km = createGeoJSONCircle(RIYADH_CENTER, 8);
 const greeneryBoundary15km = createGeoJSONCircle(RIYADH_CENTER, 15);
 
 const PARK_SUGGESTIONS = [
-  { id: 'ps_1', lat: 24.7145, lng: 46.673, name: 'OLAYA SECTOR 4', reason: 'High heat island effect, dense residential. Need immediate cooling.' },
-  { id: 'ps_2', lat: 24.725, lng: 46.661, name: 'KING FAHD DIST. N', reason: 'Deficit in canopy coverage. Prioritized for community access.' },
-  { id: 'ps_3', lat: 24.701, lng: 46.682, name: 'SULAIMANIYAH SOUTH', reason: 'Unused municipal plot suitable for 8,000 m² ecological park.' },
-  { id: 'ps_4', lat: 24.743, lng: 46.655, name: 'AL NAKHEEL EDGE', reason: 'High pedestrian flow, lack of shade. Micro-climate intervention.' },
-  { id: 'ps_5', lat: 24.734, lng: 46.685, name: 'MOHAMMADIYAH CORE', reason: 'Redevelopment zone, integrates with upcoming transit node.' },
-  { id: 'ps_6', lat: 24.719, lng: 46.706, name: 'AL OLAYA EAST', reason: 'Commercial district requiring green buffers for micro-cooling.' },
-  { id: 'ps_7', lat: 24.683, lng: 46.652, name: 'AL MAATHER NODE', reason: 'Aligns with heritage protection and irrigation optimization.' },
-  { id: 'ps_8', lat: 24.689, lng: 46.697, name: 'AL MUTAMARAT', reason: 'Mitigating severe urban heat island reading from recent scans.' },
-  { id: 'ps_9', lat: 24.782, lng: 46.634, name: 'AL WOROUD GREEN', reason: 'Connects existing green corridors to improve biodiversity.' },
-  { id: 'ps_10', lat: 24.641, lng: 46.724, name: 'UMM AL HAMAM', reason: 'Targeted for rapid deployment native flora planting.' },
+  { 
+    id: 'ps_1', 
+    lat: 24.7145, 
+    lng: 46.673, 
+    name: 'OLAYA SECTOR 4',
+    size: '8,000 m²',
+    beneficiaries: '5,000 residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.1 m² (1.7→2.8 m²)\n• Accessibility (30%): +16pp coverage (52%→68%)\n• Heat Relief (20%): Cooling 2.8°C\n\nSCORE IMPROVEMENT: +15 points (11.3→26.3)' 
+  },
+  { 
+    id: 'ps_2', 
+    lat: 24.725, 
+    lng: 46.661, 
+    name: 'KING FAHD DIST. N',
+    size: '5,000 m²',
+    beneficiaries: '8,000 residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.3 m² (0.8→2.1 m²)\n• Accessibility (30%): +27pp coverage (48%→75%)\n• Heat Relief (20%): Canopy 5%→15%\n\nSCORE IMPROVEMENT: +18 points (11.3→29.3)' 
+  },
+  { 
+    id: 'ps_3', 
+    lat: 24.701, 
+    lng: 46.682, 
+    name: 'SULAIMANIYAH SOUTH',
+    size: '10,000 m²',
+    beneficiaries: '10,000 residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.5 m² (1.7→3.2 m²)\n• Accessibility (30%): +25pp coverage (60%→85%)\n• Irrigation (10%): Smart system, 40% water saved\n\nSCORE IMPROVEMENT: +22 points (LARGEST PARK)' 
+  },
+  { 
+    id: 'ps_4', 
+    lat: 24.743, 
+    lng: 46.655, 
+    name: 'AL NAKHEEL EDGE',
+    size: '7,000 m²',
+    beneficiaries: '12,000 daily commuters',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): Cooling corridor 3.2°C\n• Accessibility (30%): Transit hub 95% coverage\n• Per Capita Area (40%): 12,000 commuters served\n\nSCORE IMPROVEMENT: +12 points (Heat 70→85, Access 57.8→71)' 
+  },
+  { 
+    id: 'ps_5', 
+    lat: 24.734, 
+    lng: 46.685, 
+    name: 'MOHAMMADIYAH CORE',
+    size: '6,000 m²',
+    beneficiaries: '25,000 TOD residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +0.4 m² (2.0→2.4 m²)\n• Accessibility (30%): TOD 100% within 500m\n• Irrigation (10%): Rainwater harvest 85% coverage\n\nSCORE IMPROVEMENT: +16 points (11.3→27.3)' 
+  },
+  { 
+    id: 'ps_6', 
+    lat: 24.719, 
+    lng: 46.706, 
+    name: 'AL OLAYA EAST',
+    size: '5,000 m²',
+    beneficiaries: '4,000 daily office workers',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): CBD cooling 3.5°C, AC -25%\n• Per Capita Area (40%): 0→3.0 m² for workers\n• Accessibility (30%): CBD core 80% coverage\n\nSCORE IMPROVEMENT: +14 points (Heat 70→88, Per Capita 11.3→28.3)' 
+  },
+  { 
+    id: 'ps_7', 
+    lat: 24.683, 
+    lng: 46.652, 
+    name: 'AL MAATHER NODE',
+    size: '5,000 m²',
+    beneficiaries: '500K annual tourists',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Irrigation (10%): Heritage qanat preservation\n• Accessibility (30%): Cultural tourism zone\n• Per Capita Area (40%): +1.8 m² (1.7→3.5 m²)\n\nSCORE IMPROVEMENT: +18 points (Irrigation 81.3→95, Per Capita 11.3→32.3)' 
+  },
+  { 
+    id: 'ps_8', 
+    lat: 24.689, 
+    lng: 46.697, 
+    name: 'AL MUTAMARAT',
+    size: '8,000 m²',
+    beneficiaries: '8,000 low-income residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +3.3 m² (0.5→3.8 m²) MAXIMUM\n• Heat Relief (20%): CRITICAL cooling 4.0°C\n• Accessibility (30%): +55pp coverage (35%→90%)\n\nSCORE IMPROVEMENT: +25 points (TOP PRIORITY PROJECT)' 
+  },
+  { 
+    id: 'ps_9', 
+    lat: 24.782, 
+    lng: 46.634, 
+    name: 'AL WOROUD GREEN',
+    size: '7,000 m²',
+    beneficiaries: '15,000 corridor residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): Continuous cooling 2.5°C belt\n• Irrigation (10%): Eco-corridor, biodiversity +25%\n• Per Capita Area (40%): +2.5 m² (1.7→4.2 m²)\n\nSCORE IMPROVEMENT: +20 points (Heat 70→90, Irrigation 81.3→96)' 
+  },
+  { 
+    id: 'ps_10', 
+    lat: 24.641, 
+    lng: 46.724, 
+    name: 'UMM AL HAMAM',
+    size: '4,000 m²',
+    beneficiaries: '3,500 residents',
+    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Irrigation (10%): Native species, 40% less water\n• Per Capita Area (40%): +2.3 m² (1.2→3.5 m²)\n• Accessibility (30%): Rapid deploy, 55%→82%\n\nSCORE IMPROVEMENT: +17 points (Irrigation 81.3→94, Per Capita 11.3→32.3)' 
+  },
 ];
 
 export default function Optimization() {
@@ -1025,13 +1086,38 @@ export default function Optimization() {
                     <div className="absolute bottom-[2px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[10px] border-t-white z-0 drop-shadow-md"></div>
                     
                     {/* Tooltip / Nameplate */}
-                    <div className="absolute bottom-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-[#051105]/95 border border-[#00B558]/50 backdrop-blur-xl px-3 py-2 rounded-md shadow-[0_0_25px_rgba(0,181,88,0.3)] w-[220px] flex flex-col items-start text-left z-50">
-                       <span className="text-[#00B558] font-black text-[10px] tracking-widest uppercase mb-1 drop-shadow-[0_0_5px_rgba(0,181,88,0.5)] flex items-center gap-1">
-                         <MapPin className="w-3 h-3" /> {park.name}
-                       </span>
-                       <span className="text-gray-300 font-bold text-[9px] uppercase leading-tight tracking-wider">
-                         {park.reason}
-                       </span>
+                    <div className="absolute bottom-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-[#0a140a]/95 border backdrop-blur-xl rounded-md shadow-[0_0_50px_rgba(0,181,88,0.4)] w-[340px] flex flex-col items-start text-left z-50 overflow-hidden" style={{ borderColor: '#00B55860' }}>
+                       {/* Header */}
+                       <div className="w-full flex justify-between items-center p-3 border-b bg-gradient-to-r" style={{ borderColor: '#00B55830', backgroundImage: 'linear-gradient(to right, #00B55820, transparent)' }}>
+                         <div className="flex items-center gap-2">
+                           <div className="p-1.5 bg-[#051105] rounded-sm border" style={{ borderColor: '#00B55850', boxShadow: '0 0 10px #00B55820' }}>
+                             <TreePine className="w-4 h-4 text-[#00B558]" />
+                           </div>
+                           <div>
+                             <div className="text-[8px] text-gray-400 font-bold tracking-widest uppercase">Park Site Selection</div>
+                             <div className="text-[12px] font-black text-gray-100 tracking-wider mt-0.5">{park.name}</div>
+                           </div>
+                         </div>
+                       </div>
+                       
+                       {/* Stats Grid */}
+                       <div className="w-full grid grid-cols-2 gap-2 p-3 border-b border-gray-800/50">
+                         <div className="bg-[#051105]/80 border border-gray-800 p-2 rounded-sm">
+                           <div className="text-[8px] text-gray-400 mb-0.5 font-bold uppercase">Park Size</div>
+                           <div className="text-[14px] text-gray-200 font-black">{park.size}</div>
+                         </div>
+                         <div className="bg-[#051105]/80 border border-gray-800 p-2 rounded-sm">
+                           <div className="text-[8px] text-gray-400 mb-0.5 font-bold uppercase">Beneficiaries</div>
+                           <div className="text-[14px] text-gray-200 font-black">{park.beneficiaries}</div>
+                         </div>
+                       </div>
+                       
+                       {/* Impact Description */}
+                       <div className="w-full p-3">
+                         <div className="text-[9px] text-gray-300 leading-relaxed whitespace-pre-line font-medium">
+                           {park.reason}
+                         </div>
+                       </div>
                     </div>
                   </div>
                 </Marker>
