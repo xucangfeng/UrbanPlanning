@@ -98,13 +98,13 @@ INDEX = 100 × (V_ACTUAL / V_BASE) × C_MOD
 
 #### 1.2.1 Housing Demand Forecast (`dmd_1`)
 
-**Description:** Housing shortfall by 2030 across 6 regions. Uses NHC Sakani data + population growth models. 2030 Target: 70% homeownership. Current: 63%. Deficit = units to close gap.
+**Description:** Housing shortfall by 2030 across 6 regions. Uses NHC Sakani data + population growth models. 2030 Target: 70% homeownership (*real). Current: 63%. Deficit = units to close gap.
 
 | Metric | Value |
 |---|---|
 | By-2030 Deficit | **-153K** units |
 | Current Homeownership (Q1 2026) | **63%** |
-| 2030 Target | **70%** |
+| 2030 Target | **70%** (*real) |
 
 **Map markers (6 regions):**
 
@@ -146,7 +146,7 @@ INDEX = 100 × (V_ACTUAL / V_BASE) × C_MOD
 
 #### 1.3.1 White Land Activation Rate (`idl_1`)
 
-**Description:** AI scans MOMRAH White Land Registry + satellite imagery to pinpoint idle parcels. Explains why each plot is undeveloped and recommends use. Applies White Land Tax (2.5% annual levy).
+**Description:** AI scans MOMRAH White Land Registry + satellite imagery to pinpoint idle parcels. Explains why each plot is undeveloped and recommends use. Applies White Land Tax (2.5% annual levy) (*real — approved by Saudi Cabinet, applies to plots >5,000 sqm).
 
 | Metric | Value |
 |---|---|
@@ -324,7 +324,7 @@ The Dashboard Logic: When your dashboard shows "58," it is pulling real-time dat
 | 2030 Target Yield | **7.5%** |
 | Gap | +2.3 percentage points |
 | Zones Tracked | **9** |
-| Vision 2030 Macro Goal | RE contributes 10% of GDP |
+| Vision 2030 Macro Goal | RE contributes 10% of GDP (*real) |
 
 **Relationship between 7.5% yield target and 10% GDP goal:** The 7.5% yield target is the investment attractiveness metric needed to attract sufficient domestic and foreign capital into Saudi real estate. Higher yields → more private investment → sector growth → achieving the macro 10% GDP contribution target.
 
@@ -472,7 +472,7 @@ This page optimizes land allocation, parking and accessibility, park coverage, p
 
 | Dimension | Weight | Current Score | Actual Value |
 |---|---|---|---|
-| Per Capita Area | 40% | 11.3 | 1.7 m² (WHO standard: 9 m²) |
+| Per Capita Area | 40% | 11.3 | 1.7 m² (WHO standard: 9 m²) (*real — WHO recommended minimum) |
 | Accessibility | 30% | 57.8 | 52% population coverage |
 | Heat Relief | 20% | 70 | 2.1°C average cooling effect |
 | Irrigation Efficiency | 10% | 81.3 | 65% smart irrigation |
@@ -610,9 +610,9 @@ This page runs "what-if" simulations for downtown Riyadh, testing traffic, mobil
 | Setting | Slider Label | Range | Step | Default | Unit | Description |
 |---|---|---|---|---|---|---|
 | `additionalLanes` | Additional Lanes (Major Corridors) | 0 – 4 | 1 | 0 | lanes | Number of extra lanes added to 6 major downtown corridors (King Fahd Rd, Olaya St, King Abdullah Rd, Northern Ring, Makkah Rd, Eastern Ring). Methods: remove on-street parking (+1), road widening (+2), contraflow peak lanes (+1). Each lane adds ~800–1,000 veh/hr capacity per corridor. |
-| `metroShift` | Metro Ridership Shift | 0 – 40 | 2 | 0 | % | Percentage of current car commuters shifting to Riyadh Metro Lines 1–6. Each 10% shift removes ~12,400 vehicles from downtown roads during peak hours. |
-| `signalOptimization` | Signal Optimization Coverage | 30 – 100 | 5 | 30 | % | Percentage of downtown intersections upgraded with Adaptive Traffic Signal Control (ATSC). Baseline: 30% of 180 intersections already have SCATS/SCOOT systems. Slider adjusts coverage up to 100%. |
-| `congestionPricing` | Proposed Peak-Hour Toll | 0 – 30 | 1 | 0 | SAR | New congestion charge for vehicles entering the downtown core zone during peak hours (7–9 AM, 4–7 PM). Currently: 0 SAR (no toll exists). Reference: London ~70 SAR, Stockholm ~15 SAR, Singapore ~14 SAR. |
+| `metroShift` | Metro Ridership Shift | 0 – 40 | 2 | 0 | % | Percentage of current car commuters shifting to Riyadh Metro Lines 1–6 (*real — 6 lines, 85 stations, 176 km, opened Dec 2024, world's longest driverless metro). Each 10% shift removes ~12,400 vehicles from downtown roads during peak hours. |
+| `signalOptimization` | Signal Optimization Coverage | 30 – 100 | 5 | 30 | % | Percentage of downtown intersections upgraded with Adaptive Traffic Signal Control (ATSC). Baseline: 30% of 180 intersections already have SCATS/SCOOT systems (*real — real adaptive signal control technologies). Slider adjusts coverage up to 100%. |
+| `congestionPricing` | Proposed Peak-Hour Toll | 0 – 30 | 1 | 0 | SAR | New congestion charge for vehicles entering the downtown core zone during peak hours (7–9 AM, 4–7 PM). Currently: 0 SAR (no toll exists). Reference: London ~70 SAR, Stockholm ~15 SAR, Singapore ~14 SAR (*real — approximate real-world congestion pricing benchmarks). |
 
 #### Computation Formulas
 
@@ -908,12 +908,14 @@ ON TRACK: Within ±5% of planned
 
 | Project | Type | Location | Total Area | Progress | Budget (B SAR) | Deadline | Status |
 |---|---|---|---|---|---|---|---|
-| NEOM – The Line | Mega City | Tabuk | 170 KM | 72.4% | 500 | 2030 | AHEAD (+12.4%) |
-| Diriyah Gate PH2 | Heritage | Riyadh | 22 KM² | 86.4% | 45 | 2028 | AHEAD (+15%) |
-| New Murabba | Downtown | Riyadh | 19 KM² | 26.3% | 104 | 2030 | DELAYED (-33.7%) |
-| Riyadh Metro PH3 | Infrastructure | Riyadh | 45 KM | 33.3% | 28 | 2029 | DELAYED (-29.2%) |
-| Red Sea Global PH2 | Tourism | Red Sea | 35 KM² | 74.3% | 32 | 2028 | ON TRACK (+2.9%) |
-| Qiddiya Entertainment | Entertainment | Riyadh | 366 KM² | 76.5% | 75 | 2028 | ON TRACK (+1.5%) |
+| NEOM – The Line | Mega City | Tabuk (*real) | 170 KM | 72.4% | 500 | 2030 (*real) | AHEAD (+12.4%) |
+| Diriyah Gate PH2 | Heritage | Riyadh (*real) | 22 KM² | 86.4% | 45 | 2028 | AHEAD (+15%) |
+| New Murabba | Downtown | Riyadh (*real) | 19 KM² (*real) | 26.3% | 104 | 2030 (*real) | DELAYED (-33.7%) |
+| Riyadh Metro PH3 | Infrastructure | Riyadh (*real) | 45 KM | 33.3% | 28 | 2029 | DELAYED (-29.2%) |
+| Red Sea Global PH2 | Tourism | Red Sea (*real) | 35 KM² | 74.3% | 32 | 2028 | ON TRACK (+2.9%) |
+| Qiddiya Entertainment | Entertainment | Riyadh (*real) | 366 KM² (*real — Wikipedia cites ~334 KM²) | 76.5% | 75 | 2028 | ON TRACK (+1.5%) |
+
+> **Note on giga-project data:** Project names, types, locations, and deadlines are **real** (sourced from official announcements). Total areas are approximately real. However, progress percentages, budget figures (B SAR), and status labels (AHEAD/DELAYED/ON TRACK) are **sample data** fabricated for the demo.
 
 ---
 
@@ -957,7 +959,9 @@ Overview dashboard providing at-a-glance KPIs across all four functional areas, 
 
 ### 6.1 Real / Factual Data
 
-These items are based on verifiable public information:
+These items are based on verifiable public information, cross-referenced against government websites and reliable third-party sources (March 2026):
+
+#### 6.1.1 Previously Listed (structural references)
 
 | Category | Examples | Source |
 |---|---|---|
@@ -971,14 +975,41 @@ These items are based on verifiable public information:
 | **Benchmark references** | London congestion charge (~70 SAR), Stockholm (~15 SAR), Singapore (~14 SAR) | Approximate real-world congestion pricing |
 | **Riyadh existing drain network** | 340km baseline network | Approximate real figure |
 
+#### 6.1.2 Verified Targets and Values (online-confirmed)
+
+The following specific numbers used in the demo have been verified against official/reliable sources:
+
+| Data Point | Value in Demo | Verified Value | Source | Section |
+|---|---|---|---|---|
+| **Homeownership 2030 target** | 70% | 70% ✅ | Vision 2030 official target; confirmed by Global Property Guide, multiple news outlets | `dmd_1` |
+| **White Land Tax rate** | 2.5% annual levy | 2.5% ✅ | Saudi Cabinet-approved policy (plots >5,000 sqm); confirmed by Global Property Guide, JLL reports | `idl_1` |
+| **WHO green space standard** | 9 m²/person | 9 m²/person ✅ | WHO recommended minimum for urban green space | `grn_1` |
+| **RE sector 10% of GDP target** | 10% of GDP | 10% of GDP ✅ | Vision 2030 macro goal for real estate sector contribution | `ast_2` |
+| **Riyadh Metro** | Lines 1–6 | 6 lines, 85 stations, 176 km ✅ | Opened Dec 2024; Guinness World Record longest driverless metro (Wikipedia, RCRC) | Sec 3.1 |
+| **SCATS/SCOOT systems** | Referenced as existing signal tech | Real adaptive traffic control systems ✅ | Used globally including Saudi Arabia | Sec 3.1 |
+| **Congestion pricing benchmarks** | London ~70 SAR, Stockholm ~15 SAR, Singapore ~14 SAR | Approximately correct ✅ | London ~£15/day ≈ 67 SAR; Stockholm ~SEK 60 ≈ 15 SAR; Singapore ~S$5 ≈ 14 SAR | Sec 3.1 |
+| **Saudi Building Code** | SBC 601/602 | Real code references ✅ | Saudi MOMRA building code standards | `ast_1`, Sec 3.5 |
+| **SAIFI/SAIDI indices** | Referenced as utility reliability metrics | Standard IEEE power reliability indices ✅ | Used by SEC (Saudi Electricity Company) | `ast_1` |
+| **New Murabba area** | 19 KM² | 19 KM² ✅ | Confirmed by Wikipedia, MEED, official project announcement | Sec 4.3 |
+| **New Murabba deadline** | 2030 | 2030 ✅ | Official project timeline (Construction Week) | Sec 4.3 |
+| **NEOM location** | Tabuk | Tabuk ✅ | Official NEOM announcement | Sec 4.3 |
+| **NEOM deadline** | 2030 | 2030 (first phase) ✅ | Full completion expected ~2045; first 5 km segment by 2030 | Sec 4.3 |
+| **Qiddiya area** | 366 KM² | ~334 KM² (≈ close) | Wikipedia / official sources cite 334 sq km | Sec 4.3 |
+| **Sakani housing program** | Referenced as NHC initiative | Real program ✅ | Launched 2018; >800,000 contracts facilitated (Vision 2030 website) | `dmd_1` |
+| **Saudi population** | ~8.6M Riyadh (regional) | Total national: ~35.3M ✅ | GASTAT 2024 census data | `dmd_1` |
+| **Homeownership baseline (2016)** | — | ~47% in 2016 ✅ | Global Property Guide citing GASTAT | — |
+| **Homeownership (actual, early 2025)** | 63% (Q1 2026 in demo) | ~65.4% (early 2025) ⚠️ | Demo uses 63%, real figure was 63.7% in 2024, 65.4% by early 2025 | `dmd_1` |
+
+> **Note:** The homeownership rate of 63% used in the demo is close to the real 2024 figure (63.7% per GASTAT/Global Property Guide). By Q1 2026, the actual rate was likely ~65–66%. The demo value is directionally correct but slightly outdated.
+
 ### 6.2 Sample / Dummy Data
 
-All numerical values, indicators, map markers, project statuses, and simulation results are **fabricated for demo purposes**:
+All numerical values, indicators, map markers, project statuses, and simulation results are **fabricated for demo purposes** unless specifically marked (*real) above:
 
 | Category | What is sample | Notes |
 |---|---|---|
 | **All indicator values** | 78/100 commute index, 38% activation, 54/100 infra score, 5.2% yield, etc. | Illustrative, not from real datasets |
-| **All 2030 target values** | 92/100, 65%, 75/100, 7.5%, etc. | Realistic but not official per-indicator targets |
+| **Most 2030 target values** | 92/100, 65%, 75/100, 7.5%, etc. | Realistic but not official per-indicator targets. **Exceptions:** 70% homeownership and RE 10% of GDP are (*real) Vision 2030 targets |
 | **Map marker locations** | Al Yasmin Block 4A, Al Malqa Apex, KAFD North Buffer Zone, etc. | Location names are plausible but parcels/zones are fictional |
 | **Map marker data** | Areas (14,500 SQM), idle years (4 yrs), severity levels, risk scores | All fabricated |
 | **City congestion rankings** | Riyadh 78, Jeddah 72, Makkah 68, etc. | Fictional index values |
@@ -986,7 +1017,7 @@ All numerical values, indicators, map markers, project statuses, and simulation 
 | **Housing deficit figures** | -153K total, -35K Riyadh, -42K Makkah, etc. | Illustrative, not from NHC data |
 | **Regional yield data** | 5.8% Riyadh, 4.8% Makkah, zone-level forecasts, confidence % | All fabricated |
 | **Agent/zone scores** | All sub-dimension scores, weighted calculations | Designed to look realistic but are dummy |
-| **Project pipeline statuses** | NEOM 72.4%, New Murabba 26.3%, budget figures (500B, 104B, etc.) | Fictional progress and budget data |
+| **Project pipeline statuses** | NEOM 72.4%, New Murabba 26.3%, budget figures (500B, 104B, etc.) | Progress percentages and budget figures are fictional. **Project names, types, locations, areas (e.g. New Murabba 19 KM²), and deadlines are (*real)** |
 | **Monitoring data** | Footprint drift +2.8%, urban sprawl 14.2 KM², CAPEX idle rates | All sample data |
 | **Simulation formulas** | UT gain, MI multipliers, EF financial model, ER flood model | Simplified models for demo; not calibrated to real-world data |
 | **Simulation defaults & ranges** | 0–4 lanes, 0–40% metro shift, 15–60% mixed-use, etc. | Plausible ranges but not from any urban planning study |
@@ -997,8 +1028,13 @@ All numerical values, indicators, map markers, project statuses, and simulation 
 
 ### 6.3 Summary Rule
 
-> **If it is a number, score, percentage, area, budget, deficit, index, rank, progress, or map coordinate in this demo — it is SAMPLE data.**
-> Only structural references (agency names, city names, policy names, project names, standards) are real.
+> **If it is a number, score, percentage, area, budget, deficit, index, rank, progress, or map coordinate in this demo — it is SAMPLE data, UNLESS marked with (*real).**
+>
+> Confirmed (*real) values: **70% homeownership target**, **White Land Tax 2.5%**, **WHO 9 m²/person**, **RE 10% of GDP target**, **Riyadh Metro 6 lines / 176 km**, **New Murabba 19 KM² / 2030 deadline**, **NEOM Tabuk / 2030 deadline**, **SCATS/SCOOT systems**, **SBC 601/602**, **SAIFI/SAIDI**, **congestion pricing benchmarks**.
+>
+> All other numerical values (scores, indices, deficits, yields, progress %, budget figures, map marker data) are SAMPLE.
+>
+> Structural references (agency names, city names, policy names, project names, standards) are real.
 
 ---
 
