@@ -358,7 +358,6 @@ const AGENTS_DATA = {
         desc: "AI ANALYZES SATELLITE FOOTPRINT, INFRA DENSITY, AND ZONING TO IDENTIFY UNDERUTILIZED ZONES. SCORES IMPACT PER ZONE AND RECOMMENDS DEVELOPMENT.",
         stats: [
           { label: 'CURRENT Q1 2026', value: '58', color: '#ff4444' },
-          { label: '2030 TARGET', value: '80', color: '#00B558' },
           { label: 'ZONES FLAGGED', value: '13', color: '#FCD34D' }
         ]
       }
@@ -674,7 +673,7 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                  <div className="flex justify-between items-end gap-2 w-full mb-1">
                    <span 
                       className="font-black leading-none tracking-tighter" 
-                      style={{ color: primaryStat.color, fontSize: layout === 'full' ? '46px' : '36px', textShadow: `0 0 20px ${primaryStat.color}60` }}
+                      style={{ color: primaryStat.color, fontSize: item.id === 'idl_2' ? (layout === 'full' ? '32px' : '28px') : (layout === 'full' ? '46px' : '36px'), textShadow: `0 0 20px ${primaryStat.color}60` }}
                    >
                       {primaryStat.value}
                    </span>
@@ -682,6 +681,30 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                       {primaryStat.label}
                    </span>
                  </div>
+
+                 {/* idl_2: Progress bar right below the value */}
+                 {item.id === 'idl_2' && (
+                   <div className="w-full mb-1">
+                     <div className="flex justify-between items-center mb-1">
+                       <span className="text-[8px] font-bold tracking-[0.12em] uppercase text-gray-600">PROGRESS</span>
+                       <span className="text-[9px] font-black tracking-wider" style={{ color: '#FCD34D' }}>72.5%</span>
+                     </div>
+                     <div className="relative w-full h-[5px] bg-[#1a2a1a] rounded-full overflow-visible">
+                       <motion.div
+                         className="absolute left-0 top-0 h-full rounded-full"
+                         style={{ background: 'linear-gradient(90deg, #ff4444, #FCD34D)', boxShadow: '0 0 6px rgba(252,211,77,0.3)' }}
+                         initial={{ width: 0 }}
+                         animate={{ width: '72.5%' }}
+                         transition={{ duration: 1.5, ease: "easeOut" }}
+                       />
+                     </div>
+                     <div className="flex justify-between items-center mt-0.5">
+                       <span className="text-[7px] text-gray-600 font-bold">0</span>
+                       <span className="text-[7px] text-[#FCD34D] font-bold">58 CURRENT</span>
+                       <span className="text-[7px] text-[#00B558] font-bold">80 TARGET</span>
+                     </div>
+                   </div>
+                 )}
                  
                  {/* Stacked secondary metrics */}
                  <div className={`flex flex-col w-full ${isRightPanel ? 'flex-1 justify-center mb-1' : ''}`}>
