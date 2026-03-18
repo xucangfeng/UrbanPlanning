@@ -197,7 +197,13 @@ Based on current 2026 data and the specific numbers you cited (Current: 58, Targ
 
 **How is it Calculated?**
 
-The index is a spatial ratio that evaluates how much of the "built-up" urban area is effectively utilized for public benefit (like parks, services, or optimized housing) compared to the total planned urban land.The Formula:$$ULUI = \left( \frac{\text{Area of Urban Clusters with Active Services/Parks}}{\text{Total Developed Urban Area}} \right) \times 100$$
+The index is a spatial ratio that evaluates how much of the "built-up" urban area is effectively utilized for public benefit (like parks, services, or optimized housing) compared to the total planned urban land.
+
+The Formula:
+
+$$
+ULUI = \left( \frac{\text{Area of Urban Clusters with Active Services/Parks}}{\text{Total Developed Urban Area}} \right) \times 100
+$$
 
 Numerator: Land that is not just "built" but "activated" (e.g., has a park, is mixed-use, or is fully integrated into the utility grid).
 
