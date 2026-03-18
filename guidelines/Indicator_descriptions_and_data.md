@@ -1,4 +1,4 @@
-# Sample Data — Urban Planning Companion
+# Urban Planning Companion
 
 > Consolidated reference of all indicators, sample readings, 2030 targets, map markers, and calculation methodologies currently displayed in the demo.
 > Data as of **Q1 2026** (simulated).
