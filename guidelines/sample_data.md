@@ -199,6 +199,16 @@ INDEX = 100 × (V_ACTUAL / V_BASE) × C_MOD
 | 12 | Buraidah–Unaizah Corridor | Qassim | 14 KM² | HIGH |
 | 13 | Al Rass Heritage Quarter | Qassim | 2 KM² | HIGH |
 
+### Value to the Ministry
+
+| What the Ministry Gets | White Land Activation | Urban Utilization |
+|---|---|---|
+| **Actionable intelligence** | Specific plots with owner status, tax penalty amounts, and building permit history | Specific zones with km², why blocked, what to build |
+| **Policy enforcement** | White Land Tax escalation decisions backed by satellite evidence | Rezoning and infrastructure priority decisions |
+| **Housing delivery** | Direct link to Sakani waitlist — "this plot serves 320 families within 2 km" | "This zone can deliver 37,500 units at medium density" |
+| **Accountability** | Track each plot from "idle" → "permit issued" → "construction started" | Track index score improvement per zone per quarter |
+| **Vision 2030 alignment** | 38% → 65% activation target with specific parcels mapped to close the gap | Score 58 → 80 with each zone's contribution quantified |
+
 ---
 
 ### 1.4 Asset Evaluation Agent
