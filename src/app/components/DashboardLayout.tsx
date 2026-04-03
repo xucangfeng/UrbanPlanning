@@ -12,11 +12,11 @@ export function cn(...inputs: ClassValue[]) {
 
 // ── Route → Header config (must be before DashboardLayout) ─────────────────
 const ROUTE_CONFIG: Record<string, { title: string; subtitle: string; city: string; temp: string; weather: string }> = {
-  '/':             { title: 'OVERALL URBAN PLANNING PANORAMA',   subtitle: 'National Overview',              city: 'Saudi Arabia', temp: '32°C', weather: 'Clear' },
-  '/diagnostics_and_forecasting': { title: 'DIAGNOSTICS AND FORECASTING',    subtitle: 'Anomaly Detection & Root Cause', city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
-  '/optimization': { title: 'LAND USE OPTIMIZATION AND ZONING',  subtitle: 'Urban Planning Companion',       city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
-  '/simulation':   { title: 'IMPACT SIMULATION AND FEASIBILITY ASSESSMENT',           subtitle: 'Predictive Modeling',            city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
-  '/monitoring':         { title: 'MONITORING AND IMPROVEMENT',    subtitle: 'Live Telemetry',                 city: 'Riyadh',       temp: '28°C', weather: 'Sunny' },
+  '/':             { title: '城市规划全景总览',   subtitle: '全国概览',              city: '沙特阿拉伯', temp: '32°C', weather: '晴朗' },
+  '/diagnostics_and_forecasting': { title: '诊断与预测',    subtitle: '异常检测与根因分析', city: '利雅得',       temp: '28°C', weather: '晴朗' },
+  '/optimization': { title: '土地利用优化与分区规划',  subtitle: '城市规划助手',       city: '利雅得',       temp: '28°C', weather: '晴朗' },
+  '/simulation':   { title: '影响模拟与可行性评估',           subtitle: '预测建模',            city: '利雅得',       temp: '28°C', weather: '晴朗' },
+  '/monitoring':         { title: '监测与持续改进',    subtitle: '实时遥测',                 city: '利雅得',       temp: '28°C', weather: '晴朗' },
 };
 
 function LiveClock() {
@@ -117,10 +117,10 @@ export default function DashboardLayout() {
             </div>
             <div className="flex items-center gap-2 cursor-pointer group hover:bg-[#16a34a]/15 px-2 py-1.5 rounded-sm transition-all duration-300 border border-transparent hover:border-[#16a34a]/40">
               <div className="relative flex items-center justify-center w-8 h-8 rounded-full border border-[#16a34a]/50 shadow-[0_0_12px_rgba(22,163,74,0.3)] group-hover:border-[#16a34a] transition-all overflow-hidden p-0.5">
-                 <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256&auto=format&fit=crop" alt="H.E. Minister" className="w-full h-full object-cover rounded-full" />
+                 <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256&auto=format&fit=crop" alt="部长阁下" className="w-full h-full object-cover rounded-full" />
                  <div className="absolute inset-0 rounded-full shadow-[inset_0_0_10px_rgba(0,0,0,0.8)] pointer-events-none"></div>
               </div>
-              <span className="text-xs font-bold tracking-widest text-[#22c55e] group-hover:text-white transition-colors uppercase drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]">H.E. Minister View</span>
+              <span className="text-xs font-bold tracking-widest text-[#22c55e] group-hover:text-white transition-colors uppercase drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]">部长视图</span>
               <ChevronDown className="w-3 h-3 text-[#22c55e]/70 group-hover:text-[#22c55e] transition-colors" />
             </div>
           </div>
@@ -139,11 +139,11 @@ export default function DashboardLayout() {
           style={{ clipPath: 'polygon(5% 0, 95% 0, 100% 100%, 0 100%)' }}
         >
           <nav className="flex space-x-8 items-center">
-            <NavItem to="/" label="PANORAMA" color="text-[#eab308]" glow="rgba(234,179,8,0.8)" />
-            <NavItem to="/diagnostics_and_forecasting" label="DIAGNOSTICS" color="text-[#22c55e]" glow="rgba(34,197,94,0.8)" />
-            <NavItem to="/optimization" label="OPTIMIZATION" color="text-[#facc15]" glow="rgba(250,204,21,0.8)" isTarget={true} />
-            <NavItem to="/simulation" label="SIMULATION" color="text-[#047857]" glow="rgba(4,120,87,0.8)" />
-            <NavItem to="/monitoring" label="MONITORING" color="text-[#ca8a04]" glow="rgba(202,138,4,0.8)" />
+            <NavItem to="/" label="全景总览" color="text-[#eab308]" glow="rgba(234,179,8,0.8)" />
+            <NavItem to="/diagnostics_and_forecasting" label="诊断预测" color="text-[#22c55e]" glow="rgba(34,197,94,0.8)" />
+            <NavItem to="/optimization" label="优化配置" color="text-[#facc15]" glow="rgba(250,204,21,0.8)" isTarget={true} />
+            <NavItem to="/simulation" label="模拟仿真" color="text-[#047857]" glow="rgba(4,120,87,0.8)" />
+            <NavItem to="/monitoring" label="监测改进" color="text-[#ca8a04]" glow="rgba(202,138,4,0.8)" />
           </nav>
         </div>
       </div>

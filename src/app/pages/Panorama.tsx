@@ -40,19 +40,19 @@ const flowData = [
 ];
 
 const sprawlData = [
-  { time: 'JAN', reported: 490, detected: 490 },
-  { time: 'MAR', reported: 494, detected: 496 },
-  { time: 'MAY', reported: 496, detected: 501 },
-  { time: 'JUL', reported: 498, detected: 507 },
-  { time: 'SEP', reported: 499, detected: 511 },
-  { time: 'DEC', reported: 500, detected: 514.2 },
+  { time: '1月', reported: 490, detected: 490 },
+  { time: '3月', reported: 494, detected: 496 },
+  { time: '5月', reported: 496, detected: 501 },
+  { time: '7月', reported: 498, detected: 507 },
+  { time: '9月', reported: 499, detected: 511 },
+  { time: '12月', reported: 500, detected: 514.2 },
 ];
 
 const landUseData = [
-  { name: "COMMERCIAL", value: 34, color: "#FCD34D" },
-  { name: "RESIDENTIAL", value: 28, color: "#006C35" },
-  { name: "GREEN", value: 21, color: "#00B558" },
-  { name: "SERVICE", value: 17, color: "#3b82f6" },
+  { name: "商业用地", value: 34, color: "#FCD34D" },
+  { name: "住宅用地", value: 28, color: "#006C35" },
+  { name: "绿地", value: 21, color: "#00B558" },
+  { name: "公共服务", value: 17, color: "#3b82f6" },
 ];
 
 const renderFlowDot = (props: any) => {
@@ -136,16 +136,16 @@ export default function Panorama() {
         >
           {/* Road Network Expansion — from Diagnostics dmd_2 data */}
           <Marker longitude={42.0} latitude={26.5} anchor="bottom">
-            <MapLabel title="RIYADH–NEOM" metric="4.2K KM" desc="CORRIDOR PLANNED · 2029" type="alert" />
+            <MapLabel title="利雅得–NEOM" metric="4,200 KM" desc="走廊规划 · 2029" type="alert" />
           </Marker>
           <Marker longitude={39.1} latitude={22.4} anchor="bottom">
-            <MapLabel title="JEDDAH–KAEC" metric="1.8K KM" desc="EXPRESSWAY IN PROGRESS · 2028" type="warning" />
+            <MapLabel title="吉达–KAEC" metric="1,800 KM" desc="高速公路建设中 · 2028" type="warning" />
           </Marker>
           <Marker longitude={50.1} latitude={26.45} anchor="bottom">
-            <MapLabel title="E. PROVINCE RING" metric="3.5K KM" desc="FREIGHT RING · 2030" type="alert" />
+            <MapLabel title="东部省环线" metric="3,500 KM" desc="货运环线 · 2030" type="alert" />
           </Marker>
           <Marker longitude={42.3} latitude={18.25} anchor="bottom">
-            <MapLabel title="ABHA–SOUDAH" metric="0.8K KM" desc="TOURISM RD DESIGN · 2028" type="warning" />
+            <MapLabel title="艾卜哈–索达" metric="800 KM" desc="旅游公路设计 · 2028" type="warning" />
           </Marker>
         </Map>
         {/* Dark map wash to ensure UI overlays pop */}
@@ -166,12 +166,12 @@ export default function Panorama() {
         
         {/* Action 1: Diagnostics & Prediction */}
         <div onClick={() => navigate('/diagnostics_and_forecasting')} className="flex-[1.2] min-h-0 cursor-pointer">
-        <WidgetPanel title="DIAGNOSTICS & PREDICTION" icon={<Activity className="w-4 h-4 text-[#00B558]" />} className="h-full">
+        <WidgetPanel title="诊断与预测" icon={<Activity className="w-4 h-4 text-[#00B558]" />} className="h-full">
           <div className="flex flex-col gap-3 h-full">
             <div className="h-[60%] flex-none min-h-0 w-full relative p-2 bg-[#051105]/40 border border-[#00B558]/30 shadow-[inset_0_0_15px_rgba(0,181,88,0.05)]">
                <div className="absolute top-2 left-2 right-2 text-[10px] font-bold text-[#00B558] mb-1 flex justify-between tracking-widest z-10 uppercase">
-                 <span>Flow Agent (24H Commute)</span>
-                 <span className="text-[#ff4444]">Threshold &gt;45M</span>
+                 <span>流量智能体 (24H通勤)</span>
+                 <span className="text-[#ff4444]">阈值 &gt;45M</span>
                </div>
                <ResponsiveContainer width="100%" height="100%">
                  <LineChart data={flowData} margin={{ top: 20, right: 10, left: -20, bottom: -5 }}>
@@ -180,8 +180,8 @@ export default function Panorama() {
                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                    <Tooltip 
                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }} 
-                     formatter={(value: number) => [`${value}M/hr`, 'Flow Vol.']}
-                     labelFormatter={(label) => `Time: ${label}`}
+                     formatter={(value: number) => [`${value}M/时`, '流量']}
+                     labelFormatter={(label) => `时间: ${label}`}
                    />
                    <ReferenceLine y={45} stroke="#ff4444" strokeDasharray="3 3" label={{ position: 'insideTopLeft', value: '>45M', fill: '#ff4444', fontSize: 10, fontWeight: 'bold' }} />
                    <Line type="monotone" dataKey="value" stroke="#00B558" strokeWidth={2.5} dot={renderFlowDot} isAnimationActive={false} activeDot={{ r: 5, stroke: '#fff', strokeWidth: 2 }} />
@@ -189,8 +189,8 @@ export default function Panorama() {
                </ResponsiveContainer>
             </div>
             <div className="grid grid-cols-2 gap-2 flex-1 min-h-0">
-               <KpiCard act="Demand Forecaster" metric="-153K" unit="UNITS" desc="Housing Deficit by 2030" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#D4AF37]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
-               <KpiCard act="Idle Land Agent" metric="38" unit="%" desc="White Land Activation" icon={<MapPin className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
+               <KpiCard act="需求预测器" metric="-153K" unit="单位" desc="2030年住房缺口" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#D4AF37]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
+               <KpiCard act="闲置土地智能体" metric="38" unit="%" desc="白地激活率" icon={<MapPin className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
             </div>
           </div>
         </WidgetPanel>
@@ -198,10 +198,10 @@ export default function Panorama() {
 
         {/* Action 2: Land Use Optimization */}
         <div onClick={() => navigate('/optimization')} className="flex-[0.8] min-h-0 cursor-pointer">
-        <WidgetPanel title="LAND USE OPTIMIZATION" icon={<PieChartIcon className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
+        <WidgetPanel title="土地利用优化" icon={<PieChartIcon className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
           <div className="flex gap-2 h-full">
             <div className="flex-[1.2] min-w-0 bg-[#051105]/40 border border-[#FCD34D]/30 p-2 flex flex-col items-center justify-between relative shadow-[inset_0_0_15px_rgba(252,211,77,0.05)]">
-               <span className="absolute top-1.5 left-2 text-[10px] font-bold text-[#FCD34D]/90 tracking-widest uppercase drop-shadow-sm w-full text-center pr-4 z-10">ZONING ADVISOR</span>
+               <span className="absolute top-1.5 left-2 text-[10px] font-bold text-[#FCD34D]/90 tracking-widest uppercase drop-shadow-sm w-full text-center pr-4 z-10">区划顾问</span>
                
                <div className="w-[150px] h-[150px] relative flex-1 flex flex-col justify-center items-center mt-3">
                  <ResponsiveContainer width="100%" height="100%">
@@ -213,13 +213,13 @@ export default function Panorama() {
                      </Pie>
                      <Tooltip 
                        contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }} 
-                       formatter={(value: number) => [`${value}%`, 'Share']}
+                       formatter={(value: number) => [`${value}%`, '占比']}
                      />
                    </PieChart>
                  </ResponsiveContainer>
                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                    <span className="text-[#FCD34D] text-[22px] font-black drop-shadow-[0_0_10px_rgba(252,211,77,0.8)] leading-none mt-1">73</span>
-                   <span className="text-[7px] text-gray-500 font-bold tracking-wider uppercase mt-0.5">BALANCE</span>
+                   <span className="text-[7px] text-gray-500 font-bold tracking-wider uppercase mt-0.5">平衡指数</span>
                  </div>
                </div>
                
@@ -236,8 +236,8 @@ export default function Panorama() {
             </div>
             
             <div className="flex-[0.7] min-w-0 flex flex-col gap-2">
-               <KpiCard act="Intervention Guide" metric="84" unit="" desc="Potential Score" icon={<Target className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" compact centered />
-               <KpiCard act="Access & Parking" metric="72" unit="" desc="Accessibility Index" icon={<Crosshair className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" compact centered />
+               <KpiCard act="干预指南" metric="84" unit="" desc="潜力评分" icon={<Target className="w-4 h-4 text-[#00B558]" />} borderColor="border-[#00B558]/40" bgColor="bg-[#006C35]/10" glow="group-hover:shadow-[0_0_15px_rgba(0,181,88,0.3)]" metricColor="text-[#00B558]" compact centered />
+               <KpiCard act="交通与停车" metric="72" unit="" desc="可达性指数" icon={<Crosshair className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" compact centered />
             </div>
           </div>
         </WidgetPanel>
@@ -294,23 +294,23 @@ export default function Panorama() {
         
         {/* Action 3: Impact Simulation & Feasibility */}
         <div onClick={() => navigate('/simulation')} className="flex-[0.9] min-h-0 cursor-pointer">
-        <WidgetPanel title="IMPACT SIMULATION" icon={<Layers className="w-4 h-4 text-[#00B558]" />} className="h-full">
+        <WidgetPanel title="影响模拟" icon={<Layers className="w-4 h-4 text-[#00B558]" />} className="h-full">
           <div className="flex flex-col gap-2 h-full">
             <div className="flex-[0.5] bg-gradient-to-br from-[#006C35]/40 to-transparent border border-[#00B558]/50 p-2.5 flex items-center justify-between relative shadow-[inset_0_0_20px_rgba(0,181,88,0.15)] rounded-sm backdrop-blur-sm group hover:border-[#00B558] transition-colors">
                <div className="flex flex-col pl-2">
                  <span className="text-sm text-[#10b981] font-black tracking-widest leading-tight uppercase drop-shadow-sm">
-                   FLOOD RISK<br/>INDEX
+                   洪涝风险<br/>指数
                  </span>
-                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">CURRENT · 2030 TARGET: 85</span>
+                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">当前 · 2030目标: 85</span>
                </div>
                <span className="text-[4.5rem] pr-2 leading-none font-black text-[#10b981] drop-shadow-[0_0_20px_rgba(16,185,129,0.6)] tracking-tighter">42</span>
             </div>
             <div className="flex-[0.5] bg-gradient-to-br from-[#1e3a5f]/40 to-transparent border border-[#3b82f6]/50 p-2.5 flex items-center justify-between relative shadow-[inset_0_0_20px_rgba(59,130,246,0.15)] rounded-sm backdrop-blur-sm group hover:border-[#3b82f6] transition-colors">
                <div className="flex flex-col pl-2">
                  <span className="text-sm text-[#3b82f6] font-black tracking-widest leading-tight uppercase drop-shadow-sm">
-                   PROJECT<br/>IRR
+                   项目<br/>IRR
                  </span>
-                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">CURRENT · 2030 TARGET: 18%</span>
+                 <span className="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">当前 · 2030目标: 18%</span>
                </div>
                <span className="text-[4.5rem] pr-2 leading-none font-black text-[#3b82f6] drop-shadow-[0_0_20px_rgba(59,130,246,0.6)] tracking-tighter">8<span className="text-3xl">%</span></span>
             </div>
@@ -320,16 +320,16 @@ export default function Panorama() {
 
         {/* Action 4: Monitoring & Improvement */}
         <div onClick={() => navigate('/monitoring')} className="flex-[1.1] min-h-0 cursor-pointer">
-        <WidgetPanel title="MONITORING & IMPROVEMENT" icon={<Wifi className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
+        <WidgetPanel title="监控与改进" icon={<Wifi className="w-4 h-4 text-[#FCD34D]" />} className="h-full">
           <div className="flex flex-col gap-3 h-full">
             <div className="grid grid-cols-2 gap-2 flex-1 min-h-0">
-               <KpiCard act="Change Tracker" metric="+2.8" unit="%" desc="Footprint Drift" icon={<Activity className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
-               <KpiCard act="Carrying Capacity" metric="+14" unit="K" desc="Net Influx/Mo" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
+               <KpiCard act="变化追踪器" metric="+2.8" unit="%" desc="足迹偏移" icon={<Activity className="w-4 h-4 text-[#ff4444]" />} borderColor="border-[#ff4444]/40" bgColor="bg-[#ef4444]/10" glow="group-hover:shadow-[0_0_15px_rgba(255,68,68,0.3)]" metricColor="text-[#ff4444]" centered />
+               <KpiCard act="承载力" metric="+14" unit="K" desc="月净流入" icon={<TrendingUp className="w-4 h-4 text-[#FCD34D]" />} borderColor="border-[#FCD34D]/40" bgColor="bg-[#FCD34D]/10" glow="group-hover:shadow-[0_0_15px_rgba(252,211,77,0.3)]" metricColor="text-[#FCD34D]" centered />
             </div>
             <div className="h-[60%] flex-none w-full min-h-0 border-t border-[#FCD34D]/30 pt-2 mt-1 relative">
                <div className="absolute top-2 right-2 text-[10px] font-bold text-[#FCD34D] mb-1 flex flex-col items-end tracking-widest z-10 uppercase">
-                 <span>Urban Sprawl Gap</span>
-                 <span className="text-[#ff4444]">Drift: 14.2 KM²</span>
+                 <span>城市扩展差距</span>
+                 <span className="text-[#ff4444]">偏移: 14.2 KM²</span>
                </div>
                <ResponsiveContainer width="100%" height="100%">
                  <ComposedChart data={sprawlData} margin={{ top: 15, right: 0, left: -20, bottom: -5 }}>
@@ -347,8 +347,8 @@ export default function Panorama() {
                      cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }}
                      formatter={(value: number) => [`${value} KM²`]}
                    />
-                   <Area type="step" dataKey="reported" name="Amanah" stroke="#3B82F6" strokeWidth={1.5} fill="url(#sprawlBlueGrad)" isAnimationActive={true} />
-                   <Line type="step" dataKey="detected" name="LiDAR Truth" stroke="#FF4444" strokeWidth={2.5} dot={false} isAnimationActive={true} />
+                   <Area type="step" dataKey="reported" name="市政府" stroke="#3B82F6" strokeWidth={1.5} fill="url(#sprawlBlueGrad)" isAnimationActive={true} />
+                   <Line type="step" dataKey="detected" name="激光雷达实测" stroke="#FF4444" strokeWidth={2.5} dot={false} isAnimationActive={true} />
                  </ComposedChart>
                </ResponsiveContainer>
             </div>
@@ -365,8 +365,7 @@ export default function Panorama() {
 
 function KpiCard({ act, metric, unit, desc, icon, borderColor, bgColor, glow, metricColor = "text-[#FCD34D]", compact = false, centered = false }: { act: string, metric: string, unit?: string, desc: string, icon: React.ReactNode, borderColor: string, bgColor: string, glow: string, metricColor?: string, compact?: boolean, centered?: boolean }) {
   
-  // Map colors to match the reference image style: white for standard/green, intense glow for gold/red
-  let finalNumberColor = `${metricColor} drop-shadow-[0_0_10px_rgba(252,211,77,0.3)]`; // Default soft gold shadow
+  let finalNumberColor = `${metricColor} drop-shadow-[0_0_10px_rgba(252,211,77,0.3)]`;
   if (metricColor.includes('FCD34D') || metricColor.includes('D4AF37')) {
     finalNumberColor = `${metricColor} drop-shadow-[0_0_15px_rgba(252,211,77,0.6)]`;
   } else if (metricColor.includes('ff4444')) {

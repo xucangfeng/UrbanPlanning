@@ -38,81 +38,81 @@ const MOBILITY_ALERTS = [
 
 const OPTIMIZATION_AGENTS = {
   zoning: {
-    id: "zoning", title: "ZONING MIX ADVISOR", icon: Layers, color: "#FCD34D",
+    id: "zoning", title: "用地混合顾问", icon: Layers, color: "#FCD34D",
     functions: [
       { 
-        id: "zon_1", name: "LAND USE BALANCE INDEX", desc: "COMPREHENSIVE SCORE MEASURING DEVIATION FROM VISION 2030 LAND ALLOCATION TARGETS. AI ANALYZES ZONING DATA TO IDENTIFY IMBALANCES AND SUGGESTS REZONING RECOMMENDATIONS.",
+        id: "zon_1", name: "用地平衡指数", desc: "综合评分衡量与2030愿景用地分配目标的偏差。AI分析用地数据以识别不平衡并提出重新分区建议。",
         stats: [
-          { label: 'BALANCE SCORE', value: '73', color: '#FCD34D' }, 
-          { label: 'TREND', value: '+5', color: '#00B558' }, 
-          { label: 'RESIDENTIAL GAP', value: '-7%', color: '#ff4444' },
-          { label: 'COMMERCIAL SURPLUS', value: '+9%', color: '#ff4444' },
-          { label: 'SERVICE DEFICIT', value: '-3%', color: '#FCD34D' },
-          { label: 'GREEN SPACE GAP', value: '+1%', color: '#00B558' }
+          { label: '平衡评分', value: '73', color: '#FCD34D' }, 
+          { label: '趋势', value: '+5', color: '#00B558' }, 
+          { label: '住宅缺口', value: '-7%', color: '#ff4444' },
+          { label: '商业过剩', value: '+9%', color: '#ff4444' },
+          { label: '服务不足', value: '-3%', color: '#FCD34D' },
+          { label: '绿地缺口', value: '+1%', color: '#00B558' }
         ],
         balanceData: {
           score: 73,
           trend: '+5',
           targets: { residential: 35, commercial: 25, service: 20, green: 20 },
           actual: { residential: 28, commercial: 34, service: 17, green: 21 },
-          aiRecommendation: "Convert Al Olaya commercial zones to mixed-use residential. Projected score improvement: +12 points."
+          aiRecommendation: "将欧莱雅商业区转为商住混合用地。预计评分提升：+12分。"
         }
       }
     ]
   },
   parking: {
-    id: "parking", title: "ACCESS & PARKING", icon: Car, color: "#FCD34D",
+    id: "parking", title: "出行与停车", icon: Car, color: "#FCD34D",
     functions: [
       { 
-        id: "prk_1", name: "URBAN ACCESSIBILITY INDEX", desc: "COMPREHENSIVE INDEX MEASURING URBAN TRANSPORT EFFICIENCY AND ACCESSIBILITY. AI ANALYZES PARKING TURNOVER, PUBLIC TRANSIT COVERAGE, LAST-MILE CONNECTIVITY, AND EV INFRASTRUCTURE TO SUPPORT VISION 2030 TRANSPORTATION GOALS.",
+        id: "prk_1", name: "城市可达性指数", desc: "综合指数衡量城市交通效率和可达性。AI分析停车周转率、公交覆盖、最后一公里连接和充电基础设施，以支持2030愿景交通目标。",
         stats: [
-          { label: 'EFFICIENCY SCORE', value: '72', color: '#FCD34D' },
-          { label: 'TREND', value: '+3', color: '#00B558' },
-          { label: 'PARKING TURNOVER', value: '65pt', color: '#ff4444' },
-          { label: 'TRANSIT COVERAGE', value: '85pt', color: '#00B558' },
-          { label: 'EV INFRASTRUCTURE', value: '64pt', color: '#ff4444' }
+          { label: '效率评分', value: '72', color: '#FCD34D' },
+          { label: '趋势', value: '+3', color: '#00B558' },
+          { label: '停车周转率', value: '65pt', color: '#ff4444' },
+          { label: '公交覆盖', value: '85pt', color: '#00B558' },
+          { label: '充电基础设施', value: '64pt', color: '#ff4444' }
         ],
         accessibilityData: {
           score: 72,
           trend: '+3',
-          status: 'NEEDS IMPROVEMENT',
+          status: '需要改善',
           dimensions: {
-            parkingTurnover: { current: 65, target: 100, gap: 35, weight: 0.30, label: 'PARKING TURNOVER' },
-            publicTransit: { current: 85, target: 100, gap: 15, weight: 0.25, label: 'PUBLIC TRANSIT' },
-            lastMile: { current: 73, target: 100, gap: 27, weight: 0.25, label: 'LAST-MILE CONNECT' },
-            evInfrastructure: { current: 64, target: 100, gap: 36, weight: 0.20, label: 'EV INFRASTRUCTURE' }
+            parkingTurnover: { current: 65, target: 100, gap: 35, weight: 0.30, label: '停车周转率' },
+            publicTransit: { current: 85, target: 100, gap: 15, weight: 0.25, label: '公共交通' },
+            lastMile: { current: 73, target: 100, gap: 27, weight: 0.25, label: '最后一公里' },
+            evInfrastructure: { current: 64, target: 100, gap: 36, weight: 0.20, label: '充电基础设施' }
           }
         }
       },
       { 
-        id: "prk_2", name: "EV CHARGING DENSITY", desc: "PREDICTS EV ADOPTION RATES TO SUGGEST OPTIMAL LOCATIONS FOR CHARGING HUBS.",
-        stats: [{ label: 'DEFICITS', value: '12', color: '#ff4444' }, { label: 'PLANNED', value: '45', color: '#00B558' }]
+        id: "prk_2", name: "充电桩密度", desc: "预测电动车采用率，建议充电站最优选址。",
+        stats: [{ label: '缺口', value: '12', color: '#ff4444' }, { label: '已规划', value: '45', color: '#00B558' }]
       },
       { 
-        id: "prk_3", name: "LAST-MILE CONNECTIVITY", desc: "CALCULATES THE EFFICIENCY OF MICRO-MOBILITY LINKS TO MAJOR TRANSIT STATIONS.",
-        stats: [{ label: 'GAPS', value: '6', color: '#FCD34D' }, { label: 'EFFICIENT', value: '22', color: '#00B558' }]
+        id: "prk_3", name: "最后一公里连接", desc: "计算微出行链接到主要交通站点的效率。",
+        stats: [{ label: '缺口', value: '6', color: '#FCD34D' }, { label: '高效', value: '22', color: '#00B558' }]
       }
     ]
   },
   priority: {
-    id: "priority", title: "PRIORITY CLASSIFIER", icon: Building, color: "#00B558",
+    id: "priority", title: "优先级分类器", icon: Building, color: "#00B558",
     functions: [
       { 
-        id: "pri_1", name: "PROJECT PRIORITY INDEX", desc: "AI-POWERED PRIORITY RANKING SYSTEM FOR URBAN DEVELOPMENT PROJECTS. EVALUATES BOTTLENECK IMPACT, TIME URGENCY, ROI, AND SYNERGY TO OPTIMIZE RESOURCE ALLOCATION AND ENSURE VISION 2030 TARGET ACHIEVEMENT.",
+        id: "pri_1", name: "项目优先级指数", desc: "AI驱动的城市发展项目优先级排名系统。评估瓶颈影响、时间紧迫性、投资回报率和协同效应，优化资源配置并确保2030愿景目标达成。",
         stats: [
-          { label: 'P0 URGENT', value: '1', color: '#ff4444' },
-          { label: 'P1 HIGH', value: '2', color: '#FCD34D' },
-          { label: 'BACKLOG', value: '3', color: '#ff4444' },
-          { label: 'AUTO-APPROVED', value: '75%', color: '#FCD34D' }
+          { label: 'P0 紧急', value: '1', color: '#ff4444' },
+          { label: 'P1 高', value: '2', color: '#FCD34D' },
+          { label: '积压', value: '3', color: '#ff4444' },
+          { label: '自动批准', value: '75%', color: '#FCD34D' }
         ],
         priorityData: {
           projects: [
-            { id: 'NM', name: 'New Murabba', score: 85, priority: 'P0', status: 'DELAYED', bottleneck: 92, urgency: 60, roi: 100, synergy: 87, delay: '180 days', action: '+25% WORKFORCE URGENT' },
-            { id: 'RME-PH3', name: 'Riyadh Metro PH3', score: 78, priority: 'P1', status: 'DELAYED', bottleneck: 85, urgency: 55, roi: 90, synergy: 75, delay: '120 days', action: 'ENGINEERING REVIEW' },
-            { id: 'NEOM-TL', name: 'NEOM - The Line', score: 72, priority: 'P1', status: 'AHEAD', bottleneck: 45, urgency: 70, roi: 95, synergy: 82, delay: 'On Track', action: 'PROCEED TO PHASE 2' },
-            { id: 'DG-P2', name: 'Diriyah Gate PH2', score: 68, priority: 'P2', status: 'AHEAD', bottleneck: 40, urgency: 50, roi: 88, synergy: 92, delay: 'On Track', action: 'ACCELERATE TOURISM' },
-            { id: 'RSG-P2', name: 'Red Sea Global PH2', score: 65, priority: 'P2', status: 'ON TRACK', bottleneck: 35, urgency: 45, roi: 85, synergy: 90, delay: 'On Track', action: 'SUSTAIN MOMENTUM' },
-            { id: 'QD', name: 'Qiddiya Entertainment', score: 62, priority: 'P2', status: 'ON TRACK', bottleneck: 30, urgency: 40, roi: 90, synergy: 85, delay: 'On Track', action: 'ENTERTAINMENT FOCUS' }
+            { id: 'NM', name: 'New Murabba', score: 85, priority: 'P0', status: '延误ED', bottleneck: 92, urgency: 60, roi: 100, synergy: 87, delay: '180天', action: '+25% 劳动力 紧急' },
+            { id: 'RME-PH3', name: 'Riyadh Metro PH3', score: 78, priority: 'P1', status: '延误ED', bottleneck: 85, urgency: 55, roi: 90, synergy: 75, delay: '120天', action: '工程审查' },
+            { id: 'NEOM-TL', name: 'NEOM - The Line', score: 72, priority: 'P1', status: 'AHEAD', bottleneck: 45, urgency: 70, roi: 95, synergy: 82, delay: '正常', action: '进入第二阶段' },
+            { id: 'DG-P2', name: 'Diriyah Gate PH2', score: 68, priority: 'P2', status: 'AHEAD', bottleneck: 40, urgency: 50, roi: 88, synergy: 92, delay: '正常', action: '加速旅游开发' },
+            { id: 'RSG-P2', name: 'Red Sea Global PH2', score: 65, priority: 'P2', status: 'ON TRACK', bottleneck: 35, urgency: 45, roi: 85, synergy: 90, delay: '正常', action: '保持势头' },
+            { id: 'QD', name: 'Qiddiya Entertainment', score: 62, priority: 'P2', status: 'ON TRACK', bottleneck: 30, urgency: 40, roi: 90, synergy: 85, delay: '正常', action: '娱乐重点' }
           ],
           totalBacklog: 3,
           autoApprovalRate: 75,
@@ -120,36 +120,36 @@ const OPTIMIZATION_AGENTS = {
         }
       },
       { 
-        id: "pri_2", name: "ZONING APPROVAL SPEED", desc: "AUTOMATES ROUTINE PERMIT APPROVALS WHILE FLAGGING COMPLEX CASES FOR HUMAN REVIEW.",
-        stats: [{ label: 'FLAGGED', value: '2', color: '#ff4444' }, { label: 'AUTO-APPROVED', value: '11k', color: '#00B558' }]
+        id: "pri_2", name: "ZONING APPROVAL SPEED", desc: "自动化常规许可审批，同时标记复杂案例供人工审查。",
+        stats: [{ label: '标记', value: '2', color: '#ff4444' }, { label: '自动批准', value: '11k', color: '#00B558' }]
       },
       { 
-        id: "pri_3", name: "INFRASTRUCTURE URGENCY", desc: "RANKS PROJECTS BY IMPACT ON 2030 TARGETS TO OPTIMIZE BUDGET ALLOCATION.",
-        stats: [{ label: 'CRITICAL', value: '4', color: '#FCD34D' }, { label: 'ALIGNED', value: '18', color: '#00B558' }]
+        id: "pri_3", name: "INFRASTRUCTURE URGENCY", desc: "按对2030愿景目标的影响排名项目，优化预算分配。",
+        stats: [{ label: '关键', value: '4', color: '#FCD34D' }, { label: '达标', value: '18', color: '#00B558' }]
       }
     ]
   },
   greenery: {
-    id: "greenery", title: "PARKS SELECTOR", icon: Sprout, color: "#00B558",
+    id: "greenery", title: "公园选址器", icon: Sprout, color: "#00B558",
     functions: [
       { 
-        id: "grn_1", name: "GREEN SPACE COVERAGE INDEX", desc: "COMPREHENSIVE INDEX MEASURING GREEN SPACE SERVICE CAPACITY AND ACCESSIBILITY. AI IDENTIFIES OPTIMAL PARK LOCATIONS TO SUPPORT SAUDI GREEN INITIATIVE AND VISION 2030 SUSTAINABILITY TARGETS.",
+        id: "grn_1", name: "绿地覆盖率指数", desc: "综合指数衡量绿地服务能力和可达性。AI识别最优公园选址，支持沙特绿色倡议和2030愿景可持续发展目标。",
         stats: [
-          { label: 'COVERAGE SCORE', value: '44', color: '#ff4444' },
-          { label: 'TREND', value: '+5', color: '#00B558' },
-          { label: 'PER CAPITA', value: '11.3pt', color: '#ff4444' },
-          { label: 'ACCESSIBILITY', value: '57.8pt', color: '#FCD34D' },
-          { label: 'HEAT RELIEF', value: '70pt', color: '#00B558' }
+          { label: '覆盖评分', value: '44', color: '#ff4444' },
+          { label: '趋势', value: '+5', color: '#00B558' },
+          { label: '人均', value: '11.3pt', color: '#ff4444' },
+          { label: '可达性', value: '57.8pt', color: '#FCD34D' },
+          { label: '降温效果', value: '70pt', color: '#00B558' }
         ],
         greenCoverageData: {
           score: 44,
           trend: '+5',
-          status: 'CRITICAL SHORTAGE',
+          status: '严重短缺',
           dimensions: {
-            perCapita: { current: 11.3, target: 100, gap: 88.7, weight: 0.40, label: 'PER CAPITA AREA', actual: '1.7 m²' },
-            accessibility: { current: 57.8, target: 100, gap: 42.2, weight: 0.30, label: 'ACCESSIBILITY', actual: '52% coverage' },
-            heatRelief: { current: 70, target: 100, gap: 30, weight: 0.20, label: 'HEAT RELIEF', actual: '2.1°C cooling' },
-            irrigation: { current: 81.3, target: 100, gap: 18.7, weight: 0.10, label: 'IRRIGATION', actual: '65% smart' }
+            perCapita: { current: 11.3, target: 100, gap: 88.7, weight: 0.40, label: '人均面积', actual: '1.7 m²' },
+            accessibility: { current: 57.8, target: 100, gap: 42.2, weight: 0.30, label: '可达性', actual: '52% coverage' },
+            heatRelief: { current: 70, target: 100, gap: 30, weight: 0.20, label: '降温效果', actual: '2.1°C cooling' },
+            irrigation: { current: 81.3, target: 100, gap: 18.7, weight: 0.10, label: '灌溉', actual: '65% smart' }
           },
           newParks: 10,
           totalArea: '60,000 m²',
@@ -157,30 +157,30 @@ const OPTIMIZATION_AGENTS = {
         }
       },
       { 
-        id: "grn_2", name: "URBAN HEAT ISLAND REDUCT", desc: "PREDICTS TEMPERATURE DROPS RESULTING FROM PROPOSED CANOPY COVER INTERVENTIONS.",
-        stats: [{ label: 'SEVERE SPOTS', value: '8', color: '#ff4444' }, { label: 'COOLED', value: '52', color: '#00B558' }]
+        id: "grn_2", name: "城市热岛缓解", desc: "预测拟议冠层覆盖干预措施带来的温度降幅。",
+        stats: [{ label: '严重热点', value: '8', color: '#ff4444' }, { label: '已降温', value: '52', color: '#00B558' }]
       },
       { 
-        id: "grn_3", name: "IRRIGATION EFFICIENCY", desc: "USES SOIL SENSORS AND WEATHER AI TO MINIMIZE WATER USE IN PUBLIC PARKS.",
-        stats: [{ label: 'STRESSED', value: '5', color: '#ff4444' }, { label: 'OPTIMAL', value: '84%', color: '#FCD34D' }]
+        id: "grn_3", name: "灌溉效率", desc: "利用土壤传感器和气象AI，最大限度减少公共公园用水。",
+        stats: [{ label: '缺水', value: '5', color: '#ff4444' }, { label: '最优', value: '84%', color: '#FCD34D' }]
       }
     ]
   },
   mobility: {
-    id: "mobility", title: "INTERVENTION GUIDE", icon: Zap, color: "#00B558",
+    id: "mobility", title: "干预指南", icon: Zap, color: "#00B558",
     functions: [
       { 
-        id: "mob_1", name: "URBAN DEVELOPMENT POTENTIAL", desc: "COMPREHENSIVE INDEX MEASURING URBAN UPGRADE POTENTIAL BASED ON LAND USE EFFICIENCY, ACCESSIBILITY, SERVICE COVERAGE, AND INFRASTRUCTURE. AI IDENTIFIES PRIORITY INTERVENTION AREAS TO SUPPORT VISION 2030 POPULATION GROWTH TARGETS.",
+        id: "mob_1", name: "城市发展潜力", desc: "综合指数衡量基于用地效率、可达性、服务覆盖和基础设施的城市升级潜力。AI识别优先干预区域，支持2030愿景人口增长目标。",
         stats: [
-          { label: 'POTENTIAL SCORE', value: '84', color: '#00B558' },
-          { label: 'STATUS', value: 'PRIORITY', color: '#FCD34D' },
-          { label: 'ACCESSIBILITY GAP', value: '27pt', color: '#ff4444' },
-          { label: 'SERVICE GAP', value: '25pt', color: '#ff4444' },
-          { label: 'EFFICIENCY GAP', value: '15pt', color: '#FCD34D' }
+          { label: '潜力评分', value: '84', color: '#00B558' },
+          { label: '状态', value: '优先', color: '#FCD34D' },
+          { label: '可达性缺口', value: '27pt', color: '#ff4444' },
+          { label: '服务缺口', value: '25pt', color: '#ff4444' },
+          { label: '效率缺口', value: '15pt', color: '#FCD34D' }
         ],
         potentialData: {
           score: 84,
-          status: 'PRIORITY UPGRADE',
+          status: '优先升级',
           dimensions: {
             accessibility: { current: 73, target: 100, gap: 27, weight: 0.25 },
             service: { current: 75, target: 100, gap: 25, weight: 0.25 },
@@ -212,7 +212,7 @@ const MapBuoy = ({ alert, isHovered, onHover, onClick }: { alert: any, isHovered
       <div className="w-2.5 h-2.5 rounded-full relative z-10" style={{ backgroundColor: color, boxShadow: `0 0 15px ${color}` }}></div>
       <div className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#051105]/85 border backdrop-blur-md px-2.5 py-1.5 rounded-sm whitespace-nowrap opacity-100 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-300 ${isHovered ? 'border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-110 -translate-y-2' : 'border-opacity-50 scale-100'}`} style={{ borderColor: isHovered ? color : `${color}50` }}>
          <div className={`text-[9px] font-bold uppercase tracking-wider transition-colors ${isHovered ? 'text-white' : 'text-gray-300'}`}>{alert.name}</div>
-         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>{alert.delay} DELAY</div>
+         <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>{alert.delay} 延误</div>
       </div>
     </div>
   );
@@ -228,10 +228,10 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
     
     // 计算各用途偏差
     const categories = [
-      { name: 'RESIDENTIAL', target: targets.residential, actual: actual.residential, gap: actual.residential - targets.residential },
-      { name: 'COMMERCIAL', target: targets.commercial, actual: actual.commercial, gap: actual.commercial - targets.commercial },
-      { name: 'SERVICE', target: targets.service, actual: actual.service, gap: actual.service - targets.service },
-      { name: 'GREEN', target: targets.green, actual: actual.green, gap: actual.green - targets.green },
+      { name: '住宅', target: targets.residential, actual: actual.residential, gap: actual.residential - targets.residential },
+      { name: '商业', target: targets.commercial, actual: actual.commercial, gap: actual.commercial - targets.commercial },
+      { name: '服务', target: targets.service, actual: actual.service, gap: actual.service - targets.service },
+      { name: '绿地', target: targets.green, actual: actual.green, gap: actual.green - targets.green },
     ];
     
     // 评分颜色
@@ -275,7 +275,7 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
               <div className="flex flex-col items-end gap-1">
                 <div className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
                 <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
-                  {score >= 85 ? 'HEALTHY' : score >= 70 ? 'NEEDS ATTENTION' : 'CRITICAL'}
+                  {score >= 85 ? '健康' : score >= 70 ? '需关注' : '关键'}
                 </div>
               </div>
             </div>
@@ -329,9 +329,9 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
     
     // 干预优先级列表
     const interventions = [
-      { priority: 'P0', action: 'TRAFFIC SYSTEM UPGRADE', investment: '500M SAR', impact: '-8min commute', roi: 'HIGH' },
-      { priority: 'P1', action: 'SERVICE FACILITIES', investment: '300M SAR', impact: '+12% coverage', roi: 'MEDIUM' },
-      { priority: 'P2', action: 'LAND USE OPTIMIZATION', investment: '100M SAR', impact: '+15% efficiency', roi: 'MEDIUM' }
+      { priority: 'P0', action: '交通系统升级', investment: '5亿 SAR', impact: '-8分钟通勤', roi: 'HIGH' },
+      { priority: 'P1', action: '服务设施', investment: '3亿 SAR', impact: '+12% 覆盖率', roi: 'MEDIUM' },
+      { priority: 'P2', action: '用地优化', investment: '1亿 SAR', impact: '+15% 效率', roi: 'MEDIUM' }
     ];
 
     return (
@@ -468,7 +468,7 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
               <div className="flex flex-col items-end gap-0.5">
                 <div className="text-[6px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
                 <div className="text-[8px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
-                  {score >= 85 ? 'EXCELLENT' : score >= 70 ? 'GOOD' : score >= 50 ? 'NEEDS IMPROVEMENT' : 'CRITICAL'}
+                  {score >= 85 ? '优秀' : score >= 70 ? '良好' : score >= 50 ? '需要改善' : '关键'}
                 </div>
               </div>
             </div>
@@ -540,7 +540,7 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
               <div className="flex flex-col items-end gap-0.5">
                 <div className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">STATUS</div>
                 <div className="text-[9px] font-black uppercase tracking-wide" style={{ color: scoreColor }}>
-                  {score >= 85 ? 'EXCELLENT' : score >= 70 ? 'GOOD' : score >= 50 ? 'INSUFFICIENT' : 'CRITICAL'}
+                  {score >= 85 ? '优秀' : score >= 70 ? '良好' : score >= 50 ? '不足' : '关键'}
                 </div>
               </div>
             </div>
@@ -651,7 +651,7 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1">
                         <span className="text-[8px] text-white font-bold uppercase tracking-wide truncate">{project.id}</span>
-                        <span className={`text-[6px] px-1 py-0.5 rounded font-bold ${project.status === 'DELAYED' ? 'bg-[#ff4444]/20 text-[#ff4444]' : 'bg-[#00B558]/20 text-[#00B558]'}`}>
+                        <span className={`text-[6px] px-1 py-0.5 rounded font-bold ${project.status === '延误ED' ? 'bg-[#ff4444]/20 text-[#ff4444]' : 'bg-[#00B558]/20 text-[#00B558]'}`}>
                           {project.status}
                         </span>
                       </div>
@@ -671,11 +671,11 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
             <div className="mt-1.5 pt-1.5 border-t border-slate-700/50 grid grid-cols-2 gap-1.5">
               <div className="flex flex-col">
                 <span className="text-[6px] text-gray-500 font-bold uppercase">P0 URGENT ACTION</span>
-                <span className="text-[8px] text-[#ff4444] font-black truncate">New Murabba: +25% workforce</span>
+                <span className="text-[8px] text-[#ff4444] font-black truncate">新穆拉巴: +25% 劳动力</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-[6px] text-gray-500 font-bold uppercase">P1 FOCUS</span>
-                <span className="text-[8px] text-[#FCD34D] font-black truncate">Metro PH3: Engineering review</span>
+                <span className="text-[8px] text-[#FCD34D] font-black truncate">地铁三期: 工程审查</span>
               </div>
             </div>
          </div>
@@ -697,11 +697,11 @@ function FunctionCard({ item, color, isActive, onClick, layout = "full" }: { ite
     let valLabel = 'Metric Index';
     let valUnit = '';
     
-    if (item.id.startsWith('zon')) { valLabel = 'Walkability Score'; valUnit = '/100'; }
-    if (item.id.startsWith('prk')) { valLabel = 'EV Nodes Active'; valUnit = ''; }
-    if (item.id.startsWith('pri')) { valLabel = 'Approvals / Month'; valUnit = 'k'; }
-    if (item.id.startsWith('grn')) { valLabel = 'Canopy Cover'; valUnit = '%'; }
-    if (item.id.startsWith('mob')) { valLabel = 'Slum Replaced'; valUnit = 'Ha'; }
+    if (item.id.startsWith('zon')) { valLabel = '步行评分'; valUnit = '/100'; }
+    if (item.id.startsWith('prk')) { valLabel = '充电桩活跃数'; valUnit = ''; }
+    if (item.id.startsWith('pri')) { valLabel = '月审批量'; valUnit = 'k'; }
+    if (item.id.startsWith('grn')) { valLabel = '冠层覆盖'; valUnit = '%'; }
+    if (item.id.startsWith('mob')) { valLabel = '改造面积'; valUnit = 'Ha'; }
 
     return (
       <div className={chartClass}>
@@ -854,8 +854,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.673, 
     name: 'OLAYA SECTOR 4',
     size: '8,000 m²',
-    beneficiaries: '5,000 residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.1 m² (1.7→2.8 m²)\n• Accessibility (30%): +16pp coverage (52%→68%)\n• Heat Relief (20%): Cooling 2.8°C\n\nSCORE IMPROVEMENT: +15 points (11.3→26.3)' 
+    beneficiaries: '5,000居民',
+    reason: '绿地覆盖率指数影响:\n\n• 人均面积 (40%): +1.1 m² (1.7→2.8 m²)\n• 可达性 (30%): +16pp 覆盖率 (52%→68%)\n• 降温效果 (20%): 降温2.8°C\n\n评分提升: +15分 (11.3→26.3)' 
   },
   { 
     id: 'ps_2', 
@@ -863,8 +863,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.661, 
     name: 'KING FAHD DIST. N',
     size: '5,000 m²',
-    beneficiaries: '8,000 residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.3 m² (0.8→2.1 m²)\n• Accessibility (30%): +27pp coverage (48%→75%)\n• Heat Relief (20%): Canopy 5%→15%\n\nSCORE IMPROVEMENT: +18 points (11.3→29.3)' 
+    beneficiaries: '8,000居民',
+    reason: '绿地覆盖率指数影响:\n\n• 人均面积 (40%): +1.3 m² (0.8→2.1 m²)\n• 可达性 (30%): +27pp 覆盖率 (48%→75%)\n• 降温效果 (20%): 冠层 5%→15%\n\n评分提升: +18分 (11.3→29.3)' 
   },
   { 
     id: 'ps_3', 
@@ -872,8 +872,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.682, 
     name: 'SULAIMANIYAH SOUTH',
     size: '10,000 m²',
-    beneficiaries: '10,000 residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +1.5 m² (1.7→3.2 m²)\n• Accessibility (30%): +25pp coverage (60%→85%)\n• Irrigation (10%): Smart system, 40% water saved\n\nSCORE IMPROVEMENT: +22 points (LARGEST PARK)' 
+    beneficiaries: '10,000居民',
+    reason: '绿地覆盖率指数影响:\n\n• 人均面积 (40%): +1.5 m² (1.7→3.2 m²)\n• 可达性 (30%): +25pp 覆盖率 (60%→85%)\n• 灌溉 (10%): 智能系统，节水40%\n\n评分提升: +22分 (最大公园)' 
   },
   { 
     id: 'ps_4', 
@@ -881,8 +881,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.655, 
     name: 'AL NAKHEEL EDGE',
     size: '7,000 m²',
-    beneficiaries: '12,000 daily commuters',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): Cooling corridor 3.2°C\n• Accessibility (30%): Transit hub 95% coverage\n• Per Capita Area (40%): 12,000 commuters served\n\nSCORE IMPROVEMENT: +12 points (Heat 70→85, Access 57.8→71)' 
+    beneficiaries: '12,000日通勤者',
+    reason: '绿地覆盖率指数影响:\n\n• 降温效果 (20%): 降温走廊3.2°C\n• 可达性 (30%): 交通枢纽95%覆盖\n• 人均面积 (40%): 服务12,000通勤者\n\n评分提升: +12分 (降温 70→85, 可达性 57.8→71)' 
   },
   { 
     id: 'ps_5', 
@@ -890,8 +890,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.685, 
     name: 'MOHAMMADIYAH CORE',
     size: '6,000 m²',
-    beneficiaries: '25,000 TOD residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +0.4 m² (2.0→2.4 m²)\n• Accessibility (30%): TOD 100% within 500m\n• Irrigation (10%): Rainwater harvest 85% coverage\n\nSCORE IMPROVEMENT: +16 points (11.3→27.3)' 
+    beneficiaries: '25,000 TOD居民',
+    reason: '绿地覆盖率指数影响:\n\n• 人均面积 (40%): +0.4 m² (2.0→2.4 m²)\n• 可达性 (30%): TOD 500米内100%覆盖\n• 灌溉 (10%): 雨水收集85%覆盖\n\n评分提升: +16分 (11.3→27.3)' 
   },
   { 
     id: 'ps_6', 
@@ -899,8 +899,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.706, 
     name: 'AL OLAYA EAST',
     size: '5,000 m²',
-    beneficiaries: '4,000 daily office workers',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): CBD cooling 3.5°C, AC -25%\n• Per Capita Area (40%): 0→3.0 m² for workers\n• Accessibility (30%): CBD core 80% coverage\n\nSCORE IMPROVEMENT: +14 points (Heat 70→88, Per Capita 11.3→28.3)' 
+    beneficiaries: '4,000日办公人员',
+    reason: '绿地覆盖率指数影响:\n\n• 降温效果 (20%): CBD降温3.5°C, 空调-25%\n• 人均面积 (40%): 0→3.0 m² 工作者\n• 可达性 (30%): CBD核心80%覆盖\n\n评分提升: +14分 (降温 70→88, 人均 11.3→28.3)' 
   },
   { 
     id: 'ps_7', 
@@ -908,8 +908,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.652, 
     name: 'AL MAATHER NODE',
     size: '5,000 m²',
-    beneficiaries: '500K annual tourists',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Irrigation (10%): Heritage qanat preservation\n• Accessibility (30%): Cultural tourism zone\n• Per Capita Area (40%): +1.8 m² (1.7→3.5 m²)\n\nSCORE IMPROVEMENT: +18 points (Irrigation 81.3→95, Per Capita 11.3→32.3)' 
+    beneficiaries: '50万年度游客',
+    reason: '绿地覆盖率指数影响:\n\n• 灌溉 (10%): 传统坎儿井保护\n• 可达性 (30%): 文化旅游区\n• 人均面积 (40%): +1.8 m² (1.7→3.5 m²)\n\n评分提升: +18分 (灌溉 81.3→95, 人均 11.3→32.3)' 
   },
   { 
     id: 'ps_8', 
@@ -917,8 +917,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.697, 
     name: 'AL MUTAMARAT',
     size: '8,000 m²',
-    beneficiaries: '8,000 low-income residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Per Capita Area (40%): +3.3 m² (0.5→3.8 m²) MAXIMUM\n• Heat Relief (20%): CRITICAL cooling 4.0°C\n• Accessibility (30%): +55pp coverage (35%→90%)\n\nSCORE IMPROVEMENT: +25 points (TOP PRIORITY PROJECT)' 
+    beneficiaries: '8,000低收入居民',
+    reason: '绿地覆盖率指数影响:\n\n• 人均面积 (40%): +3.3 m² (0.5→3.8 m²) 最大值\n• 降温效果 (20%): 关键 降温4.0°C\n• 可达性 (30%): +55pp 覆盖率 (35%→90%)\n\n评分提升: +25分 (最高优先项目)' 
   },
   { 
     id: 'ps_9', 
@@ -926,8 +926,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.634, 
     name: 'AL WOROUD GREEN',
     size: '7,000 m²',
-    beneficiaries: '15,000 corridor residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Heat Relief (20%): Continuous cooling 2.5°C belt\n• Irrigation (10%): Eco-corridor, biodiversity +25%\n• Per Capita Area (40%): +2.5 m² (1.7→4.2 m²)\n\nSCORE IMPROVEMENT: +20 points (Heat 70→90, Irrigation 81.3→96)' 
+    beneficiaries: '15,000走廊居民',
+    reason: '绿地覆盖率指数影响:\n\n• 降温效果 (20%): 连续降温2.5°C带\n• 灌溉 (10%): 生态走廊，生物多样性+25%\n• 人均面积 (40%): +2.5 m² (1.7→4.2 m²)\n\n评分提升: +20分 (降温 70→90, 灌溉 81.3→96)' 
   },
   { 
     id: 'ps_10', 
@@ -935,8 +935,8 @@ const PARK_SUGGESTIONS = [
     lng: 46.724, 
     name: 'UMM AL HAMAM',
     size: '4,000 m²',
-    beneficiaries: '3,500 residents',
-    reason: 'GREEN SPACE COVERAGE INDEX IMPACT:\n\n• Irrigation (10%): Native species, 40% less water\n• Per Capita Area (40%): +2.3 m² (1.2→3.5 m²)\n• Accessibility (30%): Rapid deploy, 55%→82%\n\nSCORE IMPROVEMENT: +17 points (Irrigation 81.3→94, Per Capita 11.3→32.3)' 
+    beneficiaries: '3,500居民',
+    reason: '绿地覆盖率指数影响:\n\n• 灌溉 (10%): 本土物种，节水40%\n• 人均面积 (40%): +2.3 m² (1.2→3.5 m²)\n• 可达性 (30%): 快速部署, 55%→82%\n\n评分提升: +17分 (灌溉 81.3→94, 人均 11.3→32.3)' 
   },
 ];
 
@@ -1006,19 +1006,19 @@ export default function Optimization() {
                   id="hovered-region-line" 
                   type="line" 
                   layout={{ 'line-join': 'round', 'line-cap': 'round' }}
-                  paint={{'line-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : '#FCD34D', 'line-width': 8, 'line-opacity': 0.8, 'line-blur': 2}} 
+                  paint={{'line-color': hoveredAlert.severity === '关键' ? '#ff4444' : '#FCD34D', 'line-width': 8, 'line-opacity': 0.8, 'line-blur': 2}} 
                 />
               ) : (
                 <>
                   <SafeLayer 
                     id="hovered-region-fill" 
                     type="fill" 
-                    paint={{'fill-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : '#FCD34D', 'fill-opacity': 0.15}} 
+                    paint={{'fill-color': hoveredAlert.severity === '关键' ? '#ff4444' : '#FCD34D', 'fill-opacity': 0.15}} 
                   />
                   <SafeLayer 
                     id="hovered-region-line" 
                     type="line" 
-                    paint={{'line-color': hoveredAlert.severity === 'CRITICAL' ? '#ff4444' : '#FCD34D', 'line-width': 2, 'line-dasharray': [2, 2]}} 
+                    paint={{'line-color': hoveredAlert.severity === '关键' ? '#ff4444' : '#FCD34D', 'line-width': 2, 'line-dasharray': [2, 2]}} 
                   />
                 </>
               )}
