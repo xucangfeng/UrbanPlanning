@@ -14,10 +14,10 @@ const INITIAL_VIEW_STATE = {
 };
 
 const ZONES = [
-  { id: 'zone-1', name: 'Diagnostics', sub: 'Riyadh — Flow & Demand', lat: 24.7136, lng: 46.6753, color: '#00B558', icon: ActivityIcon, route: '/diagnostics_and_forecasting' },
-  { id: 'zone-2', name: 'Optimization', sub: 'Jeddah — Land Use', lat: 21.5433, lng: 39.1728, color: '#FCD34D', icon: Target, route: '/optimization' },
-  { id: 'zone-3', name: 'Simulation', sub: 'NEOM — Future Modeling', lat: 28.0068, lng: 35.1440, color: '#00B558', icon: Wind, route: '/simulation' },
-  { id: 'zone-4', name: 'Monitoring', sub: 'Dammam \u2014 Real-time', lat: 26.3927, lng: 49.9777, color: '#FCD34D', icon: ShieldCheck, route: '/monitoring' },
+  { id: 'zone-1', name: '诊断预测', sub: '利雅得 — 流量与需求', lat: 24.7136, lng: 46.6753, color: '#00B558', icon: ActivityIcon, route: '/diagnostics_and_forecasting' },
+  { id: 'zone-2', name: '优化配置', sub: '吉达 — 土地利用', lat: 21.5433, lng: 39.1728, color: '#FCD34D', icon: Target, route: '/optimization' },
+  { id: 'zone-3', name: '模拟仿真', sub: 'NEOM — 未来建模', lat: 28.0068, lng: 35.1440, color: '#00B558', icon: Wind, route: '/simulation' },
+  { id: 'zone-4', name: '监测改进', sub: '达曼 — 实时监测', lat: 26.3927, lng: 49.9777, color: '#FCD34D', icon: ShieldCheck, route: '/monitoring' },
 ];
 
 export function GISMapBackground() {

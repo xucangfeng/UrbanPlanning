@@ -6,12 +6,12 @@ export default function ActPlaceholder() {
   const path = location.pathname;
   
   const labels: Record<string, string> = {
-    "/diagnostics_and_forecasting": "Act I: Diagnostics and Forecasting",
-    "/simulation": "Act III: Impact Simulation and Feasibility Assessment",
-    "/monitoring": "Act IV: Monitoring and Improvement",
+    "/diagnostics_and_forecasting": "第一幕：诊断与预测",
+    "/simulation": "第三幕：影响模拟与可行性评估",
+    "/monitoring": "第四幕：监测与持续改进",
   };
 
-  const title = labels[path] || "Page Under Construction";
+  const title = labels[path] || "页面建设中";
 
   return (
     <div className="flex h-full w-full items-center justify-center p-8 bg-slate-900/40 backdrop-blur-md rounded-xl border border-green-700/20 shadow-[inset_0_0_50px_rgba(22,163,74,0.05)] relative overflow-hidden pointer-events-auto">
@@ -31,13 +31,13 @@ export default function ActPlaceholder() {
         </h2>
         
         <p className="text-green-200/60 max-w-lg leading-relaxed text-sm tracking-wide font-mono">
-          Data for this module is currently being computed and rendered by specialized Agents. 
-          Full monitoring feeds are being synchronized. Please stand by.
+          该模块的数据正由专业智能体进行计算和渲染。
+          完整的监测数据流正在同步中，请稍候。
         </p>
 
         <div className="flex items-center space-x-2 text-xs font-mono text-yellow-500/50 mt-8 border border-yellow-500/20 px-4 py-2 rounded-full bg-green-950/40">
            <span className="w-2 h-2 rounded-full bg-yellow-500 animate-ping"></span>
-           <span>AGENT SYNCHRONIZATION IN PROGRESS...</span>
+           <span>智能体同步进行中...</span>
         </div>
 
       </div>

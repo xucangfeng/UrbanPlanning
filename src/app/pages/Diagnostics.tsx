@@ -39,18 +39,18 @@ declare global {
 
 // --- MOCK RIYADH COMMUTE ALERTS (flw_1) ---
 const COMMUTE_ALERTS = [
-  { id: 1, type: "commute", name: "King Fahd Rd", lat: 24.7335, lng: 46.6663, severity: "CRITICAL", delay: "+45m", baselineSpeed: 65, currentSpeed: 12, deviation: "-81.5% SPEED DROP", cause: "Unexpected flash flooding in major underpass due to unseasonal heavy rainfall. Drainage system operating at maximum capacity.", recommendation: "Activate emergency pumps. Reroute upcoming traffic to Olaya St via digital signages." },
-  { id: 2, type: "commute", name: "Olaya St", lat: 24.7196, lng: 46.6784, severity: "HIGH", delay: "+32m", baselineSpeed: 40, currentSpeed: 15, deviation: "-62.5% SPEED DROP", cause: "Massive surge in pedestrian and vehicular traffic due to Riyadh Season opening night at Boulevard World.", recommendation: "Extend green light phase at main intersections by 25s. Issue automated warning to navigation apps." },
-  { id: 3, type: "commute", name: "Northern Ring", lat: 24.7645, lng: 46.6687, severity: "CRITICAL", delay: "+50m", baselineSpeed: 90, currentSpeed: 20, deviation: "-77.7% SPEED DROP", cause: "Severe localized sandstorm drastically reducing visibility to <50m. Highway patrol manually pacing traffic.", recommendation: "Activate low-visibility VMS warnings. Reduce variable speed limits to 40km/h." },
-  { id: 4, type: "commute", name: "King Abdullah Rd", lat: 24.7431, lng: 46.6953, severity: "HIGH", delay: "+28m", baselineSpeed: 50, currentSpeed: 18, deviation: "-64.0% SPEED DROP", cause: "Massive influx of attendees for LEAP Tech Exhibition. Parking capacity exceeded causing cascading gridlock.", recommendation: "Deploy temporary shuttle lanes. Direct incoming traffic to remote overflow parking zones." },
-  { id: 5, type: "commute", name: "Khureis Rd", lat: 24.7265, lng: 46.7451, severity: "CRITICAL", delay: "+40m", baselineSpeed: 80, currentSpeed: 14, deviation: "-82.5% SPEED DROP", cause: "VIP diplomatic motorcade routing through main artery. Temporary rolling roadblocks in effect.", recommendation: "Monitor until motorcade passes. Prepare rapid green-light flush to clear buildup." },
-  { id: 6, type: "commute", name: "Makkah Rd", lat: 24.6644, lng: 46.6912, severity: "HIGH", delay: "+25m", baselineSpeed: 60, currentSpeed: 22, deviation: "-63.3% SPEED DROP", cause: "Unscheduled road surface subsidence (sinkhole) opening up, likely due to recent geological shifts. 2 lanes closed.", recommendation: "Dispatch emergency civil engineering team. Close affected lanes and merge traffic left." },
-  { id: 7, type: "commute", name: "Takhassusi St", lat: 24.7077, lng: 46.6578, severity: "CRITICAL", delay: "+38m", baselineSpeed: 45, currentSpeed: 8, deviation: "-82.2% SPEED DROP", cause: "Major sporting event at King Saud University Stadium ending. 60,000 fans exiting simultaneously.", recommendation: "Implement post-event AI traffic plan #4. Convert center lanes to outbound flow temporarily." },
-  { id: 8, type: "commute", name: "Eastern Ring", lat: 24.7338, lng: 46.7725, severity: "HIGH", delay: "+20m", baselineSpeed: 90, currentSpeed: 35, deviation: "-61.1% SPEED DROP", cause: "Unexpected dust storm accumulation and severe crosswinds causing dangerous conditions for high-profile vehicles.", recommendation: "Restrict heavy truck movement on bridge segments. Alert highway patrol to secure perimeter." },
-  { id: 9, type: "commute", name: "Abu Bakr Rd", lat: 24.7656, lng: 46.7028, severity: "CRITICAL", delay: "+42m", baselineSpeed: 70, currentSpeed: 10, deviation: "-85.7% SPEED DROP", cause: "National Day Cultural festival parade preparations blocking key intersections ahead of schedule.", recommendation: "Dispatch rapid response traffic wardens. Suggest alternate routes to Balady app users." },
-  { id: 10, type: "commute", name: "Prince Turki", lat: 24.7408, lng: 46.6341, severity: "HIGH", delay: "+22m", baselineSpeed: 50, currentSpeed: 18, deviation: "-64.0% SPEED DROP", cause: "Dense morning fog combining with unexpected VIP corridor closures, leading to 64% speed reduction.", recommendation: "Activate road stud lighting. Pulse electronic signs to alert oncoming drivers of sudden stops." },
-  { id: 11, type: "commute", name: "King Salman Rd", lat: 24.8156, lng: 46.6111, severity: "HIGH", delay: "+18m", baselineSpeed: 80, currentSpeed: 40, deviation: "-50.0% SPEED DROP", cause: "International marathon routing intersection closure. Unexpectedly high volume of diverted traffic.", recommendation: "Adjust traffic signal timing at detour points to prioritize lateral flow." },
-  { id: 12, type: "commute", name: "Dirab Rd", lat: 24.5681, lng: 46.6800, severity: "CRITICAL", delay: "+35m", baselineSpeed: 65, currentSpeed: 15, deviation: "-76.9% SPEED DROP", cause: "Red-level flash flood warnings active. Wadis overflowing onto the carriageway carrying debris.", recommendation: "Dispatch road clearing crew immediately. Place warning barriers and close outside lanes." }
+  { id: 1, type: "commute", name: "King Fahd Rd", lat: 24.7335, lng: 46.6663, severity: "CRITICAL", delay: "+45m", baselineSpeed: 65, currentSpeed: 12, deviation: "-81.5% 速度下降", cause: "反季节暴雨导致主要地下通道突发山洪。排水系统满负荷运行。", recommendation: "启动应急泵站。通过数字指示牌将车流引导至Olaya街。" },
+  { id: 2, type: "commute", name: "Olaya St", lat: 24.7196, lng: 46.6784, severity: "HIGH", delay: "+32m", baselineSpeed: 40, currentSpeed: 15, deviation: "-62.5% 速度下降", cause: "利雅得季Boulevard World开幕夜导致行人和车辆激增。", recommendation: "主要路口绿灯延长25秒。向导航应用发出自动警告。" },
+  { id: 3, type: "commute", name: "Northern Ring", lat: 24.7645, lng: 46.6687, severity: "CRITICAL", delay: "+50m", baselineSpeed: 90, currentSpeed: 20, deviation: "-77.7% 速度下降", cause: "严重局部沙尘暴致能见度降至<50m。高速巡逻手动引导交通。", recommendation: "启动低能见度VMS警告。将可变限速降至40km/h。" },
+  { id: 4, type: "commute", name: "King Abdullah Rd", lat: 24.7431, lng: 46.6953, severity: "HIGH", delay: "+28m", baselineSpeed: 50, currentSpeed: 18, deviation: "-64.0% 速度下降", cause: "LEAP科技展大量参会者涌入。停车容量超限导致连锁拥堵。", recommendation: "部署临时班车专用道。引导来车前往远程溢出停车区。" },
+  { id: 5, type: "commute", name: "Khureis Rd", lat: 24.7265, lng: 46.7451, severity: "CRITICAL", delay: "+40m", baselineSpeed: 80, currentSpeed: 14, deviation: "-82.5% 速度下降", cause: "VIP外交车队通过主干道。临时滚动路障生效中。", recommendation: "监控至车队通过。准备快速绿灯疏通积压车流。" },
+  { id: 6, type: "commute", name: "Makkah Rd", lat: 24.6644, lng: 46.6912, severity: "HIGH", delay: "+25m", baselineSpeed: 60, currentSpeed: 22, deviation: "-63.3% 速度下降", cause: "非计划路面塌陷(天坑)，可能由近期地质变动引起。2车道封闭。", recommendation: "派遣紧急土木工程队。封闭受影响车道并向左并道。" },
+  { id: 7, type: "commute", name: "Takhassusi St", lat: 24.7077, lng: 46.6578, severity: "CRITICAL", delay: "+38m", baselineSpeed: 45, currentSpeed: 8, deviation: "-82.2% 速度下降", cause: "沙特国王大学体育场重大赛事结束。6万名球迷同时离场。", recommendation: "执行赛后AI交通方案#4。临时将中间车道改为出城方向。" },
+  { id: 8, type: "commute", name: "Eastern Ring", lat: 24.7338, lng: 46.7725, severity: "HIGH", delay: "+20m", baselineSpeed: 90, currentSpeed: 35, deviation: "-61.1% 速度下降", cause: "突发沙尘暴积聚和强烈侧风导致高车身车辆危险条件。", recommendation: "限制桥梁路段重型货车通行。通知高速巡逻队确保周边安全。" },
+  { id: 9, type: "commute", name: "Abu Bakr Rd", lat: 24.7656, lng: 46.7028, severity: "CRITICAL", delay: "+42m", baselineSpeed: 70, currentSpeed: 10, deviation: "-85.7% 速度下降", cause: "国庆文化节游行准备提前封锁关键路口。", recommendation: "派遣快速响应交通督导员。向Balady应用用户建议替代路线。" },
+  { id: 10, type: "commute", name: "Prince Turki", lat: 24.7408, lng: 46.6341, severity: "HIGH", delay: "+22m", baselineSpeed: 50, currentSpeed: 18, deviation: "-64.0% 速度下降", cause: "浓雾结合突发VIP走廊封闭，速度降低64%。", recommendation: "激活路面道钉照明。闪烁电子标志警示来车注意急停。" },
+  { id: 11, type: "commute", name: "King Salman Rd", lat: 24.8156, lng: 46.6111, severity: "HIGH", delay: "+18m", baselineSpeed: 80, currentSpeed: 40, deviation: "-50.0% 速度下降", cause: "国际马拉松赛导致路口封闭。分流交通量超预期。", recommendation: "调整绕行点交通信号配时，优先保障横向通行。" },
+  { id: 12, type: "commute", name: "Dirab Rd", lat: 24.5681, lng: 46.6800, severity: "CRITICAL", delay: "+35m", baselineSpeed: 65, currentSpeed: 15, deviation: "-76.9% 速度下降", cause: "红色山洪预警生效。干谷溢出到行车道携带碎石。", recommendation: "立即派遣道路清理队。设置警告护栏并封闭外侧车道。" }
 ];
 
 // --- WHITE LAND ACTIVATION: AI-IDENTIFIED UNDEVELOPED PARCELS (idl_1) ---
@@ -58,28 +58,28 @@ const COMMUTE_ALERTS = [
 // cross-referencing with infrastructure proximity, population growth vectors, and zoning data.
 const WHITE_LAND_ACTIVATION_ALERTS = [
   // RIYADH — 3 spots
-  { id: 101, type: "idle_land", name: "Al Yasmin Block 4A, Riyadh", lat: 25.05, lng: 46.35, severity: "CRITICAL", delay: "14,500 SQM · 4 YRS IDLE", cause: "AI IDENTIFICATION: Satellite change-detection confirms zero construction activity since 2022. Plot sits 400m from completed King Salman Park metro station with full road, water, and power infrastructure already delivered. Surrounded by 95% developed residential neighborhoods (Al Yasmin avg. price: SAR 3,100/sqm). Owner filed no building permit despite Phase 2 White Land Tax (2.5% annual levy = SAR 1.1M/yr penalty).\n\nWHY UNDERDEVELOPED: Speculative holding. Owner purchased in 2019 at SAR 2,200/sqm, current market value SAR 3,100/sqm — holding for appreciation rather than building.\n\nWHY DEVELOP: 400m to metro station. 8-min walk to King Salman Park. All utilities connected. Can deliver 145 residential units at 100 sqm each. Estimated 320 families on Sakani waitlist within 2 km radius. ROI for developer: 22% IRR over 4-year build cycle.", recommendation: "Issue Final Warning under White Land Tax Phase 2. If no permit application within 90 days, escalate to mandatory public auction per Royal Decree M/4. Recommended use: 145-unit mid-rise residential (G+5) with ground-floor retail. Estimated delivery: 18 months from permit." },
-  { id: 102, type: "idle_land", name: "Al Malqa Apex, Riyadh", lat: 24.60, lng: 46.70, severity: "CRITICAL", delay: "32,000 SQM · 6 YRS IDLE", cause: "AI IDENTIFICATION: Largest single idle parcel in Greater Riyadh. 32,000 sqm blocking municipal utilities corridor expansion to northern suburbs. Acquired 2020 for SAR 85M, current assessed value SAR 120M. Zero development activity per 72 consecutive monthly satellite scans. Adjacent plots developed as KAFD support infrastructure.\n\nWHY UNDERDEVELOPED: Owner (corporate entity) using as balance-sheet asset. Land value appreciation (6.8% CAGR) exceeds development profit margins in current interest rate environment.\n\nWHY DEVELOP: Blocks critical water main extension serving 45,000 planned units in Al Malqa North. Ideal for mixed-use: proximity to KAFD (2.3 km) creates demand for 2,400+ Grade-B office workers needing housing. Municipal utilities ROW would unlock 3 adjacent parcels totaling 80,000 sqm.", recommendation: "Initiate eminent domain review for utilities corridor (12,000 sqm strip). Remaining 20,000 sqm: mandate development start within 180 days or apply accelerated 5% annual levy. Recommended use: mixed-use transit-oriented development — 200 residential units + 8,000 sqm office + 4,000 sqm retail." },
-  { id: 103, type: "idle_land", name: "Khashm Al Aan South, Riyadh", lat: 24.15, lng: 47.10, severity: "HIGH", delay: "22,000 SQM · 3 YRS IDLE", cause: "AI IDENTIFICATION: Located on Riyadh's eastern expansion belt along King Khalid Rd corridor. Plot undeveloped despite being within 1.2 km of Riyadh Metro Green Line terminus station (2025 operational). Utility stub-outs installed by municipality in 2023 but remain unconnected.\n\nWHY UNDERDEVELOPED: Ownership dispute between heirs (3 family members, inheritance since 2021). No single party authorized to apply for building permit per Sharia court records.\n\nWHY DEVELOP: Metro Green Line terminus creates transit-oriented demand. Eastern Riyadh has lowest housing supply per capita (1.2 units per 1,000 residents vs city avg 2.8). Plot can serve 800+ Sakani-eligible families. Industrial zone workers (King Salman Energy Park, 8 km south) need affordable housing.", recommendation: "Refer to Sharia court for expedited partition ruling. If unresolved in 120 days, MOMRAH to appoint development trustee per Land Governance Act Article 14. Recommended use: affordable housing (G+4) — 180 units targeting SAR 500K–750K price range for Sakani beneficiaries." },
+  { id: 101, type: "idle_land", name: "Al Yasmin Block 4A, Riyadh", lat: 25.05, lng: 46.35, severity: "CRITICAL", delay: "14,500 SQM · 4 YRS IDLE", cause: "AI识别：卫星变化检测确认自2022年以来零施工活动。地块距已完工的萨勒曼国王公园地铁站400米，道路、供水和电力基础设施已全部到位。周边95%为已开发住宅区（Al Yasmin均价：3,100 SAR/平方米）。业主未申请建筑许可，尽管白地税第二阶段已生效（2.5%年税率=每年110万SAR罚款）。\n\n未开发原因：投机持有。业主2019年以2,200 SAR/平方米购入，当前市值3,100 SAR/平方米——持有待升值而非建设。\n\n开发理由：距地铁站400米。步行8分钟到萨勒曼国王公园。所有公用设施已接通。可交付145套住宅（每套100平方米）。半径2公里内Sakani等候名单约320个家庭。开发商回报率：4年建设周期22%内部收益率。", recommendation: "根据白地税第二阶段发出最终警告。90天内无许可申请，按皇家法令M/4启动强制公开拍卖。推荐用途：145套中层住宅（G+5）带底层商业。预计交付：许可后18个月。" },
+  { id: 102, type: "idle_land", name: "Al Malqa Apex, Riyadh", lat: 24.60, lng: 46.70, severity: "CRITICAL", delay: "32,000 SQM · 6 YRS IDLE", cause: "AI识别：大利雅得最大单一闲置地块。32,000平方米阻塞了通往北部郊区的市政公用设施走廊扩建。2020年以8,500万SAR购入，当前评估价值1.2亿SAR。72个月连续卫星扫描显示零开发活动。相邻地块已开发为KAFD支持基础设施。\n\n未开发原因：业主（企业实体）将其作为资产负债表资产。土地增值率（6.8%复合年增长率）超过当前利率环境下的开发利润率。\n\n开发理由：阻塞了服务Al Malqa北区4.5万套规划住宅的关键供水主管道。适合混合用途：邻近KAFD（2.3公里），为2,400+ B级办公人员创造住房需求。市政公用设施通行权将解锁3个相邻地块共80,000平方米。", recommendation: "启动公用设施走廊征收审查（12,000平方米条状地块）。剩余20,000平方米：要求180天内开始开发或适用加速5%年税率。推荐用途：公交导向混合开发——200套住宅+8,000平方米办公+4,000平方米商业。" },
+  { id: 103, type: "idle_land", name: "Khashm Al Aan South, Riyadh", lat: 24.15, lng: 47.10, severity: "HIGH", delay: "22,000 SQM · 3 YRS IDLE", cause: "AI识别：位于利雅得东扩带，沿哈立德国王路走廊。地块距利雅得地铁绿线终点站（2025年运营）仅1.2公里却未开发。市政2023年已安装公用设施接口但尚未接通。\n\n未开发原因：继承人之间产权纠纷（3名家族成员，2021年继承）。根据伊斯兰法院记录，无单一方可申请建筑许可。\n\n开发理由：地铁绿线终点站创造公交导向需求。利雅得东部人均住房供应最低（每千居民1.2套，城市平均2.8套）。地块可服务800+个Sakani合格家庭。工业区工人（萨勒曼国王能源园，南8公里）需要经济住房。", recommendation: "提交伊斯兰法院加速分割裁决。120天内未解决，MOMRAH依据《土地治理法》第14条指定开发托管人。推荐用途：经济住房（G+4）——180套，目标价50-75万SAR，面向Sakani受益人。" },
 
   // MAKKAH — 2 spots
-  { id: 104, type: "idle_land", name: "Al Shara'i Plateau, Makkah", lat: 21.25, lng: 39.95, severity: "CRITICAL", delay: "48,000 SQM · 5 YRS IDLE", cause: "AI IDENTIFICATION: Elevated plateau 6 km east of Haram with panoramic views. Plot fully serviced (road, water, power since 2021). Zoned residential since 2018 Master Plan revision. Satellite imagery shows bare earth with temporary storage containers.\n\nWHY UNDERDEVELOPED: Owner awaiting Hajj accommodation rezoning (hospitality yields 3× residential). Municipality denied rezoning in 2023 and 2024 — area designated exclusively residential to protect housing supply.\n\nWHY DEVELOP: Makkah has the lowest homeownership rate nationally (52% vs 70% target). Al Shara'i has existing school, mosque, and clinic within 800m. 15-min bus route to Haram. Can accommodate 480 family units. 3,200 families on Makkah Sakani waitlist identified within this postal zone.", recommendation: "Enforce residential zoning. Apply accelerated White Land Tax (5% for plots >5 years idle in holy city zones). Recommended use: 480-unit family residential complex with underground parking. Fast-track building permit — estimated 24-month construction." },
-  { id: 105, type: "idle_land", name: "North Jeddah Corniche Strip, Jeddah", lat: 21.80, lng: 39.05, severity: "HIGH", delay: "18,000 SQM · 4 YRS IDLE", cause: "AI IDENTIFICATION: Waterfront parcel on northern Corniche extension. Plot cleared for construction in 2022 (demolition permit issued) but no follow-up building permit. Adjacent to Jeddah Tower development zone. Full sewage and desalinated water connection.\n\nWHY UNDERDEVELOPED: Developer's original mixed-use project financing fell through during 2023 interest rate hike. Plot remains in developer's portfolio as 'planned' but unfunded.\n\nWHY DEVELOP: Prime waterfront. Jeddah Tower district will attract 25,000+ residents by 2030. Only 3 waterfront residential plots remaining in northern Corniche. Strong demand for premium housing from Jeddah's growing financial sector workforce. Estimated absorption: 14 months for 120 luxury units.", recommendation: "Facilitate PIF co-investment or PPP structure to restart development. If no permit within 120 days, initiate White Land Tax Phase 2. Recommended use: 120-unit waterfront residential (G+8) with marina-level retail." },
+  { id: 104, type: "idle_land", name: "Al Shara'i Plateau, Makkah", lat: 21.25, lng: 39.95, severity: "CRITICAL", delay: "48,000 SQM · 5 YRS IDLE", cause: "AI识别：禁寺东6公里的高原地带，拥有全景视野。地块公用设施齐全（道路、供水、电力自2021年起可用）。2018年总体规划修订后划为住宅区。卫星图像显示为裸土，有临时仓储集装箱。\n\n未开发原因：业主等待朝觐住宿重新划区（酒店收益是住宅的3倍）。市政2023和2024年两次拒绝重新划区——该区域专用于住宅以保护住房供应。\n\n开发理由：麦加全国住房自有率最低（52%对70%目标）。Al Shara'i在800米内有学校、清真寺和诊所。公交15分钟到禁寺。可容纳480个家庭单元。该邮区内有3,200个家庭在麦加Sakani等候名单上。", recommendation: "执行住宅区划。适用加速白地税（圣城区闲置5年以上地块税率5%）。推荐用途：480套家庭住宅综合体带地下停车。快速审批建筑许可——预计24个月建设周期。" },
+  { id: 105, type: "idle_land", name: "North Jeddah Corniche Strip, Jeddah", lat: 21.80, lng: 39.05, severity: "HIGH", delay: "18,000 SQM · 4 YRS IDLE", cause: "AI识别：北部滨海扩建区的临海地块。2022年已获拆除许可并清场，但未申请后续建筑许可。毗邻吉达塔开发区。污水和淡化水全部接通。\n\n未开发原因：开发商原混合用途项目融资在2023年加息期间失败。地块在开发商资产组合中标记为「计划中」但无资金。\n\n开发理由：一线海景。吉达塔区域2030年前将吸引25,000+居民。北部滨海仅剩3个住宅地块。吉达金融业从业人员对高端住房需求强劲。预计120套豪华单元14个月内售罄。", recommendation: "促成PIF共同投资或PPP结构重启开发。120天内无许可则启动白地税第二阶段。推荐用途：120套海景住宅（G+8）带码头层商业。" },
 
   // EASTERN PROVINCE — 2 spots
-  { id: 106, type: "idle_land", name: "Dhahran Valley West, Eastern Province", lat: 26.05, lng: 50.25, severity: "HIGH", delay: "28,000 SQM · 3 YRS IDLE", cause: "AI IDENTIFICATION: Located 2 km from Dhahran Expo Center and 4 km from Aramco HQ. Plot within NHC-designated 'Dhahran Valley' residential expansion zone. All trunk infrastructure installed by NHC in 2023 (roads, water, power, fiber). No construction started.\n\nWHY UNDERDEVELOPED: Allocated to private developer via NHC partnership, but developer prioritized Riyadh projects. Construction start delayed 3× since 2023.\n\nWHY DEVELOP: Aramco's 2025 expansion adds 15,000 employees in Dhahran campus. Current vacancy rate in Dhahran: 1.8% (near-zero). Average rent increased 28% YoY. 2,100 Aramco employees on internal housing waitlist. All infrastructure pre-built — construction can start immediately.", recommendation: "Trigger NHC performance clause — mandate construction start within 90 days or reassign to alternate developer. Recommended use: 280-unit mid-rise workforce housing (G+6) with community facilities. Estimated delivery: 20 months." },
-  { id: 107, type: "idle_land", name: "Jubail 2 Southern Buffer, Eastern Province", lat: 27.15, lng: 49.45, severity: "HIGH", delay: "35,000 SQM · 5 YRS IDLE", cause: "AI IDENTIFICATION: Industrial support zone adjacent to Jubail 2 petrochemical complex. Zoned for worker housing and light commercial. Road access completed 2021. Water/power available at boundary.\n\nWHY UNDERDEVELOPED: Environmental remediation required — previous use as temporary construction staging left soil contamination (2022 EIA report). Remediation cost estimated SAR 8M, owner unwilling to invest.\n\nWHY DEVELOP: 40,000 petrochemical workers commute 45+ min daily from Dammam. On-site housing would reduce industrial absenteeism by estimated 12%. Royal Commission for Jubail master plan allocates this plot for 350 worker housing units. SAR 8M remediation cost is 2% of projected development value (SAR 380M).", recommendation: "Offer SIDF remediation loan (0% interest, 10-year term). If owner declines within 60 days, Royal Commission to exercise first-refusal purchase right. Recommended use: 350-unit worker dormitory + family housing complex with mosque and commercial street." },
+  { id: 106, type: "idle_land", name: "Dhahran Valley West, Eastern Province", lat: 26.05, lng: 50.25, severity: "HIGH", delay: "28,000 SQM · 3 YRS IDLE", cause: "AI识别：距宰赫兰展览中心2公里、阿美总部4公里。地块位于NHC指定的「宰赫兰谷」住宅扩展区。NHC 2023年安装了所有主干基础设施（道路、供水、电力、光纤）。未开始建设。\n\n未开发原因：通过NHC合作分配给私营开发商，但开发商优先利雅得项目。建设开工自2023年以来已3次延期。\n\n开发理由：阿美2025年扩建在宰赫兰园区新增15,000名员工。宰赫兰当前空置率：1.8%（接近零）。平均租金同比上涨28%。2,100名阿美员工在内部住房等候名单上。所有基础设施已预建——可立即开工。", recommendation: "触发NHC绩效条款——要求90天内开工或重新分配给其他开发商。推荐用途：280套中层员工住房（G+6）带社区设施。预计交付：20个月。" },
+  { id: 107, type: "idle_land", name: "Jubail 2 Southern Buffer, Eastern Province", lat: 27.15, lng: 49.45, severity: "HIGH", delay: "35,000 SQM · 5 YRS IDLE", cause: "AI识别：毗邻朱拜勒2号石化综合体的工业支持区。划为工人住房和轻商业。道路2021年完工。供水/供电已到地块边界。\n\n未开发原因：需要环境修复——之前作为临时施工暂存区造成土壤污染（2022年环境影响评估报告）。修复成本估计800万SAR，业主不愿投资。\n\n开发理由：4万名石化工人每天从达曼通勤45分钟以上。现场住房预计可减少12%的工业缺勤率。朱拜勒皇家委员会总体规划将该地块划为350套工人住房。800万SAR修复成本仅为预计开发价值（3.8亿SAR）的2%。", recommendation: "提供SIDF修复贷款（0%利率，10年期）。60天内业主拒绝则皇家委员会行使优先购买权。推荐用途：350套工人宿舍+家庭住宅综合体带清真寺和商业街。" },
 
   // MADINAH — 2 spots
-  { id: 108, type: "idle_land", name: "KEC Phase 2 North, Madinah", lat: 24.75, lng: 39.30, severity: "HIGH", delay: "20,000 SQM · 4 YRS IDLE", cause: "AI IDENTIFICATION: Located within Knowledge Economic City Phase 2 boundary. Plot allocated for academic staff housing in 2022 master plan. Road network completed. Power substation 500m away. Desert terrain — no remediation needed.\n\nWHY UNDERDEVELOPED: KEC Phase 2 timeline slipped 2 years due to contractor restructuring. Housing plots deprioritized in favor of university campus buildings.\n\nWHY DEVELOP: Islamic University of Madinah expanding faculty by 800 positions (2026–2030 plan). Current faculty housing waitlist: 14 months. Private rental near Haram rising 18% YoY — academic retention at risk. Plot can deliver 200 faculty housing units at SAR 600K each (below market).", recommendation: "Separate housing delivery from campus timeline. Issue standalone building permit for faculty housing. Partner with REDF for subsidized mortgage at 2.5% for academic staff. Recommended use: 200-unit faculty townhouse development (G+2) with family amenities." },
-  { id: 109, type: "idle_land", name: "Al Manar Commercial, Madinah", lat: 24.20, lng: 39.80, severity: "HIGH", delay: "12,000 SQM · 3 YRS IDLE", cause: "AI IDENTIFICATION: Commercial-zoned plot in Al Manar district, 3 km from Prophet's Mosque. Previously approved for hotel development (2023). Building permit expired December 2025 without construction start.\n\nWHY UNDERDEVELOPED: Original hotel concept became unviable after 2024 tourism accommodation oversupply analysis showed 4,200 excess hotel rooms in central Madinah by 2028.\n\nWHY DEVELOP: While hotel is oversupplied, residential is critically undersupplied. Rezoning to residential would serve visitor-to-resident conversion trend (8% YoY). Al Manar has excellent transit — 5-min walk to Haramain station. Can accommodate 150 residential units serving young professionals and small families.", recommendation: "Approve commercial-to-residential rezoning application (fast-track 30-day review). Maintain ground-floor commercial requirement. Recommended use: 150-unit residential tower (G+12) with retail podium and co-working space. Prime location for Madinah's growing knowledge economy workforce." },
+  { id: 108, type: "idle_land", name: "KEC Phase 2 North, Madinah", lat: 24.75, lng: 39.30, severity: "HIGH", delay: "20,000 SQM · 4 YRS IDLE", cause: "AI识别：位于知识经济城二期边界内。2022年总体规划将该地块划为教职工住房。道路网络已完工。变电站在500米外。沙漠地形——无需修复。\n\n未开发原因：KEC二期因承包商重组延期2年。住宅地块优先级低于大学校园建筑。\n\n开发理由：伊斯兰大学麦地那分校2026-2030年计划扩招800名教师。当前教师住房等候：14个月。禁寺附近私人租金同比上涨18%——教师留存受威胁。地块可交付200套教师住房，每套60万SAR（低于市场价）。", recommendation: "将住房交付与校园时间线分离。为教师住房发放独立建筑许可。与REDF合作为教职工提供2.5%补贴抵押贷款。推荐用途：200套教师联排住宅（G+2）带家庭设施。" },
+  { id: 109, type: "idle_land", name: "Al Manar Commercial, Madinah", lat: 24.20, lng: 39.80, severity: "HIGH", delay: "12,000 SQM · 3 YRS IDLE", cause: "AI识别：Al Manar区商业地块，距先知寺3公里。2023年曾获批酒店开发。建筑许可2025年12月到期未开工。\n\n未开发原因：2024年旅游住宿供过于求分析显示麦地那中心2028年前将有4,200间酒店客房过剩，原酒店方案不可行。\n\n开发理由：虽然酒店过剩，但住宅严重不足。重新划为住宅区可服务访客转居民趋势（年增8%）。Al Manar交通优越——步行5分钟到哈拉曼站。可容纳150套住宅服务年轻专业人士和小家庭。", recommendation: "批准商业转住宅重新划区申请（快速30天审查）。保留底层商业要求。推荐用途：150套住宅塔楼（G+12）带零售裙楼和共享办公空间。麦地那知识经济劳动力的黄金地段。" },
 
   // ASIR — 2 spots
-  { id: 110, type: "idle_land", name: "Soudah Gateway Parcel, Asir", lat: 18.10, lng: 42.30, severity: "HIGH", delay: "15,000 SQM · 2 YRS IDLE", cause: "AI IDENTIFICATION: Entry corridor to Soudah Development mega-project. Plot designated for tourism workforce housing in 2024 Soudah master plan. Road access from Abha–Soudah highway completed. Mountain terrain at 2,800m elevation.\n\nWHY UNDERDEVELOPED: Geological survey required for foundation design (mountain rock). Survey budgeted but not yet commissioned — bureaucratic delay between Soudah Development Co. and Ministry of Municipal Affairs.\n\nWHY DEVELOP: Soudah project needs 8,000 tourism workers by 2029. Nearest housing is 40 km away in Abha (1-hour mountain drive). Worker commute cost: SAR 45M/yr in shuttle operations. On-site housing eliminates commute and improves worker retention. Cool mountain climate (avg 18°C) is natural advantage.", recommendation: "Commission geological survey immediately (SAR 1.2M, 90-day timeline). Begin foundation design in parallel. Recommended use: 150-unit mountain workforce village — modular construction suited to terrain. Climate-responsive design with natural ventilation. Estimated delivery: 16 months from survey completion." },
+  { id: 110, type: "idle_land", name: "Soudah Gateway Parcel, Asir", lat: 18.10, lng: 42.30, severity: "HIGH", delay: "15,000 SQM · 2 YRS IDLE", cause: "AI识别：苏戴开发巨型项目的入口走廊。2024年苏戴总体规划将该地块划为旅游劳动力住房。艾卜哈-苏戴高速公路接入已完成。海拔2,800米山地地形。\n\n未开发原因：需要地质勘察进行基础设计（山岩）。勘察已预算但未委托——苏戴开发公司与市政部之间的官僚延误。\n\n开发理由：苏戴项目2029年前需要8,000名旅游工人。最近住房在40公里外的艾卜哈（1小时山路车程）。工人通勤成本：每年4,500万SAR班车运营费。现场住房可消除通勤并提高工人留存率。凉爽山地气候（平均18°C）是天然优势。", recommendation: "立即委托地质勘察（120万SAR，90天工期）。并行开始基础设计。推荐用途：150套山地工人村——适合地形的模块化建设。气候响应式设计，自然通风。预计交付：勘察完成后16个月。" },
 
   // QASSIM — 2 spots
-  { id: 111, type: "idle_land", name: "Buraidah North University Belt, Qassim", lat: 26.55, lng: 43.70, severity: "HIGH", delay: "25,000 SQM · 4 YRS IDLE", cause: "AI IDENTIFICATION: Adjacent to Qassim University main campus. Zoned residential since 2020. Road access and power available. Water main 200m from plot boundary (extension required).\n\nWHY UNDERDEVELOPED: Water utility extension stalled — municipality budget allocated but contractor procurement delayed 2 years due to competing infrastructure projects in eastern Qassim.\n\nWHY DEVELOP: 4,000 students projected to need housing by 2028 (university expansion plan). Currently students commute from Buraidah center (25 min) or live in substandard arrangements. Faculty housing demand: 200 units. Plot is flat agricultural land — zero remediation, easy construction.", recommendation: "Prioritize water main extension (200m, estimated SAR 2M, 45-day install). Release NHC pre-approved developer list. Recommended use: 250-unit mixed student + faculty housing — 200 studio/1-BR student units + 50 family townhouses. Include student services (library, gym, convenience retail)." },
-  { id: 112, type: "idle_land", name: "Al Rass Agri-Tech Hub, Qassim", lat: 25.65, lng: 44.20, severity: "HIGH", delay: "18,000 SQM · 3 YRS IDLE", cause: "AI IDENTIFICATION: Located at Al Rass – Buraidah agricultural corridor junction. Zoned mixed-use (2023). New highway interchange completed 200m away. Power and telecommunications connected. Agricultural research station 1 km east.\n\nWHY UNDERDEVELOPED: Agricultural community traditionally reluctant to convert farmland edge plots. Owner (farming cooperative) lacks development expertise and capital.\n\nWHY DEVELOP: Qassim agri-tech sector growing 15% YoY. 6 agri-tech startups seeking office/warehouse space within 5 km (no suitable supply). NEOM Food Tech partnership creating demand for 300+ technical workers in Qassim by 2029. Plot can serve as anchor for emerging agri-tech innovation district.", recommendation: "Offer MODON (Saudi Authority for Industrial Cities) partnership to farming cooperative — co-develop with guaranteed revenue share. Recommended use: agri-tech innovation campus — 5,000 sqm light industrial/warehouse, 3,000 sqm office, 100-unit worker housing. Create Qassim's first dedicated agri-tech hub." }
+  { id: 111, type: "idle_land", name: "Buraidah North University Belt, Qassim", lat: 26.55, lng: 43.70, severity: "HIGH", delay: "25,000 SQM · 4 YRS IDLE", cause: "AI识别：毗邻卡西姆大学主校区。2020年起划为住宅区。道路和电力可用。供水主管道距地块边界200米（需延伸）。\n\n未开发原因：供水设施延伸停滞——市政预算已拨付但承包商采购因卡西姆东部竞争性基础设施项目延期2年。\n\n开发理由：2028年前预计4,000名学生需要住房（大学扩建计划）。目前学生从布赖代中心通勤（25分钟）或居住条件不达标。教职工住房需求：200套。地块为平坦农田——零修复，易于施工。", recommendation: "优先延伸供水主管道（200米，估计200万SAR，45天安装）。发布NHC预审开发商名单。推荐用途：250套混合学生+教职工住房——200套单间/一居室学生单元+50套家庭联排住宅。包含学生服务（图书馆、健身房、便利店）。" },
+  { id: 112, type: "idle_land", name: "Al Rass Agri-Tech Hub, Qassim", lat: 25.65, lng: 44.20, severity: "HIGH", delay: "18,000 SQM · 3 YRS IDLE", cause: "AI识别：位于Al Rass-布赖代农业走廊交汇处。2023年划为混合用途。200米外新高速立交已完工。电力和通信已接通。东1公里有农业研究站。\n\n未开发原因：农业社区传统上不愿转换农田边缘地块。业主（农业合作社）缺乏开发专业知识和资金。\n\n开发理由：卡西姆农业科技部门年增长15%。6家农业科技初创企业在5公里内寻找办公/仓储空间（无合适供应）。NEOM食品科技合作2029年前在卡西姆创造300+技术工人需求。地块可作为新兴农业科技创新区的核心。", recommendation: "向农业合作社提供MODON（沙特工业城市管理局）合作——保证收益分成共同开发。推荐用途：农业科技创新园区——5,000平方米轻工业/仓储，3,000平方米办公，100套工人住房。创建卡西姆首个专属农业科技中心。" }
 ];
 
 // --- URBAN LAND UTILIZATION: AI-IDENTIFIED UNDERUTILIZED ZONES (idl_2) ---
@@ -87,49 +87,49 @@ const WHITE_LAND_ACTIVATION_ALERTS = [
 // and municipal zoning registers to find zones where zoned land is significantly underutilized.
 const URBAN_UTILIZATION_ALERTS = [
   // RIYADH — 3 spots
-  { id: 201, type: "utilization", name: "KAFD North Buffer Zone, Riyadh", lat: 25.10, lng: 46.30, severity: "CRITICAL", delay: "12 KM² UNDERUSED", cause: "AI IDENTIFICATION: 12 km² zoned urban area north of King Abdullah Financial District showing only 18% built density vs 65% city average. Satellite analysis reveals: 70% bare earth, 15% temporary structures (construction camps from KAFD build-out, now vacated), 15% single-story warehousing.\n\nWHY UNDERUTILIZED: Area was designated as KAFD construction staging zone (2015–2024). Now that KAFD is 90% complete, staging areas are vacated but not yet re-zoned for permanent use. Temporary-use permits still active — prevents permanent construction permits.\n\nVALUE TO MINISTRY: Score impact — developing this single zone would lift Riyadh's utilization index from 62 to 67 (+5 points). 12 km² at medium density (FAR 2.0) yields 24M sqm of floor space — equivalent to a mid-size Saudi city. Proximity to KAFD creates immediate demand for 15,000+ support workers' housing.", recommendation: "Revoke expired temporary-use permits (batch process — 340 permits). Issue blanket re-zoning to mixed-use residential (R3). Publish NHC tender for master-planned community (6,000 residential units + 200,000 sqm commercial). Estimated index lift: +5 points for Riyadh region." },
-  { id: 202, type: "utilization", name: "Diriyah Gate Western Corridor, Riyadh", lat: 24.55, lng: 46.65, severity: "CRITICAL", delay: "8 KM² UNDERUSED", cause: "AI IDENTIFICATION: 8 km² corridor west of Diriyah Gate heritage project. Infrastructure analysis shows: roads at 90% capacity, water/power trunk lines installed (2024), but only 22% of plots have active construction. Rest remains as date palm farms and vacant desert.\n\nWHY UNDERUTILIZED: Heritage buffer zone regulations impose 12m height limit across entire corridor. Developers avoiding area due to low-density constraint reducing project viability (FAR limited to 0.8).\n\nVALUE TO MINISTRY: Diriyah Gate will attract 5M visitors/year by 2030 + 25,000 permanent residents in gated community. Corridor needs hospitality, retail, and service worker housing. Current gap: zero available housing within 3 km for 8,000+ service industry workers. Developing at heritage-compatible density (G+3) still viable for townhouse product.", recommendation: "Create 'Heritage-Compatible Development Guide' — allow G+3 with traditional Najdi architectural standards. Offer 30% Sakani financing subsidy for heritage-district projects. Target 2,400 townhouse units + 80,000 sqm boutique commercial. Index impact: +3 points." },
-  { id: 203, type: "utilization", name: "Eastern Industrial Fringe, Riyadh", lat: 24.10, lng: 47.15, severity: "HIGH", delay: "15 KM² UNDERUSED", cause: "AI IDENTIFICATION: 15 km² zone on Riyadh's eastern boundary between 2nd and 3rd Ring Roads. Zoned industrial/mixed since 2018. Satellite analysis: 60% vacant lots, 25% single-story auto-repair workshops, 15% low-rise warehousing (avg FAR: 0.3 vs zoned capacity of 2.5).\n\nWHY UNDERUTILIZED: Industrial migration — original auto/mechanical businesses moving to new MODON industrial cities. Remaining occupants have short-term leases and no incentive to invest in permanent structures.\n\nVALUE TO MINISTRY: Metro Green Line terminus creates residential opportunity. Rezoning from industrial to mixed-use would enable 18,000+ housing units for eastern Riyadh's workforce population (King Salman Energy Park employees). Highest impact zone in Riyadh for utilization index improvement.", recommendation: "Initiate formal rezoning process (industrial → mixed-use R2/C2). Offer relocation incentives for remaining auto-repair businesses to MODON cities. Publish transit-oriented development tender. 15 km² at medium density = 37,500 units potential. Index impact: +7 points." },
+  { id: 201, type: "utilization", name: "KAFD North Buffer Zone, Riyadh", lat: 25.10, lng: 46.30, severity: "CRITICAL", delay: "12 KM² UNDERUSED", cause: "AI识别：阿卜杜拉国王金融区以北12平方公里城市区域，建设密度仅18%（城市平均65%）。卫星分析显示：70%裸土，15%临时建筑（KAFD建设期间施工营地，现已空置），15%单层仓储。\n\n利用不足原因：该区域被指定为KAFD施工暂存区（2015-2024年）。KAFD已完工90%，暂存区已空置但尚未重新划为永久用途。临时使用许可仍有效——阻止了永久建设许可。\n\n对住建部的价值：开发这一区域可将利雅得利用指数从62提升至67（+5分）。12平方公里中等密度（容积率2.0）产生2,400万平方米建筑面积——相当于一座中型沙特城市。邻近KAFD创造15,000+后勤工人住房的直接需求。", recommendation: "撤销过期临时使用许可（批量处理——340个许可）。发布统一重新划区为混合住宅（R3）。发布NHC总体规划社区招标（6,000套住宅+200,000平方米商业）。预计指数提升：利雅得区域+5分。" },
+  { id: 202, type: "utilization", name: "Diriyah Gate Western Corridor, Riyadh", lat: 24.55, lng: 46.65, severity: "CRITICAL", delay: "8 KM² UNDERUSED", cause: "AI识别：德拉伊耶门遗产项目以西8平方公里走廊。基础设施分析显示：道路90%容量，供水/电力主干线已安装（2024年），但仅22%的地块有在建工程。其余仍为椰枣农场和空置沙漠。\n\n利用不足原因：遗产缓冲区法规对整条走廊施加12米高度限制。开发商因低密度约束降低项目可行性而避开该区域（容积率限制0.8）。\n\n对住建部的价值：德拉伊耶门2030年前将吸引500万游客/年+封闭社区25,000名常驻居民。走廊需要酒店、零售和服务工人住房。当前缺口：3公里内零可用住房供8,000+服务行业工人。以遗产兼容密度（G+3）开发联排住宅仍可行。", recommendation: "创建「遗产兼容开发指南」——允许G+3并采用传统纳吉迪建筑标准。为遗产区项目提供30% Sakani融资补贴。目标：2,400套联排住宅+80,000平方米精品商业。指数影响：+3分。" },
+  { id: 203, type: "utilization", name: "Eastern Industrial Fringe, Riyadh", lat: 24.10, lng: 47.15, severity: "HIGH", delay: "15 KM² UNDERUSED", cause: "AI识别：利雅得东界第二和第三环路之间15平方公里区域。2018年起划为工业/混合用途。卫星分析：60%空置地块，25%单层汽修作坊，15%低层仓储（平均容积率0.3，划区容量2.5）。\n\n利用不足原因：产业迁移——原有汽车/机械企业搬到新的MODON工业城。剩余租户为短期租约，无投资永久建筑的动力。\n\n对住建部的价值：地铁绿线终点站创造住宅机会。从工业重新划为混合用途可为利雅得东部劳动力人口（萨勒曼国王能源园员工）提供18,000+套住房。利雅得利用指数改善影响最大的区域。", recommendation: "启动正式重新划区程序（工业→混合用途R2/C2）。为剩余汽修企业提供搬迁到MODON工业城的激励。发布公交导向开发招标。15平方公里中等密度=37,500套潜力。指数影响：+7分。" },
 
   // MAKKAH — 2 spots
-  { id: 204, type: "utilization", name: "Al Awali Heights, Makkah", lat: 21.15, lng: 39.95, severity: "CRITICAL", delay: "6 KM² UNDERUSED", cause: "AI IDENTIFICATION: 6 km² elevated zone south of Makkah's urban core. Zoned residential since 2019 master plan. Satellite shows: 85% bare mountain terrain with graded access roads (completed 2023). Only 2 villas under construction.\n\nWHY UNDERUTILIZED: Steep terrain (15–25% gradient) increases construction cost by 40%. Standard residential developers avoid mountain sites. No specific incentive program for hillside development despite completed road infrastructure.\n\nVALUE TO MINISTRY: Makkah's flatland is 95% built-out — vertical expansion (mountains) is the only growth vector. Al Awali offers cooler microclimate (300m elevation gain), views of Haram, and existing road access. 6 km² can accommodate 3,600 terraced units designed for slope conditions. Would lift Makkah utilization from 55 to 59.", recommendation: "Create 'Mountain Development Incentive' — 25% construction cost subsidy for hillside projects, fast-track permits (45-day approval), and Sakani eligibility for mountain housing. Require terraced architectural typology. Target 3,600 units across 12 hillside clusters. Index impact: +4 points." },
-  { id: 205, type: "utilization", name: "Jeddah Al Hamdaniyah East, Makkah Region", lat: 21.75, lng: 39.10, severity: "HIGH", delay: "10 KM² UNDERUSED", cause: "AI IDENTIFICATION: 10 km² flat zone in eastern Jeddah. Fully gridded road network (2020), power substations operational, water main connected. Satellite shows: 40% empty lots with perimeter walls only (no structures), 30% single-story temporary housing, 30% developed.\n\nWHY UNDERUTILIZED: Rapid land subdivision in 2018–2020 created 4,000+ small plots (avg 300 sqm). Fragmented ownership pattern prevents master-planned development. Individual plots too small for efficient multi-family construction.\n\nVALUE TO MINISTRY: Al Hamdaniyah is Jeddah's fastest-growing district by population (+8% YoY). Informal/temporary housing indicates strong demand but inadequate supply. Plot consolidation program could unlock 5,000+ proper housing units. Adjacent to new Haramain railway station (3 km).", recommendation: "Launch MOMRAH plot consolidation program — incentivize owners to merge adjacent plots (minimum 1,200 sqm for multi-family). Offer 15% FAR bonus for consolidated plots. Deploy 'infill housing' template designs for standard plot sizes. Target 5,000 units over 3 years. Index impact: +5 points." },
+  { id: 204, type: "utilization", name: "Al Awali Heights, Makkah", lat: 21.15, lng: 39.95, severity: "CRITICAL", delay: "6 KM² UNDERUSED", cause: "AI识别：麦加城市核心以南6平方公里高地区域。2019年总体规划划为住宅区。卫星显示：85%裸山地形，已建成等级道路（2023年完工）。仅2栋别墅在建。\n\n利用不足原因：陡峭地形（15-25%坡度）使建设成本增加40%。标准住宅开发商避开山地。尽管道路基础设施已完成，但无特定山坡开发激励计划。\n\n对住建部的价值：麦加平地95%已建成——向山上扩展是唯一的增长方向。Al Awali提供更凉爽的小气候（300米海拔提升）、禁寺景观和现有道路。6平方公里可容纳3,600套依坡设计的梯田式住宅。可将麦加利用指数从55提升至59。", recommendation: "创建「山地开发激励」——山坡项目25%建设成本补贴、快速审批（45天批准）、山地住房Sakani资格。要求梯田式建筑类型。目标：12个山坡组团3,600套住宅。指数影响：+4分。" },
+  { id: 205, type: "utilization", name: "Jeddah Al Hamdaniyah East, Makkah Region", lat: 21.75, lng: 39.10, severity: "HIGH", delay: "10 KM² UNDERUSED", cause: "AI识别：吉达东部10平方公里平坦区域。完整路网（2020年），变电站运营中，供水主管道已接通。卫星显示：40%空置地块仅有围墙（无建筑），30%单层临时住房，30%已开发。\n\n利用不足原因：2018-2020年快速土地分割创造了4,000+个小地块（平均300平方米）。碎片化的所有权模式阻止了总体规划开发。单个地块太小，无法高效建设多户住宅。\n\n对住建部的价值：Al Hamdaniyah是吉达人口增长最快的区域（年增8%）。非正式/临时住房表明需求强劲但供应不足。地块整合计划可释放5,000+套正规住房。毗邻新哈拉曼铁路站（3公里）。", recommendation: "启动MOMRAH地块整合计划——激励业主合并相邻地块（多户住宅最低1,200平方米）。为整合地块提供15%容积率奖励。部署标准地块尺寸的「填充式住房」模板设计。3年目标5,000套。指数影响：+5分。" },
 
   // EASTERN PROVINCE — 2 spots
-  { id: 206, type: "utilization", name: "Ras Al Khair Port Hinterland, Eastern Province", lat: 27.35, lng: 49.10, severity: "HIGH", delay: "20 KM² UNDERUSED", cause: "AI IDENTIFICATION: 20 km² zone behind Ras Al Khair industrial port. Zoned for industrial support and worker housing in 2022 Royal Commission master plan. Flat desert terrain, road access completed, power from Ma'aden industrial grid available.\n\nWHY UNDERUTILIZED: Mining companies (Ma'aden, Sabic) use temporary camps for workers rather than investing in permanent housing. Camp culture persists despite Royal Commission preference for permanent communities.\n\nVALUE TO MINISTRY: 35,000 industrial workers currently in temporary camps (10-year projected need: permanent). Vision 2030 'Quality of Life' program mandates replacing camps with proper communities by 2030. 20 km² can support a full township of 8,000 permanent units + civic amenities. Would transform Eastern Province score from 65 to 69.", recommendation: "Issue Royal Commission directive mandating camp-to-community transition timeline (Phase 1: 3,000 units by 2028). Require mining companies to contribute SAR 50K per worker to housing fund. Partner with NHC for master-planned industrial township. Index impact: +4 points." },
-  { id: 207, type: "utilization", name: "Al Ahsa Southern Oasis Edge, Eastern Province", lat: 25.55, lng: 49.80, severity: "HIGH", delay: "8 KM² UNDERUSED", cause: "AI IDENTIFICATION: 8 km² zone at Al Ahsa oasis southern boundary. UNESCO World Heritage buffer zone creates development constraints. Satellite shows: ancient palm groves (40%), vacant desert (35%), scattered traditional settlements (25%). Zoned for eco-tourism and low-density residential.\n\nWHY UNDERUTILIZED: UNESCO heritage designation creates perception that no development is possible. In reality, buffer zone allows sensitive development (G+2, 30% site coverage max). Local municipality lacks technical capacity for heritage-compatible planning.\n\nVALUE TO MINISTRY: Al Ahsa was designated UNESCO World Heritage in 2018. Vision 2030 targets cultural tourism as GDP diversifier. 8 km² of eco-tourism development (200 boutique units, heritage trails, date farm experiences) would create 1,200 jobs and demonstrate heritage-compatible development model replicable nationally.", recommendation: "Deploy MOMRAH heritage planning technical team to Al Ahsa municipality. Create 'Oasis Edge Development Framework' — eco-lodges, date farm tourism, cultural centers. Limit to G+2, earth-tone materials, 30% coverage. Target 200 boutique tourism units + 150 artisan workshops. Index impact: +2 points." },
+  { id: 206, type: "utilization", name: "Ras Al Khair Port Hinterland, Eastern Province", lat: 27.35, lng: 49.10, severity: "HIGH", delay: "20 KM² UNDERUSED", cause: "AI识别：拉斯海尔工业港后方20平方公里区域。2022年皇家委员会总体规划划为工业支持和工人住房。平坦沙漠地形，道路已完工，Ma'aden工业电网可用。\n\n利用不足原因：矿业公司（Ma'aden、Sabic）使用临时营地而非投资永久住房。尽管皇家委员会倾向永久社区，营地文化持续存在。\n\n对住建部的价值：35,000名工业工人目前住在临时营地（10年预计需求：永久）。2030愿景「生活质量」计划要求2030年前将营地替换为正规社区。20平方公里可支撑一个8,000套永久住宅+市政设施的完整城镇。可将东部省得分从65转变为69。", recommendation: "发布皇家委员会指令，强制要求营地转社区过渡时间表（第一期：2028年前3,000套）。要求矿业公司每人向住房基金缴纳5万SAR。与NHC合作建设总体规划工业城镇。指数影响：+4分。" },
+  { id: 207, type: "utilization", name: "Al Ahsa Southern Oasis Edge, Eastern Province", lat: 25.55, lng: 49.80, severity: "HIGH", delay: "8 KM² UNDERUSED", cause: "AI识别：艾赫萨绿洲南界8平方公里区域。联合国教科文组织世界遗产缓冲区形成开发约束。卫星显示：古老椰枣林（40%），空置沙漠（35%），零散传统聚落（25%）。划为生态旅游和低密度住宅。\n\n利用不足原因：联合国教科文组织遗产认定造成无法开发的印象。实际上缓冲区允许敏感开发（G+2，最大覆盖率30%）。当地市政缺乏遗产兼容规划的技术能力。\n\n对住建部的价值：艾赫萨2018年被列为联合国教科文组织世界遗产。2030愿景将文化旅游列为GDP多元化目标。8平方公里生态旅游开发（200套精品单元，遗产步道，椰枣农场体验）将创造1,200个就业岗位并展示可在全国推广的遗产兼容开发模式。", recommendation: "派遣MOMRAH遗产规划技术团队到艾赫萨市政。创建「绿洲边缘开发框架」——生态旅馆、椰枣农场旅游、文化中心。限G+2，土色调材料，覆盖率30%。目标：200套精品旅游单元+150个工匠作坊。指数影响：+2分。" },
 
   // MADINAH — 2 spots
-  { id: 208, type: "utilization", name: "Haramain Station District, Madinah", lat: 24.70, lng: 39.35, severity: "HIGH", delay: "5 KM² UNDERUSED", cause: "AI IDENTIFICATION: 5 km² zone surrounding Madinah's Haramain High-Speed Railway station. Station operational since 2018 but surrounding district remains 70% undeveloped. Satellite shows: station building, parking structures, and bare graded land. Road network and utilities installed by SAR (Saudi Railways).\n\nWHY UNDERUTILIZED: Land ownership split between Saudi Railways (60%), Ministry of Finance (25%), and private (15%). No single entity authorized to issue master development plan. Coordination between 3 landowners has stalled since 2021.\n\nVALUE TO MINISTRY: Only high-speed rail station in city — transit-oriented development textbook case. Station handles 8,000 passengers/day with projected growth to 15,000 by 2030. 5 km² TOD can accommodate 4,000 residential units + 150,000 sqm commercial + 50,000 sqm hospitality. Model for other Saudi railway stations.", recommendation: "Establish joint development authority (Saudi Railways + MOF + private partners) with MOMRAH as facilitator. Publish TOD master plan tender. International benchmark: Tokyo Station redevelopment model. Target 4,000 units + commercial complex. Index impact: +6 points (largest single-zone opportunity in Madinah)." },
-  { id: 209, type: "utilization", name: "Yanbu Al Sinaiyah Worker Zone, Madinah Region", lat: 24.15, lng: 38.05, severity: "HIGH", delay: "7 KM² UNDERUSED", cause: "AI IDENTIFICATION: 7 km² zone in Yanbu Industrial City designated for worker community development. Royal Commission zoned area in 2020. Basic road grid exists. Power from industrial grid available but water requires desalination plant extension.\n\nWHY UNDERUTILIZED: Desalination plant extension delayed — original 2023 completion pushed to 2027 due to SWCC budget reallocation. Without potable water, no residential construction can begin.\n\nVALUE TO MINISTRY: Yanbu port expansion (2026–2030) will add 20,000 logistics and industrial workers. Current housing: 90% temporary camps. Community development would improve worker retention (current turnover: 35%/yr vs 15% in established cities). 7 km² can support 5,000 permanent units.", recommendation: "Escalate SWCC desalination plant extension to priority status. Install temporary packaged desalination units (100 KL/day capacity) to enable Phase 1 construction (500 units) immediately. Full plant targeting 2028. Index impact: +4 points for Madinah region." },
+  { id: 208, type: "utilization", name: "Haramain Station District, Madinah", lat: 24.70, lng: 39.35, severity: "HIGH", delay: "5 KM² UNDERUSED", cause: "AI识别：麦地那哈拉曼高铁站周围5平方公里区域。车站2018年运营但周边区域70%未开发。卫星显示：车站建筑、停车结构和裸露平整土地。道路网络和公用设施由SAR（沙特铁路）安装。\n\n利用不足原因：土地所有权分为沙特铁路（60%）、财政部（25%）和私人（15%）。无单一实体被授权发布总体规划开发计划。三方业主之间的协调自2021年以来停滞。\n\n对住建部的价值：城市内唯一高铁站——公交导向开发的教科书案例。车站日处理8,000名旅客，预计2030年增至15,000人。5平方公里TOD可容纳4,000套住宅+150,000平方米商业+50,000平方米酒店。其他沙特铁路站的示范模型。", recommendation: "建立联合开发机构（沙特铁路+财政部+私人合作伙伴），MOMRAH作为协调方。发布TOD总体规划招标。国际标杆：东京站再开发模型。目标：4,000套住宅+商业综合体。指数影响：+6分（麦地那最大的单一区域机会）。" },
+  { id: 209, type: "utilization", name: "Yanbu Al Sinaiyah Worker Zone, Madinah Region", lat: 24.15, lng: 38.05, severity: "HIGH", delay: "7 KM² UNDERUSED", cause: "AI识别：延布工业城内7平方公里划为工人社区开发的区域。皇家委员会2020年划区。基础路网存在。工业电网可用但供水需要海水淡化厂扩建。\n\n利用不足原因：海水淡化厂扩建延期——原定2023年完工因SWCC预算重新分配推迟到2027年。无饮用水无法开始住宅建设。\n\n对住建部的价值：延布港扩建（2026-2030年）将新增20,000名物流和工业工人。当前住房：90%临时营地。社区开发将改善工人留存率（当前流失率35%/年 vs 成熟城市15%）。7平方公里可支撑5,000套永久住宅。", recommendation: "将SWCC海水淡化厂扩建升级为优先项目。安装临时集装箱式淡化设备（日产10万升）以立即启动一期建设（500套）。完整工厂目标2028年。指数影响：麦地那区域+4分。" },
 
   // ASIR — 2 spots
-  { id: 210, type: "utilization", name: "Abha City Center Infill, Asir", lat: 17.95, lng: 42.30, severity: "HIGH", delay: "3 KM² UNDERUSED", cause: "AI IDENTIFICATION: 3 km² of central Abha consisting of single-story traditional buildings with 15% site coverage (vs zoned 60% capacity). Satellite analysis: 400+ single-story structures on plots zoned for G+4. Average building age: 35 years. Many structurally assessed as 'poor condition' per 2024 municipal survey.\n\nWHY UNDERUTILIZED: Traditional building owners lack capital for redevelopment. Cultural attachment to original structures. No municipal urban renewal program offering assistance.\n\nVALUE TO MINISTRY: Abha's tourism economy (Soudah, Rijal Almaa) needs 3,000+ hotel rooms and serviced apartments by 2029. Central infill avoids mountain sprawl. Redeveloping single-story to G+4 quadruples housing capacity without expanding urban footprint. Preserves Asir architectural heritage through guided redevelopment.", recommendation: "Launch 'Asir Urban Renewal Fund' — low-interest loans for owners to redevelop (demolish + rebuild at G+4). Mandate Asiri architectural heritage elements (stone facades, colored window frames). Target 800 replacement units in Phase 1. Index impact: +3 points." },
-  { id: 211, type: "utilization", name: "Khamis Mushait Eastern Expansion, Asir", lat: 18.55, lng: 42.90, severity: "HIGH", delay: "9 KM² UNDERUSED", cause: "AI IDENTIFICATION: 9 km² eastern expansion zone of Khamis Mushait. Zoned residential/commercial 2021. Main highway access road completed. Power lines installed along highway corridor. Flat terrain (rare in Asir — significant advantage).\n\nWHY UNDERUTILIZED: Military base proximity (5 km) created informal development freeze — developers assumed restricted airspace would prevent construction. Ministry of Defense confirmed in 2025 that civilian construction is permitted with standard height limits (G+6).\n\nVALUE TO MINISTRY: Only large flat developable zone in greater Abha metro area. 9 km² can support 7,000+ housing units at standard density. Military personnel housing demand: 2,000 units (currently commuting 30+ min from Abha). Khamis Mushait population growing 4.5% YoY — fastest in Asir.", recommendation: "Publish formal MOD clearance letter confirming development permitted. Launch NHC tender for 7,000-unit master-planned community with military family housing allocation (2,000 units). Leverage flat terrain for cost-effective construction. Index impact: +8 points (transformative for Asir)." },
+  { id: 210, type: "utilization", name: "Abha City Center Infill, Asir", lat: 17.95, lng: 42.30, severity: "HIGH", delay: "3 KM² UNDERUSED", cause: "AI识别：艾卜哈市中心3平方公里，由单层传统建筑组成，覆盖率15%（划区容量60%）。卫星分析：400+栋单层建筑位于划为G+4的地块上。平均建筑年龄35年。2024年市政调查将许多结构评估为「状况不佳」。\n\n利用不足原因：传统建筑业主缺乏重建资金。对原始建筑的文化依恋。市政无城市更新援助计划。\n\n对住建部的价值：艾卜哈旅游经济（苏戴、里贾尔阿尔玛）2029年前需要3,000+间酒店客房和服务式公寓。中心填充避免山地蔓延。从单层重建为G+4使住房容量翻四倍而不扩大城市足迹。通过引导式重建保护阿西尔建筑遗产。", recommendation: "启动「阿西尔城市更新基金」——为业主提供低息贷款重建（拆除+按G+4重建）。要求阿西里建筑遗产元素（石立面、彩色窗框）。一期目标800套替换住宅。指数影响：+3分。" },
+  { id: 211, type: "utilization", name: "Khamis Mushait Eastern Expansion, Asir", lat: 18.55, lng: 42.90, severity: "HIGH", delay: "9 KM² UNDERUSED", cause: "AI识别：海米斯穆谢特东部扩展区9平方公里。2021年划为住宅/商业。主要高速公路接入道路已完工。沿公路走廊的电力线路已安装。平坦地形（阿西尔罕见——显著优势）。\n\n利用不足原因：军事基地邻近（5公里）造成非正式开发冻结——开发商认为限制空域将阻止建设。国防部2025年确认允许标准高度限制（G+6）内的民用建设。\n\n对住建部的价值：大艾卜哈都市区唯一大型平坦可开发区域。9平方公里可支撑7,000+套标准密度住宅。军事人员住房需求：2,000套（目前从艾卜哈通勤30+分钟）。海米斯穆谢特人口年增4.5%——阿西尔最快。", recommendation: "发布国防部正式许可函确认允许开发。启动NHC招标建设7,000套总体规划社区含军人家庭住房配额（2,000套）。利用平坦地形降低建设成本。指数影响：+8分（阿西尔的变革性项目）。" },
 
   // QASSIM — 2 spots
-  { id: 212, type: "utilization", name: "Buraidah–Unaizah Corridor, Qassim", lat: 26.50, lng: 43.65, severity: "HIGH", delay: "14 KM² UNDERUSED", cause: "AI IDENTIFICATION: 14 km² linear zone between Buraidah and Unaizah along Highway 65. Zoned mixed-use 2022. Highway interchange completed. Agricultural irrigation canals run through zone (infrastructure present but repurposing needed).\n\nWHY UNDERUTILIZED: Historical agricultural use — date palm farms with low economic output (SAR 800/sqm agricultural value vs SAR 3,500/sqm urban value). Farm owners resistant to conversion. No formal 'agricultural-to-urban transition' support program.\n\nVALUE TO MINISTRY: Bridging Buraidah–Unaizah creates a metro corridor of 750K population (from two separate cities). Linear development along highway supports bus rapid transit. Consolidation would create Qassim's first true metropolitan area. Agricultural owners receive 4× value uplift through conversion.", recommendation: "Create 'Agricultural Transition Bond' — owners convert land and receive 10-year SAR annuity equal to 3× agricultural income. Develop corridor master plan with BRT route. Target 8,000 units + 100,000 sqm agri-tech commercial. Index impact: +9 points (largest single opportunity in Qassim)." },
-  { id: 213, type: "utilization", name: "Al Rass Heritage Quarter, Qassim", lat: 25.60, lng: 44.25, severity: "HIGH", delay: "2 KM² UNDERUSED", cause: "AI IDENTIFICATION: 2 km² traditional old quarter of Al Rass. Single-story mudbrick structures with 20% occupancy (80% abandoned or seasonal use). Satellite shows: degrading rooflines, no new construction permits issued in 5 years. Municipal records show 300+ abandoned properties.\n\nWHY UNDERUTILIZED: Rural-to-urban migration left historic quarter depopulated. No heritage preservation or adaptive reuse program. Mudbrick structures not eligible for standard building permits.\n\nVALUE TO MINISTRY: Saudi Vision 2030 'Cultural Heritage' pillar targets preservation and activation of traditional quarters nationwide. Al Rass has authentic Najdi architecture rarely found elsewhere. Adaptive reuse (boutique hotels, artisan workshops, cultural centers) proven successful in Ad Diriyah and Jeddah Al-Balad. 300 abandoned properties = 300 potential heritage tourism units.", recommendation: "Register Al Rass quarter on Saudi Heritage List. Launch adaptive reuse program modeled on Al-Balad restoration. Convert 100 properties in Phase 1: 40 boutique accommodation, 30 artisan workshops, 30 cultural/food venues. Deploy SCTH (Tourism Authority) technical team. Index impact: +2 points but high cultural value." }
+  { id: 212, type: "utilization", name: "Buraidah–Unaizah Corridor, Qassim", lat: 26.50, lng: 43.65, severity: "HIGH", delay: "14 KM² UNDERUSED", cause: "AI识别：布赖代与欧奈扎之间沿65号公路14平方公里线性区域。2022年划为混合用途。高速公路立交已完工。农业灌溉渠穿过区域（基础设施存在但需重新利用）。\n\n利用不足原因：历史农业用途——椰枣农场经济产出低（农业价值800 SAR/平方米 vs 城市价值3,500 SAR/平方米）。农场主抗拒转换。无正式「农业转城市」支持计划。\n\n对住建部的价值：连接布赖代-欧奈扎创建75万人口都市走廊（从两个独立城市）。沿公路线性发展支持快速公交。合并将创建卡西姆首个真正的都市区。农业业主通过转换获得4倍价值提升。", recommendation: "创建「农业转型债券」——业主转换土地并获得10年SAR年金等于3倍农业收入。制定带BRT路线的走廊总体规划。目标：8,000套住宅+100,000平方米农业科技商业。指数影响：+9分（卡西姆最大的单一机会）。" },
+  { id: 213, type: "utilization", name: "Al Rass Heritage Quarter, Qassim", lat: 25.60, lng: 44.25, severity: "HIGH", delay: "2 KM² UNDERUSED", cause: "AI识别：Al Rass传统老城区2平方公里。单层土砖建筑，入住率20%（80%废弃或季节性使用）。卫星显示：屋顶退化，5年未发新建设许可。市政记录显示300+处废弃房产。\n\n利用不足原因：农村向城市迁移使历史街区人口流失。无遗产保护或适应性再利用计划。土砖建筑不符合标准建筑许可条件。\n\n对住建部的价值：沙特2030愿景「文化遗产」支柱目标在全国范围内保护和活化传统街区。Al Rass拥有罕见的正宗纳吉迪建筑。适应性再利用（精品酒店、工匠作坊、文化中心）在德拉伊耶和吉达Al-Balad已证明成功。300处废弃房产=300个潜在遗产旅游单元。", recommendation: "将Al Rass街区列入沙特遗产名录。启动以Al-Balad修复为模型的适应性再利用计划。一期改造100处房产：40套精品住宿，30个工匠作坊，30个文化/美食场所。派遣SCTH（旅游管理局）技术团队。指数影响：+2分但文化价值高。" }
 ];
 
 // --- MOCK HOUSING DEMAND ALERTS (dmd_1) ---
 const HOUSING_DEMAND_ALERTS = [
-  { id: 301, type: "housing", name: "Riyadh Region", lat: 24.7136, lng: 46.6753, severity: "CRITICAL", delay: "-35K BY 2030", deficit: "35,000", ownership: "55%", target: "70%", pop: "8.6M", cause: "Forecast horizon: 2030. Deficit based on 2016–2025 population growth rate (4.2% CAGR) and NHC housing delivery pipeline. Rapid growth driven by Vision 2030 corporate HQ relocations (1,100+ companies). Northern expansion (KAFD, Diriyah Gate) outpacing residential supply.", recommendation: "Fast-track 15,000 housing permits in Al Janadriyah, Khashm Al Aan corridors. Activate NHC Sakani Phase 8. Deliver 20,000 units by 2028, remaining 15,000 by 2030." },
-  { id: 302, type: "housing", name: "Makkah Region", lat: 21.4225, lng: 39.8262, severity: "CRITICAL", delay: "-42K BY 2030", deficit: "42,000", ownership: "52%", target: "70%", pop: "9.0M", cause: "Forecast horizon: 2030. Highest deficit nationally. Hajj/Umrah seasonal demand creates dual housing market. Ownership at 52% (Q1 2026) — lowest among tracked regions. Hospitality conversion of residential stock near Haram compounds shortage.", recommendation: "Zone 20,000 units in Al Awali, Al Shara'i by 2028. Mandate 60% residential in new mixed-use permits. Remaining 22,000 units via PPP by 2030." },
-  { id: 303, type: "housing", name: "Eastern Province", lat: 26.3927, lng: 49.9777, severity: "HIGH", delay: "-28K BY 2030", deficit: "28,000", ownership: "65%", target: "70%", pop: "5.1M", cause: "Forecast horizon: 2030. Ownership at 65% (Q1 2026) — 5pp gap to target. Aramco expansion zones (Dhahran, Jubail 2) attracting 200K+ skilled workers. 40% of existing stock built pre-2000 needs replacement.", recommendation: "Release 12,000 NHC units in Dhahran Valley by 2028. Incentivize private developers in Al Aziziyah industrial corridor for remaining 16,000 units by 2030." },
-  { id: 304, type: "housing", name: "Madinah Region", lat: 24.4672, lng: 39.6024, severity: "HIGH", delay: "-18K BY 2030", deficit: "18,000", ownership: "60%", target: "70%", pop: "2.2M", cause: "Forecast horizon: 2030. Ownership at 60% (Q1 2026) — 10pp gap. Knowledge Economic City Phase 2 drawing academic and tech talent. Visitor-to-resident conversion rate rising 8% YoY since 2022.", recommendation: "Accelerate 8,000-unit Prince Muhammad bin Salman project (completion 2028). Convert underutilized commercial in Al Manar for 10,000 units by 2030." },
-  { id: 305, type: "housing", name: "Asir Region", lat: 18.2164, lng: 42.5053, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "72%", target: "70%", pop: "2.3M", cause: "Forecast horizon: 2030. Ownership already at 72% (exceeds 70% target), but deficit driven by urbanization: rural-to-Abha migration at 3.1% annually since 2020. Tourism demand from Soudah Peaks project adds 5,000 temporary-to-permanent units needed.", recommendation: "Zone 6,000 units near Soudah corridor by 2028. Upgrade infrastructure in Khamis Mushait expansion zone for 9,000 units by 2030." },
-  { id: 306, type: "housing", name: "Qassim Region", lat: 26.3260, lng: 43.9750, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "71%", target: "70%", pop: "1.5M", cause: "Forecast horizon: 2030. Ownership at 71% (exceeds target), but deficit from agri-tech workforce influx and university expansion. Student housing shortage of 4,000 beds projected by 2028.", recommendation: "Release 5,000 NHC plots in Buraidah North by 2027. Partner with Qassim University for 2,000 student units by 2028. Remaining 8,000 via private sector by 2030." }
+  { id: 301, type: "housing", name: "Riyadh Region", lat: 24.7136, lng: 46.6753, severity: "CRITICAL", delay: "-35K BY 2030", deficit: "35,000", ownership: "55%", target: "70%", pop: "8.6M", cause: "预测周期：2030年。缺口基于2016-2025年人口增长率(4.2%复合年增长)和NHC住房供应管道。2030愿景企业总部搬迁(1,100+家公司)驱动快速增长。北部扩张(KAFD、德拉伊耶门)超过住宅供应。", recommendation: "快速审批Al Janadriyah、Khashm Al Aan走廊1.5万套住房许可。启动NHC Sakani第八期。2028年前交付2万套，2030年前交付剩余1.5万套。" },
+  { id: 302, type: "housing", name: "Makkah Region", lat: 21.4225, lng: 39.8262, severity: "CRITICAL", delay: "-42K BY 2030", deficit: "42,000", ownership: "52%", target: "70%", pop: "9.0M", cause: "预测周期：2030年。全国最大缺口。朝觐/副朝季节性需求形成双轨住房市场。自有率52%(2026年Q1)—追踪区域中最低。禁寺附近住宅转为酒店加剧短缺。", recommendation: "2028年前在Al Awali、Al Shara'i规划2万套。新建混合用途许可中强制60%住宅。剩余2.2万套通过PPP于2030年前交付。" },
+  { id: 303, type: "housing", name: "Eastern Province", lat: 26.3927, lng: 49.9777, severity: "HIGH", delay: "-28K BY 2030", deficit: "28,000", ownership: "65%", target: "70%", pop: "5.1M", cause: "预测周期：2030年。自有率65%(2026年Q1)—差目标5个百分点。阿美扩张区(宰赫兰、朱拜勒2)吸引20万+技术工人。40%现有存量建于2000年前需更新。", recommendation: "2028年前释放宰赫兰谷1.2万套NHC住宅。激励私营开发商在Al Aziziyah工业走廊建设剩余1.6万套。" },
+  { id: 304, type: "housing", name: "Madinah Region", lat: 24.4672, lng: 39.6024, severity: "HIGH", delay: "-18K BY 2030", deficit: "18,000", ownership: "60%", target: "70%", pop: "2.2M", cause: "预测周期：2030年。自有率60%(2026年Q1)—差目标10个百分点。知识经济城二期吸引学术和技术人才。访客转居民比率自2022年起年增8%。", recommendation: "加速穆罕默德·本·萨勒曼王子项目8,000套(2028年完工)。将Al Manar闲置商业转为1万套住宅，2030年前完成。" },
+  { id: 305, type: "housing", name: "Asir Region", lat: 18.2164, lng: 42.5053, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "72%", target: "70%", pop: "2.3M", cause: "预测周期：2030年。自有率已达72%(超过70%目标)，但缺口由城镇化驱动：2020年以来乡村向艾卜哈迁移率年增3.1%。苏戴峰旅游项目增加5,000套临时转永久住房需求。", recommendation: "2028年前在苏戴走廊附近规划6,000套。升级海米斯穆谢特扩展区基础设施以支持2030年前9,000套。" },
+  { id: 306, type: "housing", name: "Qassim Region", lat: 26.3260, lng: 43.9750, severity: "HIGH", delay: "-15K BY 2030", deficit: "15,000", ownership: "71%", target: "70%", pop: "1.5M", cause: "预测周期：2030年。自有率71%(超过目标)，但缺口来自农业科技人才涌入和大学扩建。预计2028年学生宿舍短缺4,000个床位。", recommendation: "2027年前在布赖代北部释放5,000块NHC地块。与卡西姆大学合作2028年前建2,000套学生公寓。剩余8,000套通过私营部门于2030年前交付。" }
 ];
 
 // --- MOCK ROAD NETWORK ALERTS (dmd_2) ---
 const ROAD_NETWORK_ALERTS = [
-  { id: 401, type: "road", name: "Riyadh – NEOM Corridor", lat: 26.5, lng: 42.0, severity: "CRITICAL", delay: "4.2K KM · 2029", length: "4,200 KM", status: "PLANNED", completion: "2029", cause: "Target completion: 2029. Critical northern arterial connecting capital to NEOM, Trojena, and The Line. Current route via Tabuk adds 6h detour. No direct high-speed expressway exists. Planning based on NTS 2021 corridor study.", recommendation: "Phase 1 (Riyadh–Hail, 850 km) by 2027. Phase 2 (Hail–NEOM, 3,350 km) by 2029. Begin ROW acquisition Q2 2026." },
-  { id: 402, type: "road", name: "Jeddah – KAEC Expressway", lat: 22.4, lng: 39.1, severity: "HIGH", delay: "1.8K KM · 2028", length: "1,800 KM", status: "IN PROGRESS", completion: "2028", cause: "Target completion: 2028. King Abdullah Economic City access road at 140% capacity during peak. Single carriageway bottleneck causing 45-min delays. Phase 1 (dual carriageway) 60% complete as of Q1 2026.", recommendation: "Complete dual carriageway by Q4 2027. Accelerate Rabigh bypass (300 km) for 2028 delivery." },
-  { id: 403, type: "road", name: "Eastern Province Ring Road", lat: 26.45, lng: 50.1, severity: "CRITICAL", delay: "3.5K KM · 2030", length: "3,500 KM", status: "DESIGN", completion: "2030", cause: "Target completion: 2030. Dammam-Jubail-Ras Al Khair industrial triangle lacks dedicated freight corridor. Design phase based on 2023 MOT freight demand study projecting 85% truck traffic increase by 2030.", recommendation: "Complete EIA by Q4 2026. Jubail–Ras Al Khair segment (highest ROI) by 2028. Full ring by 2030." },
-  { id: 404, type: "road", name: "Madinah – Yanbu Highway", lat: 23.9, lng: 38.5, severity: "HIGH", delay: "2.1K KM · 2027", length: "2,100 KM", status: "IN PROGRESS", completion: "2027", cause: "Target completion: 2027. Earliest delivery among tracked projects. Existing 2-lane highway severely congested by petrochemical logistics. Yanbu port expansion requires Grade-A access for 50K+ daily truck movements. 45% complete.", recommendation: "Phase 2 widening on track for Q2 2027. Add intelligent traffic management system for hazmat routing." },
-  { id: 405, type: "road", name: "Abha – Soudah Tourism Rd", lat: 18.25, lng: 42.3, severity: "HIGH", delay: "0.8K KM · 2028", length: "800 KM", status: "DESIGN", completion: "2028", cause: "Target completion: 2028. Soudah Development project expects 2M visitors/year by 2029. Current mountain roads: single lane, 30 km/h average, no shoulder. Geological survey required for 6 tunnel segments.", recommendation: "Begin geological survey Q1 2026. Construction start Q3 2026. Scenic expressway delivery by Q4 2028." },
-  { id: 406, type: "road", name: "Qassim Agricultural Route", lat: 26.1, lng: 44.2, severity: "HIGH", delay: "1.6K KM · 2029", length: "1,600 KM", status: "PLANNED", completion: "2029", cause: "Target completion: 2029. Qassim produces 40% of Saudi dates and vegetables. Farm-to-market roads are unpaved, causing 15% crop spoilage. Forecast based on MOT 2024 agricultural logistics audit.", recommendation: "Pave 600 km priority farm corridors by 2027. Install cold chain logistics hubs at 4 nodes. Full network by 2029." }
+  { id: 401, type: "road", name: "Riyadh – NEOM Corridor", lat: 26.5, lng: 42.0, severity: "CRITICAL", delay: "4.2K KM · 2029", length: "4,200 KM", status: "PLANNED", completion: "2029", cause: "目标完工：2029年。连接首都与NEOM、Trojena和The Line的关键北部干线。当前经塔布克路线增加6小时绕行。无直达高速通道。基于NTS 2021走廊研究规划。", recommendation: "一期(利雅得-哈伊勒，850公里)2027年完成。二期(哈伊勒-NEOM，3,350公里)2029年完成。2026年Q2开始征地。" },
+  { id: 402, type: "road", name: "Jeddah – KAEC Expressway", lat: 22.4, lng: 39.1, severity: "HIGH", delay: "1.8K KM · 2028", length: "1,800 KM", status: "IN PROGRESS", completion: "2028", cause: "目标完工：2028年。阿卜杜拉国王经济城接入路高峰期140%容量。单车道瓶颈导致45分钟延误。一期(双车道)截至2026年Q1完成60%。", recommendation: "2027年Q4前完成双车道。加速拉比格绕行(300公里)于2028年交付。" },
+  { id: 403, type: "road", name: "Eastern Province Ring Road", lat: 26.45, lng: 50.1, severity: "CRITICAL", delay: "3.5K KM · 2030", length: "3,500 KM", status: "DESIGN", completion: "2030", cause: "目标完工：2030年。达曼-朱拜勒-拉斯海尔工业三角区缺乏专用货运走廊。设计阶段基于2023年交通部货运需求研究，预测2030年货车流量增长85%。", recommendation: "2026年Q4前完成环评。朱拜勒-拉斯海尔段(最高回报率)2028年完成。全线2030年完成。" },
+  { id: 404, type: "road", name: "Madinah – Yanbu Highway", lat: 23.9, lng: 38.5, severity: "HIGH", delay: "2.1K KM · 2027", length: "2,100 KM", status: "IN PROGRESS", completion: "2027", cause: "目标完工：2027年。追踪项目中最早交付。现有双车道公路被石化物流严重拥堵。延布港扩建需日均5万+货车通行的一级通道。完成45%。", recommendation: "二期拓宽按计划2027年Q2完成。增加危险品运输智能交通管理系统。" },
+  { id: 405, type: "road", name: "Abha – Soudah Tourism Rd", lat: 18.25, lng: 42.3, severity: "HIGH", delay: "0.8K KM · 2028", length: "800 KM", status: "DESIGN", completion: "2028", cause: "目标完工：2028年。苏戴开发项目预计2029年接待200万游客/年。当前山路：单车道，平均30km/h，无路肩。6段隧道需地质勘察。", recommendation: "2026年Q1开始地质勘察。2026年Q3开工。景观快速路2028年Q4交付。" },
+  { id: 406, type: "road", name: "Qassim Agricultural Route", lat: 26.1, lng: 44.2, severity: "HIGH", delay: "1.6K KM · 2029", length: "1,600 KM", status: "PLANNED", completion: "2029", cause: "目标完工：2029年。卡西姆生产沙特40%的椰枣和蔬菜。农场到市场道路未铺设，导致15%农作物损耗。预测基于交通部2024年农业物流审计。", recommendation: "2027年前铺设600公里优先农业走廊。在4个节点安装冷链物流中心。2029年前完成全网络。" }
 ];
 
 // --- PUBLIC INFRASTRUCTURE COMPETITIVENESS: AI-IDENTIFIED GAPS (ast_1) ---
@@ -138,27 +138,27 @@ const ROAD_NETWORK_ALERTS = [
 // Sources: MOMRA municipal services DB, GASTAT infrastructure census, SEC reliability indices, RCRC GIS layers.
 const INFRA_COMPETITIVENESS_ALERTS = [
   // RIYADH — 2 zones
-  { id: 501, type: "infra_gap", name: "North Riyadh Metro Corridor, Riyadh", lat: 25.00, lng: 46.45, severity: "CRITICAL", delay: "SCORE: 42/100", cause: "AI IDENTIFICATION: Computer vision analysis of satellite imagery confirms Riyadh Metro Line 4 stations 90% complete but surrounding 5 km² has zero public parks (0 sqm/capita vs 9 sqm WHO standard). Healthcare gap: nearest hospital 8.2 km away serving 120,000 residents (0.4 beds/1,000 vs national avg 2.2). SEC grid data shows 97.8% uptime (good) but fiber-to-home penetration only 35% despite duct infrastructure installed. 3 schools serving catchment of 18,000 school-age children (capacity deficit: 4,200 seats).\n\nWHY LOW SCORE: Transit sub-score strong (82/100) due to metro. But healthcare (18/100), green space (5/100), and education (31/100) are severely deficient. Area developed residentially before social infrastructure was planned — classic Saudi 'housing-first' gap.\n\nIMPACT ON COMPETITIVENESS: Global livability benchmarks (EIU, Mercer) weight healthcare and green space at 30% combined. This corridor's composite 42/100 puts it equivalent to tier-3 cities globally, despite SAR 200B+ metro investment. Fixing healthcare + parks would lift score to 68/100 (+26 points).", recommendation: "Priority 1: Allocate 3 plots (min 50,000 sqm total) for public parks along metro stations — estimated SAR 120M. Priority 2: Commission 200-bed district hospital (MOH fast-track — 24-month build). Priority 3: Build 2 primary schools (4,200 seats). Combined effect: score from 42 → 68. Timeline: 30 months." },
-  { id: 502, type: "infra_gap", name: "South Riyadh Industrial Belt, Riyadh", lat: 24.35, lng: 46.80, severity: "HIGH", delay: "SCORE: 51/100", cause: "AI IDENTIFICATION: 12 km² zone south of 2nd Ring Road housing 180,000 industrial workers. Transit score: 22/100 (no metro, 3 bus routes with 45-min headways). Utility reliability: 94.2% uptime (below 99% target — 52 hours unplanned outage in 2025). 5G coverage: 15%. One clinic per 45,000 residents. Zero dedicated green space — nearest park 6 km away.\n\nWHY LOW SCORE: Industrial zone designation meant social infrastructure was never planned. But residential creep means 180,000 people now live here permanently. Transit and healthcare gaps make workers commute 90+ min daily to access basic services.\n\nIMPACT ON COMPETITIVENESS: Industrial workforce retention costs employers SAR 45,000/worker/year in transport subsidies. Improving livability would reduce turnover 25% per McKinsey benchmark.", recommendation: "Deploy BRT line connecting industrial belt to metro terminus (8 km, SAR 800M, 18-month build). Establish 3 community clinics + 1 urgent care center. Upgrade SEC substation for 99.5% reliability. Score impact: 51 → 72 (+21 points)." },
+  { id: 501, type: "infra_gap", name: "North Riyadh Metro Corridor, Riyadh", lat: 25.00, lng: 46.45, severity: "CRITICAL", delay: "SCORE: 42/100", cause: "AI识别：卫星图像计算机视觉分析确认利雅得地铁4号线车站完工90%，但周边5平方公里零公共公园（0平方米/人均 vs 世卫组织标准9平方米）。医疗缺口：最近医院8.2公里服务12万居民（0.4床位/千人 vs 全国平均2.2）。SEC电网数据显示97.8%正常运行（良好）但光纤入户率仅35%，尽管管道基础设施已安装。3所学校服务18,000名学龄儿童（容量缺口：4,200个学位）。\n\n低分原因：公交子分数因地铁而强（82/100）。但医疗（18/100）、绿地（5/100）和教育（31/100）严重不足。该区域在规划社会基础设施之前已进行住宅开发——典型的沙特「住房先行」缺口。\n\n对竞争力的影响：全球宜居性基准（EIU、美世）将医疗和绿地权重合计30%。该走廊综合评分42/100，相当于全球三线城市，尽管地铁投资超2,000亿SAR。修复医疗+公园可将评分提升至68/100（+26分）。", recommendation: "优先级1：在地铁站沿线分配3个地块（总计最少50,000平方米）建设公共公园——估计1.2亿SAR。优先级2：委托建设200床位区域医院（卫生部快速通道——24个月建设）。优先级3：建设2所小学（4,200个学位）。综合效果：评分从42→68。时间线：30个月。" },
+  { id: 502, type: "infra_gap", name: "South Riyadh Industrial Belt, Riyadh", lat: 24.35, lng: 46.80, severity: "HIGH", delay: "SCORE: 51/100", cause: "AI识别：第二环路以南12平方公里区域，居住18万工业工人。公交评分：22/100（无地铁，3条公交线路班次间隔45分钟）。公用事业可靠性：94.2%正常运行（低于99%目标——2025年52小时计划外停电）。5G覆盖率：15%。每45,000名居民仅1个诊所。零专用绿地——最近公园6公里外。\n\n低分原因：工业区划意味着社会基础设施从未规划。但住宅蔓延意味着18万人现在永久居住在此。公交和医疗缺口使工人每天通勤90+分钟才能获得基本服务。\n\n对竞争力的影响：工业劳动力留存使雇主每年每名工人花费45,000 SAR交通补贴。根据麦肯锡基准，改善宜居性可减少25%流失率。", recommendation: "部署BRT线路连接工业带到地铁终点站（8公里，8亿SAR，18个月建设）。建立3个社区诊所+1个急救中心。升级SEC变电站达到99.5%可靠性。评分影响：51→72（+21分）。" },
 
   // MAKKAH — 2 zones
-  { id: 503, type: "infra_gap", name: "East Jeddah Residential Sprawl, Makkah Region", lat: 21.65, lng: 39.35, severity: "CRITICAL", delay: "SCORE: 38/100", cause: "AI IDENTIFICATION: Satellite analysis of 20 km² eastern Jeddah shows rapid unplanned residential growth (2018–2026). Population density: 15,000/km² but infrastructure designed for 5,000/km². Transit: zero rail, 8 bus routes (avg 60-min headway). Healthcare: 3 clinics for 300,000 residents (0.3 beds/1,000). Schools at 145% capacity. Water supply: 16 hours/day (intermittent). Green space: 0.8 sqm/capita.\n\nWHY LOW SCORE: Lowest-scoring zone in Makkah province. Rapid informal densification outpaced infrastructure planning. Municipality unable to acquire land for public facilities due to fragmented private ownership.\n\nIMPACT ON COMPETITIVENESS: Zone produces 40% of Jeddah's complaint volume to Balady app. Resident satisfaction survey: 2.1/10. Drives middle-class flight to north Jeddah, creating urban inequality spiral.", recommendation: "Emergency infrastructure package: 24/7 water supply (desalination plant extension — SAR 2B, 30 months). BRT corridor to Jeddah central (SAR 1.5B). 5 new schools + 2 hospitals via MOH emergency allocation. Plot consolidation for 3 public parks. Score impact: 38 → 62 (+24 points)." },
-  { id: 504, type: "infra_gap", name: "Taif Mountain Gateway, Makkah Region", lat: 21.30, lng: 40.45, severity: "HIGH", delay: "SCORE: 48/100", cause: "AI IDENTIFICATION: Taif's tourism gateway zone (Al Hada – Al Shafa corridor). Infrastructure optimized for seasonal visitors but permanent population of 85,000 underserved. Transit: mountain roads only, no public transport (score: 12/100). Healthcare: 1 general hospital (120 beds for 85,000 + 2M annual visitors). Digital: 5G non-existent, fiber 22%. Green space strong naturally (mountain environment, 35 sqm/capita).\n\nWHY LOW SCORE: Tourism investment prioritized visitor experience over resident services. Permanent population growing 6% YoY as Taif gains popularity for year-round living (cool climate).\n\nIMPACT ON COMPETITIVENESS: Taif positioned as Vision 2030 'mountain tourism' anchor. But resident infrastructure gap threatens community acceptance of tourism growth.", recommendation: "Commission public shuttle system connecting Al Hada, Al Shafa, and Taif city center (electric minibus fleet — SAR 200M). Expand hospital to 350 beds. Deploy fiber + 5G along corridor. Score impact: 48 → 67 (+19 points)." },
+  { id: 503, type: "infra_gap", name: "East Jeddah Residential Sprawl, Makkah Region", lat: 21.65, lng: 39.35, severity: "CRITICAL", delay: "SCORE: 38/100", cause: "AI识别：吉达东部20平方公里卫星分析显示快速无序住宅增长（2018-2026年）。人口密度：15,000人/平方公里但基础设施按5,000人/平方公里设计。公交：零轨道交通，8条公交线路（平均班次间隔60分钟）。医疗：3个诊所服务30万居民（0.3床位/千人）。学校容量达145%。供水：16小时/天（间歇性）。绿地：0.8平方米/人均。\n\n低分原因：麦加省评分最低的区域。快速非正规密集化超过了基础设施规划。市政因碎片化私人产权无法获取公共设施用地。\n\n对竞争力的影响：该区域产生吉达Balady应用40%的投诉量。居民满意度调查：2.1/10。推动中产阶级北迁，形成城市不平等螺旋。", recommendation: "紧急基础设施方案：24/7供水（海水淡化厂扩建——20亿SAR，30个月）。BRT走廊到吉达中心（15亿SAR）。通过卫生部紧急拨款建设5所新学校+2所医院。地块整合建设3个公共公园。评分影响：38→62（+24分）。" },
+  { id: 504, type: "infra_gap", name: "Taif Mountain Gateway, Makkah Region", lat: 21.30, lng: 40.45, severity: "HIGH", delay: "SCORE: 48/100", cause: "AI识别：塔伊夫旅游门户区（Al Hada-Al Shafa走廊）。基础设施为季节性游客优化但85,000常驻人口服务不足。公交：仅山路，无公共交通（评分12/100）。医疗：1所综合医院（120床位服务85,000人+200万年度游客）。数字化：无5G，光纤22%。绿地因山地环境自然优越（35平方米/人均）。\n\n低分原因：旅游投资优先考虑游客体验而非居民服务。随着塔伊夫因凉爽气候成为全年居住热门选择，常驻人口年增6%。\n\n对竞争力的影响：塔伊夫定位为2030愿景「山地旅游」锚点。但居民基础设施缺口威胁社区对旅游增长的接受度。", recommendation: "委托建设连接Al Hada、Al Shafa和塔伊夫市中心的公共穿梭系统（电动小巴车队——2亿SAR）。将医院扩建至350床位。沿走廊部署光纤+5G。评分影响：48→67（+19分）。" },
 
   // EASTERN PROVINCE — 2 zones
-  { id: 505, type: "infra_gap", name: "Jubail Residential Sector, Eastern Province", lat: 27.00, lng: 49.55, severity: "HIGH", delay: "SCORE: 56/100", cause: "AI IDENTIFICATION: Royal Commission-planned residential sectors around Jubail Industrial City. Transit: internal bus system (score: 45/100) but no intercity rail connection to Dammam. Healthcare: Royal Commission hospital adequate (score: 72/100). Education: international schools limited (score: 48/100). Green space: well-planned (12 sqm/capita, score: 78/100). Digital: fiber 85%, 5G 60% (score: 71/100). Utility reliability: excellent (99.6%, score: 92/100).\n\nWHY LOW SCORE: Strong in utilities and green space, but transit isolation from Dammam metro area (80 km) and limited education choice make it unattractive for families with school-age children. Expatriate engineers increasingly declining Jubail postings.\n\nIMPACT ON COMPETITIVENESS: Aramco/SABIC report 22% higher recruitment costs for Jubail vs Dammam positions. Transit gap adds SAR 35,000/employee/year in commuting costs.", recommendation: "Priority: Jubail–Dammam express rail (80 km, SAR 8B, 36-month build — already in MOT pipeline). Add 3 international school licenses. Score impact: 56 → 74 (+18 points)." },
-  { id: 506, type: "infra_gap", name: "Al Khobar Waterfront District, Eastern Province", lat: 26.20, lng: 50.30, severity: "HIGH", delay: "SCORE: 63/100", cause: "AI IDENTIFICATION: Al Khobar's premium waterfront district. Transit: moderate (bus + proximity to Dammam metro extension, score: 55/100). Healthcare: King Fahad Hospital 3 km away (score: 68/100). Education: good variety including KFUPM proximity (score: 72/100). Green space: Corniche excellent (22 sqm/capita, score: 88/100). Digital: full fiber + 5G (score: 85/100). Utility: 99.2% (score: 88/100).\n\nWHY ANALYSIS MATTERS: Highest current score among monitored Eastern Province zones. But waterfront development plan (2027–2030) will add 25,000 residents — healthcare and transit sub-scores will degrade to 45/100 and 38/100 respectively without proactive investment.\n\nIMPACT ON COMPETITIVENESS: Currently Eastern Province's most competitive residential zone. Risk of score dropping from 63 → 52 by 2030 without pre-emptive infrastructure.", recommendation: "Pre-emptive capacity build: extend Dammam metro Line 2 to Khobar waterfront (SAR 3B). Commission 200-bed hospital to absorb growth. Maintain score at 63+ through 2030 growth period." },
+  { id: 505, type: "infra_gap", name: "Jubail Residential Sector, Eastern Province", lat: 27.00, lng: 49.55, severity: "HIGH", delay: "SCORE: 56/100", cause: "AI识别：朱拜勒工业城周围皇家委员会规划的住宅区。公交：内部公交系统（评分45/100）但无到达曼的城际铁路连接。医疗：皇家委员会医院充足（评分72/100）。教育：国际学校有限（评分48/100）。绿地：规划良好（12平方米/人均，评分78/100）。数字化：光纤85%，5G 60%（评分71/100）。公用事业可靠性：优秀（99.6%，评分92/100）。\n\n低分原因：公用事业和绿地强项，但与达曼都市区（80公里）的公交隔离和有限的教育选择使有学龄儿童的家庭不感兴趣。外籍工程师越来越多地拒绝朱拜勒派驻。\n\n对竞争力的影响：阿美/SABIC报告朱拜勒比达曼职位招聘成本高22%。公交缺口每名员工每年增加35,000 SAR通勤成本。", recommendation: "优先事项：朱拜勒-达曼快速铁路（80公里，80亿SAR，36个月建设——已在交通部管道中）。新增3个国际学校许可。评分影响：56→74（+18分）。" },
+  { id: 506, type: "infra_gap", name: "Al Khobar Waterfront District, Eastern Province", lat: 26.20, lng: 50.30, severity: "HIGH", delay: "SCORE: 63/100", cause: "AI识别：胡拜尔高端滨海区。公交：中等（公交+邻近达曼地铁延伸，评分55/100）。医疗：法赫德国王医院3公里外（评分68/100）。教育：多样性良好包括邻近KFUPM（评分72/100）。绿地：滨海步道优秀（22平方米/人均，评分88/100）。数字化：全覆盖光纤+5G（评分85/100）。公用事业：99.2%（评分88/100）。\n\n分析意义：东部省监测区域中当前评分最高。但滨海开发计划（2027-2030年）将新增25,000居民——若无前瞻性投资，医疗和公交子评分将分别降至45/100和38/100。\n\n对竞争力的影响：目前是东部省最具竞争力的住宅区。若无前瞻性基础设施，2030年前评分有从63降至52的风险。", recommendation: "前瞻性容量建设：将达曼地铁2号线延伸至胡拜尔滨海区（30亿SAR）。委托建设200床位医院以吸收增长。在2030年增长期间保持评分63+。" },
 
   // MADINAH — 2 zones
-  { id: 507, type: "infra_gap", name: "Knowledge Economic City, Madinah", lat: 24.55, lng: 39.20, severity: "CRITICAL", delay: "SCORE: 35/100", cause: "AI IDENTIFICATION: KEC Phase 1 operational but surrounding area severely underserved. Transit: no public transport (score: 8/100) — residents rely entirely on private cars. 25 km from Madinah city center. Healthcare: 1 small clinic (score: 15/100). Education: 2 schools at 130% capacity (score: 28/100). Green space: desert landscape, zero public parks (score: 3/100). Digital: fiber to KEC buildings only, surrounding residential has ADSL only (score: 32/100).\n\nWHY LOW SCORE: KEC developed as isolated campus — no urban planning for residential neighborhoods that grew organically around it. Classic 'giga-project island' syndrome.\n\nIMPACT ON COMPETITIVENESS: KEC's value proposition as 'knowledge city' undermined by unlivable surroundings. Faculty recruitment at Islamic University satellite campus citing quality-of-life concerns.", recommendation: "Integrate KEC into Madinah urban fabric: commission shuttle to Haramain station (15 km, SAR 150M). Build district hospital (150-bed) and 3 schools. Create 80,000 sqm central park. Deploy city-wide fiber. Score impact: 35 → 61 (+26 points)." },
-  { id: 508, type: "infra_gap", name: "Yanbu Heritage Coast, Madinah Region", lat: 24.00, lng: 38.00, severity: "HIGH", delay: "SCORE: 47/100", cause: "AI IDENTIFICATION: Yanbu's traditional city center and coastal zone. Transit: limited local bus (score: 28/100). Healthcare: adequate for current population (score: 62/100). Education: sufficient (score: 58/100). Green space: coastal access good but formal parks lacking (score: 42/100). Digital: fiber 40%, no 5G (score: 35/100). Utility: water intermittent (18 hrs/day) (score: 55/100).\n\nWHY LOW SCORE: Yanbu investment historically focused on industrial city (Royal Commission zone). Traditional city center infrastructure aging — average road age 28 years, water pipes 35 years.\n\nIMPACT ON COMPETITIVENESS: Yanbu Heritage Coast has SAR 5B tourism development potential (Red Sea proximity) but current infrastructure score deters private investment.", recommendation: "Urban renewal program: replace aging water network (SAR 800M, 24-month). Deploy fiber + 5G across heritage coast. Create waterfront promenade park (3 km). Score impact: 47 → 64 (+17 points)." },
+  { id: 507, type: "infra_gap", name: "Knowledge Economic City, Madinah", lat: 24.55, lng: 39.20, severity: "CRITICAL", delay: "SCORE: 35/100", cause: "AI识别：KEC一期运营但周边区域服务严重不足。公交：无公共交通（评分8/100）——居民完全依赖私家车。距麦地那市中心25公里。医疗：1个小诊所（评分15/100）。教育：2所学校容量130%（评分28/100）。绿地：沙漠景观，零公共公园（评分3/100）。数字化：光纤仅到KEC建筑，周边住宅仅有ADSL（评分32/100）。\n\n低分原因：KEC作为孤立校园开发——无周边有机增长的住宅区城市规划。典型的「巨型项目孤岛」综合症。\n\n对竞争力的影响：KEC作为「知识之城」的价值主张因不宜居的周边环境而受损。伊斯兰大学卫星校区教师招聘提及生活质量担忧。", recommendation: "将KEC融入麦地那城市肌理：委托建设到哈拉曼站的穿梭巴士（15公里，1.5亿SAR）。建设区域医院（150床位）和3所学校。创建80,000平方米中央公园。部署全市光纤。评分影响：35→61（+26分）。" },
+  { id: 508, type: "infra_gap", name: "Yanbu Heritage Coast, Madinah Region", lat: 24.00, lng: 38.00, severity: "HIGH", delay: "SCORE: 47/100", cause: "AI识别：延布传统市中心和滨海区域。公交：有限的本地公交（评分28/100）。医疗：对当前人口充足（评分62/100）。教育：足够（评分58/100）。绿地：滨海可达性良好但缺乏正式公园（评分42/100）。数字化：光纤40%，无5G（评分35/100）。公用事业：供水间歇性（18小时/天）（评分55/100）。\n\n低分原因：延布投资历史上集中在工业城（皇家委员会区域）。传统市中心基础设施老化——道路平均年龄28年，水管35年。\n\n对竞争力的影响：延布遗产海岸具有50亿SAR旅游开发潜力（红海邻近）但当前基础设施评分阻碍了私人投资。", recommendation: "城市更新计划：更换老化供水网络（8亿SAR，24个月）。在遗产海岸部署光纤+5G。创建3公里滨海步道公园。评分影响：47→64（+17分）。" },
 
   // ASIR — 1 zone
-  { id: 509, type: "infra_gap", name: "Abha City Center, Asir", lat: 18.25, lng: 42.55, severity: "HIGH", delay: "SCORE: 52/100", cause: "AI IDENTIFICATION: Abha downtown (3 km² core). Transit: no formal public transport system (score: 15/100) — mountain topography makes standard bus routes difficult. Healthcare: Prince Sultan Hospital adequate (score: 65/100). Education: good school density (score: 62/100). Green space: mountain parks excellent (score: 82/100). Digital: fiber 55%, 5G 20% (score: 45/100). Utility: 98.5% grid reliability (score: 82/100).\n\nWHY LOW SCORE: Transit and digital sub-scores drag composite down despite strong natural amenities. Abha's mountain geography requires specialized transit solutions (cable car, funicular) not addressed by standard MOT planning.\n\nIMPACT ON COMPETITIVENESS: Soudah Development project expects 1M+ visitors annually by 2030. Without transit, Abha city center cannot absorb visitor overflow — creating congestion and reducing resident quality of life.", recommendation: "Commission Abha urban cable car system (4 stations, SAR 1.2B — proven model from La Paz, Medellín). Accelerate 5G rollout leveraging Soudah telecom investment. Score impact: 52 → 71 (+19 points)." },
+  { id: 509, type: "infra_gap", name: "Abha City Center, Asir", lat: 18.25, lng: 42.55, severity: "HIGH", delay: "SCORE: 52/100", cause: "AI识别：艾卜哈市中心（3平方公里核心区）。公交：无正式公共交通系统（评分15/100）——山地地形使标准公交线路困难。医疗：苏丹王子医院充足（评分65/100）。教育：学校密度良好（评分62/100）。绿地：山地公园优秀（评分82/100）。数字化：光纤55%，5G 20%（评分45/100）。公用事业：98.5%电网可靠性（评分82/100）。\n\n低分原因：公交和数字化子评分拖累综合评分，尽管自然设施优越。艾卜哈山地地理需要专业公交方案（缆车、齿轨铁路）但标准交通部规划未涉及。\n\n对竞争力的影响：苏戴开发项目预计2030年前每年100万+游客。无公交，艾卜哈市中心无法吸收游客溢出——造成拥堵并降低居民生活质量。", recommendation: "委托建设艾卜哈城市缆车系统（4站，12亿SAR——拉巴斯、麦德林验证模式）。利用苏戴电信投资加速5G部署。评分影响：52→71（+19分）。" },
 
   // QASSIM — 2 zones
-  { id: 510, type: "infra_gap", name: "Buraidah Central District, Qassim", lat: 26.40, lng: 43.80, severity: "HIGH", delay: "SCORE: 49/100", cause: "AI IDENTIFICATION: Buraidah city center. Transit: no public transport system (score: 10/100). Healthcare: adequate hospitals but poorly distributed — western Buraidah has 15-km gap (score: 52/100). Education: strong — Qassim University proximity (score: 70/100). Green space: date palm oases provide some green but no formal parks (score: 35/100). Digital: fiber 45%, 5G pilot only (score: 38/100). Utility: 98.8% reliable (score: 85/100).\n\nWHY LOW SCORE: Qassim historically underinvested in urban transit and digital infrastructure. Agricultural economy meant less pressure to urbanize. But agri-tech transformation driving rapid urbanization since 2022.\n\nIMPACT ON COMPETITIVENESS: Agri-tech companies report difficulty attracting tech talent from Riyadh. 'Quality of life gap' cited by 68% of declining job candidates (2025 HRDF survey).", recommendation: "Launch Buraidah BRT (3 lines, SAR 600M). Convert 2 date palm plots to public parks. Accelerate fiber + 5G (Qassim 2027 digital plan). Score impact: 49 → 66 (+17 points)." },
-  { id: 511, type: "infra_gap", name: "Unaizah Heritage Core, Qassim", lat: 25.90, lng: 44.10, severity: "HIGH", delay: "SCORE: 44/100", cause: "AI IDENTIFICATION: Unaizah traditional city center — known for historical markets and agricultural heritage. Transit: none (score: 5/100). Healthcare: 1 general hospital, 60 beds for 170,000 population (score: 38/100). Education: adequate (score: 60/100). Green space: agricultural periphery but urban core has zero parks (score: 22/100). Digital: ADSL dominant, fiber 20%, no 5G (score: 25/100). Utility: water intermittent in summer (score: 65/100).\n\nWHY LOW SCORE: Unaizah overlooked in Qassim development plans which focused on Buraidah. Heritage tourism potential (traditional souq, date festivals) unrealized due to infrastructure deficit.\n\nIMPACT ON COMPETITIVENESS: Unaizah has authentic cultural assets valued by Saudi Tourism Authority but infrastructure score makes it unsuitable for tourism at scale.", recommendation: "Heritage tourism infrastructure package: shuttle connection to Buraidah (30 km, SAR 100M). Expand hospital to 200 beds. Create heritage quarter walking streets with green corridors. Deploy fiber + 5G. Score impact: 44 → 63 (+19 points)." }
+  { id: 510, type: "infra_gap", name: "Buraidah Central District, Qassim", lat: 26.40, lng: 43.80, severity: "HIGH", delay: "SCORE: 49/100", cause: "AI识别：布赖代市中心。公交：无公共交通系统（评分10/100）。医疗：医院充足但分布不均——布赖代西部有15公里空白（评分52/100）。教育：强项——卡西姆大学邻近（评分70/100）。绿地：椰枣绿洲提供一些绿色但无正式公园（评分35/100）。数字化：光纤45%，仅5G试点（评分38/100）。公用事业：98.8%可靠（评分85/100）。\n\n低分原因：卡西姆历史上在城市公交和数字化基础设施投资不足。农业经济意味着城市化压力较小。但农业科技转型自2022年起推动快速城市化。\n\n对竞争力的影响：农业科技公司报告难以从利雅得吸引技术人才。68%拒绝职位的候选人引用「生活质量差距」（2025年HRDF调查）。", recommendation: "启动布赖代BRT（3条线路，6亿SAR）。将2块椰枣地转换为公共公园。加速光纤+5G（卡西姆2027数字化计划）。评分影响：49→66（+17分）。" },
+  { id: 511, type: "infra_gap", name: "Unaizah Heritage Core, Qassim", lat: 25.90, lng: 44.10, severity: "HIGH", delay: "SCORE: 44/100", cause: "AI识别：欧奈扎传统市中心——以历史市场和农业遗产著称。公交：无（评分5/100）。医疗：1所综合医院，60床位服务17万人口（评分38/100）。教育：足够（评分60/100）。绿地：农业外围但城市核心零公园（评分22/100）。数字化：ADSL为主，光纤20%，无5G（评分25/100）。公用事业：夏季供水间歇性（评分65/100）。\n\n低分原因：欧奈扎在聚焦布赖代的卡西姆发展计划中被忽视。遗产旅游潜力（传统集市、椰枣节）因基础设施不足而未实现。\n\n对竞争力的影响：欧奈扎拥有沙特旅游管理局重视的正宗文化资产但基础设施评分使其不适合大规模旅游。", recommendation: "遗产旅游基础设施方案：到布赖代的穿梭巴士（30公里，1亿SAR）。将医院扩建至200床位。创建遗产区步行街和绿色走廊。部署光纤+5G。评分影响：44→63（+19分）。" }
 ];
 
 // --- REAL ESTATE ASSET YIELD FORECAST: AI-IDENTIFIED HIGH-VALUE & AT-RISK ZONES (ast_2) ---
@@ -171,21 +171,21 @@ const YIELD_FORECAST_ALERTS = [
   { id: 602, type: "yield", name: "East Riyadh Logistics Hub, Riyadh", lat: 24.50, lng: 47.05, severity: "HIGH", delay: "YIELD: 4.8% → 7.2%", cause: "AI IDENTIFICATION: 15 km² zone at intersection of new dry port and King Salman Energy Park access. Current gross yield: 4.8% (industrial warehousing dominant). Projected 2030 yield: 7.2%.\n\nDRIVERS: (1) Saudi Arabia's logistics sector growing 12% YoY — e-commerce fulfillment demand doubling. (2) New dry port operations (2027) will increase commercial traffic 3×. (3) Land values currently SAR 800/sqm (low) with projected appreciation to SAR 2,200/sqm. (4) Government designating zone as 'logistics free zone' with tax incentives.\n\nRISK ASSESSMENT: AI risk model scores 71/100 confidence (moderate-high). Primary risk: competing logistics zones in Eastern Province (Dammam). Mitigant: Riyadh's central location gives 4-hour truck reach to 70% of Saudi population.\n\nAI CLUSTERING: Identified as highest-growth industrial/logistics zone nationally.", recommendation: "INVESTMENT PRIORITY: MEDIUM-HIGH. Fast-track logistics free zone designation. Pre-build Grade-A warehouse parks (300,000 sqm). Target e-commerce anchor tenants (Noon, Amazon SA). Estimated total asset value creation: SAR 18B by 2030." },
 
   // MAKKAH — 2 zones
-  { id: 603, type: "yield", name: "Jeddah Central Waterfront, Makkah Region", lat: 21.55, lng: 39.12, severity: "CRITICAL", delay: "YIELD: 5.4% → 8.8%", cause: "AI IDENTIFICATION: Jeddah Central project (SAR 75B mega-development on former airport site). Current fringe-area gross yield: 5.4%. ML model forecasts 8.8% by 2030 as project phases complete.\n\nDRIVERS: (1) Jeddah Central master plan: 5.7M sqm of mixed-use space, creating largest urban redevelopment in Saudi history. (2) Jeddah Tower (world's tallest) as value anchor. (3) Existing Corniche demand premium — current Corniche yields already 7.2% (highest in Jeddah). (4) Red Sea International Airport expansion (15 km away) adding 30M passenger capacity by 2030.\n\nRISK ASSESSMENT: AI risk model scores 76/100 confidence (high). Primary risk: project timeline delays (mega-projects historically slip 2–3 years). Mitigant: Royal backing + PIF investment = execution certainty above private-sector average.\n\nSENTIMENT ANALYSIS: NLP scan of 5,400 commercial broker reports shows 83% positive outlook for Jeddah waterfront RE.", recommendation: "INVESTMENT PRIORITY: HIGH. Zone surrounding Jeddah Central within 3 km radius — purchase land NOW at pre-development prices (SAR 3,500/sqm, projected SAR 8,000/sqm by 2030). Recommended use: hospitality + serviced apartments capturing Umrah + leisure tourism convergence." },
-  { id: 604, type: "yield", name: "Makkah Southern Residential, Makkah", lat: 21.20, lng: 39.90, severity: "HIGH", delay: "YIELD: 4.5% → 6.8%", cause: "AI IDENTIFICATION: Residential zone 8 km south of Haram. Current gross yield: 4.5%. Projected 2030: 6.8%.\n\nDRIVERS: (1) Hajj/Umrah visitor capacity expansion — target 30M Umrah visitors/year by 2030 (from 17M in 2025). (2) Haramain rail station 4 km away. (3) Residential-to-serviced-apartment conversion trend — 15% of units now on short-term rental platforms. (4) Government housing subsidies (Sakani) improving ownership rates, reducing rental stock, increasing yield on remaining rentals.\n\nRISK ASSESSMENT: AI risk model scores 68/100 confidence (moderate). Primary risk: hotel oversupply in central Makkah may compress residential yields within 5 km of Haram. Mitigant: Southern zone outside hotel saturation radius — serves residential demand.\n\nAI PATTERN: Seasonal yield variance analysis shows consistent 40% premium during Hajj season — averaging this into annual yield projection.", recommendation: "INVESTMENT PRIORITY: MEDIUM-HIGH. Encourage serviced apartment development (higher yield than traditional residential). Improve transit connectivity to Haram to maintain yield premium. Target 2,000 new serviced units by 2029." },
+  { id: 603, type: "yield", name: "Jeddah Central Waterfront, Makkah Region", lat: 21.55, lng: 39.12, severity: "CRITICAL", delay: "YIELD: 5.4% → 8.8%", cause: "AI识别：吉达中心项目（原机场用地750亿SAR巨型开发）。当前边缘区域毛收益率：5.4%。ML模型预测2030年项目各阶段完工时达到8.8%。\n\n驱动因素：（1）吉达中心总体规划：570万平方米混合用途空间，沙特历史上最大城市再开发。（2）吉达塔（世界最高）作为价值锚点。（3）现有滨海需求溢价——当前滨海收益率已达7.2%（吉达最高）。（4）红海国际机场扩建（15公里外）2030年前新增3,000万旅客容量。\n\n风险评估：AI风险模型评分76/100置信度（高）。主要风险：项目时间线延期（巨型项目历史延期2-3年）。缓解因素：皇室支持+PIF投资=执行确定性高于私营部门平均水平。\n\n情感分析：NLP扫描5,400份商业经纪报告显示83%对吉达滨水房地产持积极展望。", recommendation: "投资优先级：高。吉达中心3公里半径内区域——立即以开发前价格购地（3,500 SAR/平方米，预计2030年8,000 SAR/平方米）。推荐用途：酒店+服务式公寓，捕获副朝+休闲旅游汇合需求。" },
+  { id: 604, type: "yield", name: "Makkah Southern Residential, Makkah", lat: 21.20, lng: 39.90, severity: "HIGH", delay: "YIELD: 4.5% → 6.8%", cause: "AI识别：禁寺以南8公里住宅区。当前毛收益率：4.5%。2030年预测：6.8%。\n\n驱动因素：（1）朝觐/副朝访客容量扩张——2030年目标3,000万副朝游客/年（2025年1,700万）。（2）哈拉曼铁路站4公里外。（3）住宅转服务式公寓趋势——15%的单元已上短租平台。（4）政府住房补贴（Sakani）提高自有率，减少出租库存，提高剩余出租物业收益率。\n\n风险评估：AI风险模型评分68/100置信度（中）。主要风险：麦加中心酒店过剩可能压缩禁寺5公里内住宅收益率。缓解因素：南部区域在酒店饱和半径之外——服务住宅需求。\n\nAI模式：季节性收益差异分析显示朝觐季节持续40%溢价——已计入年度收益预测。", recommendation: "投资优先级：中高。鼓励服务式公寓开发（收益率高于传统住宅）。改善到禁寺的公交连接以维持收益溢价。目标：2029年前2,000套新服务式公寓。" },
 
   // EASTERN PROVINCE — 2 zones
-  { id: 605, type: "yield", name: "Dhahran Techno Valley, Eastern Province", lat: 26.30, lng: 50.15, severity: "CRITICAL", delay: "YIELD: 5.8% → 8.5%", cause: "AI IDENTIFICATION: Zone surrounding KFUPM Techno Valley (innovation district). Current gross yield: 5.8%. Projected 2030: 8.5%.\n\nDRIVERS: (1) Aramco's R&D campus expansion — adding 8,000 researchers/engineers. (2) 45 tech startups in Techno Valley incubator (2026), projected 200+ by 2030. (3) Saudi tech talent repatriation program bringing 15,000 skilled workers to Eastern Province. (4) Limited competing supply — only 2 Grade-A residential developments within 5 km.\n\nRISK ASSESSMENT: AI risk model scores 79/100 confidence (high). Primary risk: oil price dependency affecting Aramco expansion pace. Mitigant: R&D investment is non-oil diversification strategy — countercyclical to oil.\n\nAI CLUSTERING: Identified as Eastern Province's #1 appreciation zone. Comparable to Bengaluru IT corridor trajectory (2010–2020).", recommendation: "INVESTMENT PRIORITY: HIGH. Build tech-worker housing (smart apartments, co-living) near Techno Valley. Target: 3,000 units @ SAR 1.2M avg. Estimated 15-year IRR: 14.2%. Partner with KFUPM for integrated campus-city model." },
-  { id: 606, type: "yield", name: "Dammam Al Shatie District, Eastern Province", lat: 26.50, lng: 50.05, severity: "HIGH", delay: "YIELD: 5.2% → 7.0%", cause: "AI IDENTIFICATION: Dammam's premium waterfront district (Al Shatie). Current gross yield: 5.2%. Projected 2030: 7.0%.\n\nDRIVERS: (1) Dammam waterfront master plan (SAR 12B) adding 2 km promenade + marina. (2) Cross-Gulf demand — Bahrain causeway traffic generating SAR 4B annual retail spending. (3) Eastern Province population growing 3.2% YoY. (4) Only waterfront zone in Dammam with Grade-A office supply.\n\nRISK ASSESSMENT: AI risk model scores 65/100 confidence (moderate). Primary risk: competing waterfront development in Al Khobar diluting demand. Mitigant: Dammam is administrative capital — government tenants provide stable occupancy floor.\n\nSENTIMENT ANALYSIS: Commercial broker reports 72% positive, 28% neutral — no negative outlook flagged.", recommendation: "INVESTMENT PRIORITY: MEDIUM. Diversify waterfront mix — currently 60% office, recommend shifting to 40% office + 30% residential + 30% entertainment to capture weekend/leisure demand from Bahrain visitors." },
+  { id: 605, type: "yield", name: "Dhahran Techno Valley, Eastern Province", lat: 26.30, lng: 50.15, severity: "CRITICAL", delay: "YIELD: 5.8% → 8.5%", cause: "AI识别：KFUPM科技谷（创新区）周边区域。当前毛收益率：5.8%。2030年预测：8.5%。\n\n驱动因素：（1）阿美研发园区扩建——新增8,000名研究员/工程师。（2）科技谷孵化器45家科技初创（2026年），预计2030年200+家。（3）沙特科技人才回流计划将15,000名技术工人带回东部省。（4）竞争供应有限——5公里内仅2个A级住宅开发项目。\n\n风险评估：AI风险模型评分79/100置信度（高）。主要风险：油价依赖影响阿美扩建速度。缓解因素：研发投资是非石油多元化战略——与油价反周期。\n\nAI聚类：识别为东部省#1增值区域。类似班加罗尔IT走廊轨迹（2010-2020年）。", recommendation: "投资优先级：高。在科技谷附近建设科技工人住房（智能公寓、共享居住）。目标：3,000套，均价120万SAR。预计15年内部收益率：14.2%。与KFUPM合作建设一体化校园城市模型。" },
+  { id: 606, type: "yield", name: "Dammam Al Shatie District, Eastern Province", lat: 26.50, lng: 50.05, severity: "HIGH", delay: "YIELD: 5.2% → 7.0%", cause: "AI识别：达曼高端滨海区（Al Shatie）。当前毛收益率：5.2%。2030年预测：7.0%。\n\n驱动因素：（1）达曼滨海总体规划（120亿SAR）增加2公里长廊+码头。（2）跨海湾需求——巴林大桥通道每年产生40亿SAR零售消费。（3）东部省人口年增3.2%。（4）达曼唯一拥有A级办公供应的滨海区域。\n\n风险评估：AI风险模型评分65/100置信度（中）。主要风险：胡拜尔竞争性滨海开发稀释需求。缓解因素：达曼是行政首都——政府租户提供稳定入住底线。\n\n情感分析：商业经纪报告72%积极，28%中性——无负面展望。", recommendation: "投资优先级：中。多元化滨海业态——当前60%办公，建议调整为40%办公+30%住宅+30%娱乐，捕获巴林访客的周末/休闲需求。" },
 
   // MADINAH — 1 zone
-  { id: 607, type: "yield", name: "Haramain Station District, Madinah", lat: 24.65, lng: 39.55, severity: "HIGH", delay: "YIELD: 4.2% → 7.1%", cause: "AI IDENTIFICATION: Zone around Madinah's Haramain High-Speed Railway station. Current gross yield: 4.2% (lowest among tracked zones — reflecting undeveloped surroundings). Projected 2030: 7.1% (69% appreciation — highest growth rate nationally).\n\nDRIVERS: (1) Station handles 8,000 passengers/day, projected 15,000 by 2030 — TOD demand textbook case. (2) Umrah visitor growth from 17M to 30M creates massive hospitality demand within 2 km of station. (3) Currently almost no commercial supply near station — first-mover advantage. (4) Land price: SAR 1,800/sqm (significantly below fair value given transit access — AI valuation model estimates SAR 5,500/sqm fair value by 2028).\n\nRISK ASSESSMENT: AI risk model scores 73/100 confidence (moderate-high). Primary risk: multi-stakeholder land ownership blocking development (Saudi Railways + MOF + private). Mitigant: MOMRAH joint development authority proposed — if enacted, unlocks SAR 15B development.\n\nAI PATTERN: NLP analysis of 3,200 Umrah visitor reviews identifies 'distance from station to accommodation' as #1 complaint (mentioned in 47% of reviews). Station-adjacent hospitality would capture this unmet demand.", recommendation: "INVESTMENT PRIORITY: HIGH (UNDERVALUED). Expedite joint development authority formation. First phase: 500 serviced apartments + 50,000 sqm retail within 500m of station. Current land prices represent 67% discount to AI fair value estimate." },
+  { id: 607, type: "yield", name: "Haramain Station District, Madinah", lat: 24.65, lng: 39.55, severity: "HIGH", delay: "YIELD: 4.2% → 7.1%", cause: "AI识别：麦地那哈拉曼高铁站周边区域。当前毛收益率：4.2%（追踪区域中最低——反映未开发环境）。2030年预测：7.1%（69%增值——全国最高增长率）。\n\n驱动因素：（1）车站日处理8,000名旅客，预计2030年增至15,000人——TOD需求教科书案例。（2）副朝游客从1,700万增至3,000万，在车站2公里内创造大量酒店需求。（3）车站附近几乎零商业供应——先发优势。（4）地价：1,800 SAR/平方米（显著低于公交可达性对应的公允价值——AI估值模型估计2028年公允价值5,500 SAR/平方米）。\n\n风险评估：AI风险模型评分73/100置信度（中高）。主要风险：多方业主土地所有权阻碍开发（沙特铁路+财政部+私人）。缓解因素：MOMRAH联合开发机构已提议——如实施，解锁150亿SAR开发。\n\nAI模式：NLP分析3,200份副朝游客评价识别「车站到住宿距离」为#1投诉（47%评价提及）。车站相邻酒店可捕获这一未满足需求。", recommendation: "投资优先级：高（低估）。加速联合开发机构组建。一期：车站500米内500套服务式公寓+50,000平方米零售。当前地价相比AI公允价值估计折价67%。" },
 
   // ASIR — 1 zone
-  { id: 608, type: "yield", name: "Soudah Peaks Tourism Zone, Asir", lat: 18.40, lng: 42.40, severity: "HIGH", delay: "YIELD: 3.2% → 6.5%", cause: "AI IDENTIFICATION: Zone surrounding Soudah Development Company's mega-project (PIF-backed, SAR 11B). Current gross yield: 3.2% (pre-development baseline). Projected 2030: 6.5% (103% appreciation).\n\nDRIVERS: (1) Soudah project targets 2M visitors/year by 2030 — luxury mountain resort comparable to Aspen/St. Moritz. (2) Currently zero hospitality supply at site — all supply must be built. (3) Cool climate (avg 18°C year-round) unique in Saudi Arabia. (4) Abha airport expansion (SAR 1.5B) adding direct international routes by 2028.\n\nRISK ASSESSMENT: AI risk model scores 62/100 confidence (moderate). Primary risk: tourism demand projection uncertainty — Soudah is greenfield with no historical baseline. Mitigant: PIF backing ensures project completion; domestic tourism demand growing 25% YoY since 2022.\n\nAI CLUSTERING: Identified as Saudi Arabia's #1 'emerging destination' asset class — comparable to Trojena (NEOM) but with earlier delivery timeline and lower altitude risk.", recommendation: "INVESTMENT PRIORITY: MEDIUM-HIGH (SPECULATIVE). Early-stage positioning: acquire hospitality concessions within Soudah master plan. Build boutique lodge properties (50–100 keys). Estimated 20-year IRR: 12.8% base case, 18.5% upside case. Key risk: execution timeline." },
+  { id: 608, type: "yield", name: "Soudah Peaks Tourism Zone, Asir", lat: 18.40, lng: 42.40, severity: "HIGH", delay: "YIELD: 3.2% → 6.5%", cause: "AI识别：苏戴开发公司巨型项目（PIF支持，110亿SAR）周边区域。当前毛收益率：3.2%（开发前基线）。2030年预测：6.5%（103%增值）。\n\n驱动因素：（1）苏戴项目2030年前目标200万游客/年——豪华山地度假村，可比阿斯本/圣莫里茨。（2）目前现场零酒店供应——所有供应需新建。（3）凉爽气候（年均18°C）在沙特独特。（4）艾卜哈机场扩建（15亿SAR）2028年前新增直飞国际航线。\n\n风险评估：AI风险模型评分62/100置信度（中）。主要风险：旅游需求预测不确定性——苏戴是绿地项目无历史基线。缓解因素：PIF支持确保项目完成；国内旅游需求自2022年起年增25%。\n\nAI聚类：识别为沙特阿拉伯#1「新兴目的地」资产类别——可比Trojena（NEOM）但交付时间更早、海拔风险更低。", recommendation: "投资优先级：中高（投机性）。早期布局：获取苏戴总体规划内酒店特许经营权。建设精品旅馆物业（50-100间客房）。预计20年内部收益率：基础情景12.8%，上行情景18.5%。关键风险：执行时间线。" },
 
   // QASSIM — 1 zone
-  { id: 609, type: "yield", name: "Buraidah Agri-Tech Innovation District, Qassim", lat: 26.30, lng: 43.95, severity: "HIGH", delay: "YIELD: 3.5% → 5.8%", cause: "AI IDENTIFICATION: Emerging agri-tech zone at Buraidah–Al Rass corridor. Current gross yield: 3.5% (low — primarily agricultural land with light commercial). Projected 2030: 5.8%.\n\nDRIVERS: (1) Saudi agri-tech sector growing 15% YoY — NEOM Food Tech partnership creating Qassim supply chain hub. (2) Ministry of Agriculture designating Qassim as 'National Agricultural Innovation Zone' (2025 decree). (3) 6 agri-tech startups seeking Grade-A space (zero current supply). (4) Agricultural land-to-commercial conversion creating 4× value uplift.\n\nRISK ASSESSMENT: AI risk model scores 58/100 confidence (moderate). Primary risk: agri-tech sector nascent in Saudi Arabia — demand projections based on global analogues (Netherlands, Israel) may not fully transfer. Mitigant: SAR 2B government innovation fund de-risks private investment.\n\nAI PATTERN: NLP scan of 1,200 agri-tech startup investor presentations shows 'Qassim location preference' in 72% — strong revealed preference signal.", recommendation: "INVESTMENT PRIORITY: MEDIUM (LONG-TERM). Build incubator + light industrial complex (40,000 sqm). Partner with MODON for agri-tech zone designation. First-mover advantage in niche asset class. Estimated 15-year IRR: 9.5%." }
+  { id: 609, type: "yield", name: "Buraidah Agri-Tech Innovation District, Qassim", lat: 26.30, lng: 43.95, severity: "HIGH", delay: "YIELD: 3.5% → 5.8%", cause: "AI识别：布赖代-Al Rass走廊新兴农业科技区。当前毛收益率：3.5%（低——主要为农用地带轻商业）。2030年预测：5.8%。\n\n驱动因素：（1）沙特农业科技部门年增15%——NEOM食品科技合作创建卡西姆供应链中心。（2）农业部指定卡西姆为「国家农业创新区」（2025年法令）。（3）6家农业科技初创企业寻找A级空间（当前零供应）。（4）农用地转商业用地创造4倍价值提升。\n\n风险评估：AI风险模型评分58/100置信度（中）。主要风险：农业科技部门在沙特尚处早期——基于全球类似案例（荷兰、以色列）的需求预测可能不完全适用。缓解因素：20亿SAR政府创新基金降低私人投资风险。\n\nAI模式：NLP扫描1,200份农业科技初创企业投资者演示显示72%偏好「卡西姆位置」——强显示性偏好信号。", recommendation: "投资优先级：中（长期）。建设孵化器+轻工业综合体（40,000平方米）。与MODON合作获取农业科技区认定。利基资产类别的先发优势。预计15年内部收益率：9.5%。" }
 ];
 
 // --- MAP BUOY COMPONENT ---
@@ -223,7 +223,7 @@ const MapBuoy = ({ alert, isHovered, onHover, onClick }: { alert: any, isHovered
       <div className={`absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#051105]/85 border backdrop-blur-md px-2.5 py-1.5 rounded-sm whitespace-nowrap opacity-100 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-300 ${isHovered ? 'border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-110 -translate-y-2' : 'border-opacity-50 scale-100'}`} style={{ borderColor: isHovered ? color : `${color}50` }}>
          <div className={`text-[9px] font-bold uppercase tracking-wider transition-colors ${isHovered ? 'text-white' : 'text-gray-300'}`}>{alert.name}</div>
          <div className="text-[11px] font-black uppercase tracking-widest mt-0.5" style={{ color }}>
-           {alert.type === 'commute' ? `${alert.delay} DELAY` : alert.delay}
+           {alert.type === 'commute' ? `${alert.delay} 延误` : alert.delay}
          </div>
       </div>
     </div>
@@ -284,104 +284,104 @@ const DynamicAssetIcon = ({ color }: { color?: string }) => (
 // -- CORE AGENTS DATA WITH ADDED ALERTS & URGENCY STATS --
 // --- 全国拥堵城市排名数据 ---
 const CITY_CONGESTION_RANKING = [
-  { rank: 1, city: 'Riyadh', region: 'Riyadh', congestionIndex: 78, avgDelay: '+35 min', criticalRoads: 12, affected: '2.3M', status: 'CRITICAL' },
-  { rank: 2, city: 'Jeddah', region: 'Makkah', congestionIndex: 72, avgDelay: '+28 min', criticalRoads: 8, affected: '1.5M', status: 'CRITICAL' },
-  { rank: 3, city: 'Makkah', region: 'Makkah', congestionIndex: 68, avgDelay: '+32 min', criticalRoads: 6, affected: '1.2M', status: 'HIGH' },
-  { rank: 4, city: 'Dammam', region: 'Eastern', congestionIndex: 62, avgDelay: '+22 min', criticalRoads: 5, affected: '850K', status: 'HIGH' },
-  { rank: 5, city: 'Madinah', region: 'Madinah', congestionIndex: 58, avgDelay: '+18 min', criticalRoads: 4, affected: '620K', status: 'WARNING' },
-  { rank: 6, city: 'Khobar', region: 'Eastern', congestionIndex: 55, avgDelay: '+15 min', criticalRoads: 3, affected: '480K', status: 'WARNING' },
-  { rank: 7, city: 'Tabuk', region: 'Tabuk', congestionIndex: 48, avgDelay: '+12 min', criticalRoads: 2, affected: '320K', status: 'MODERATE' },
-  { rank: 8, city: 'Buraidah', region: 'Qassim', congestionIndex: 45, avgDelay: '+10 min', criticalRoads: 2, affected: '280K', status: 'MODERATE' },
+  { rank: 1, city: '利雅得', region: '利雅得', congestionIndex: 78, avgDelay: '+35 min', criticalRoads: 12, affected: '2.3M', status: 'CRITICAL' },
+  { rank: 2, city: '吉达', region: '麦加', congestionIndex: 72, avgDelay: '+28 min', criticalRoads: 8, affected: '1.5M', status: 'CRITICAL' },
+  { rank: 3, city: '麦加', region: '麦加', congestionIndex: 68, avgDelay: '+32 min', criticalRoads: 6, affected: '1.2M', status: 'HIGH' },
+  { rank: 4, city: '达曼', region: '东部', congestionIndex: 62, avgDelay: '+22 min', criticalRoads: 5, affected: '850K', status: 'HIGH' },
+  { rank: 5, city: '麦地那', region: '麦地那', congestionIndex: 58, avgDelay: '+18 min', criticalRoads: 4, affected: '620K', status: 'WARNING' },
+  { rank: 6, city: '胡拜尔', region: '东部', congestionIndex: 55, avgDelay: '+15 min', criticalRoads: 3, affected: '480K', status: 'WARNING' },
+  { rank: 7, city: '塔布克', region: '塔布克', congestionIndex: 48, avgDelay: '+12 min', criticalRoads: 2, affected: '320K', status: '中等' },
+  { rank: 8, city: '布赖代', region: '卡西姆', congestionIndex: 45, avgDelay: '+10 min', criticalRoads: 2, affected: '280K', status: '中等' },
 ];
 
 const AGENTS_DATA = {
   flow: {
-    id: "flow", title: "FLOW AGENT", icon: DynamicFlowIcon, color: "#00B558",
+    id: "flow", title: "交通流代理", icon: DynamicFlowIcon, color: "#00B558",
     functions: [
       { 
-        id: "flw_1", name: "24H COMMUTE INDEX", 
-        desc: "AI DETECTS NON-RECURRENT CONGESTION ANOMALIES USING REAL-TIME COMPUTER VISION FEEDS.",
+        id: "flw_1", name: "24小时通勤指数", 
+        desc: "AI利用实时计算机视觉源检测非周期性拥堵异常。",
         stats: [
-          { label: 'CRITICAL ALERTS', value: '12', color: '#ff4444' },
-          { label: 'WARNINGS', value: '34', color: '#FCD34D' },
-          { label: 'ACTIVE CAMS', value: '142', color: '#00B558' }
+          { label: '严重告警', value: '12', color: '#ff4444' },
+          { label: '警告', value: '34', color: '#FCD34D' },
+          { label: '活跃摄像头', value: '142', color: '#00B558' }
         ]
       },
       {
-        id: "flw_4", name: "CITY CONGESTION RANKING",
-        desc: "REAL-TIME NATIONAL TRAFFIC CONGESTION INDEX BY CITY. CRITICAL THRESHOLD: 60+.",
+        id: "flw_4", name: "城市拥堵排名",
+        desc: "全国城市实时交通拥堵指数。临界阈值：60+。",
         stats: [
-          { label: 'CITIES', value: '8', color: '#00B558' },
-          { label: 'CRITICAL', value: '4', color: '#ff4444' },
-          { label: 'HIGH', value: '2', color: '#FCD34D' }
+          { label: '城市', value: '8', color: '#00B558' },
+          { label: '严重', value: '4', color: '#ff4444' },
+          { label: '高', value: '2', color: '#FCD34D' }
         ]
       }
     ]
   },
   demand: {
-    id: "demand", title: "DEMAND FORECASTER", icon: DynamicDemandIcon, color: "#FCD34D",
+    id: "demand", title: "需求预测器", icon: DynamicDemandIcon, color: "#FCD34D",
     functions: [
       { 
-        id: "dmd_1", name: "HOUSING DEMAND FORECAST", 
-        desc: "HOUSING SHORTFALL BY 2030 ACROSS 6 REGIONS. NHC SAKANI DATA + POPULATION GROWTH MODELS. 2030 TARGET: 70% HOMEOWNERSHIP. CURRENT: 63%. DEFICIT = UNITS TO CLOSE GAP.",
+        id: "dmd_1", name: "住房需求预测", 
+        desc: "2030年前6大区域住房缺口。NHC Sakani数据+人口增长模型。2030目标：70%住房自有率。当前：63%。缺口=弥补差距所需单位。",
         stats: [
-          { label: 'BY-2030 DEFICIT', value: '-153K', color: '#ff4444' },
-          { label: 'Q1 2026', value: '63%', color: '#FCD34D' },
-          { label: '2030 TARGET', value: '70%', color: '#00B558' }
+          { label: '2030年缺口', value: '-153K', color: '#ff4444' },
+          { label: '自有率', value: '63%', color: '#FCD34D' },
+          { label: '2030目标', value: '70%', color: '#00B558' }
         ]
       },
       { 
-        id: "dmd_2", name: "ROAD NETWORK EXPANSION", 
-        desc: "BASED ON NATIONAL TRANSPORT STRATEGY (2021–2030) AND GIGA-PROJECT CORRIDOR STUDIES. CURRENT: 76K KM. TARGET: 100K KM BY 2030. PROJECTS SHOWN ON MAP.",
+        id: "dmd_2", name: "道路网络扩展", 
+        desc: "基于国家交通战略(2021-2030)和巨型项目走廊研究。当前：7.6万公里。目标：2030年前10万公里。",
         stats: [
-          { label: 'Q1 2026', value: '76K KM', color: '#FCD34D' },
-          { label: 'BY-2030 GAP', value: '24K KM', color: '#ff4444' },
-          { label: '2030 TARGET', value: '100K KM', color: '#00B558' }
+          { label: '当前', value: '76K KM', color: '#FCD34D' },
+          { label: '2030年差距', value: '24K KM', color: '#ff4444' },
+          { label: '2030目标', value: '100K KM', color: '#00B558' }
         ]
       }
     ]
   },
   idle: {
-    id: "idle", title: "IDLE LAND AGENT", icon: DynamicIdleIcon, color: "#ff4444",
+    id: "idle", title: "闲置土地代理", icon: DynamicIdleIcon, color: "#ff4444",
     functions: [
       { 
-        id: "idl_1", name: "WHITE LAND ACTIVATION RATE", 
-        desc: "AI SCANS MOMRAH WHITE LAND REGISTRY + SATELLITE IMAGERY TO PINPOINT IDLE PARCELS. EXPLAINS WHY EACH PLOT IS UNDEVELOPED AND RECOMMENDS USE. TAX: 2.5% LEVY.",
+        id: "idl_1", name: "白地激活率", 
+        desc: "AI扫描MOMRAH白地登记册+卫星图像定位闲置地块。解释未开发原因并推荐用途。税率：2.5%。",
         stats: [
-          { label: 'CURRENT Q1 2026', value: '38%', color: '#ff4444' },
-          { label: '2030 TARGET', value: '65%', color: '#00B558' },
-          { label: 'AI SPOTS', value: '12', color: '#FCD34D' }
+          { label: '2026年Q1', value: '38%', color: '#ff4444' },
+          { label: '2030目标', value: '65%', color: '#00B558' },
+          { label: 'AI发现', value: '12', color: '#FCD34D' }
         ]
       },
       { 
-        id: "idl_2", name: "URBAN LAND UTILIZATION INDEX", 
-        desc: "AI ANALYZES SATELLITE FOOTPRINT, INFRA DENSITY, AND ZONING TO IDENTIFY UNDERUTILIZED ZONES. SCORES IMPACT PER ZONE AND RECOMMENDS DEVELOPMENT.",
+        id: "idl_2", name: "城市土地利用指数", 
+        desc: "AI分析卫星足迹、基础设施密度和区划，识别利用不足区域。评估各区域影响并推荐开发。",
         stats: [
-          { label: 'CURRENT Q1 2026', value: '58', color: '#ff4444' },
-          { label: 'ZONES FLAGGED', value: '13', color: '#FCD34D' }
+          { label: '2026年Q1', value: '58', color: '#ff4444' },
+          { label: '标记区域', value: '13', color: '#FCD34D' }
         ]
       }
     ]
   },
   asset: {
-    id: "asset", title: "ASSET EVALUATION", icon: DynamicAssetIcon, color: "#FCD34D",
+    id: "asset", title: "资产评估", icon: DynamicAssetIcon, color: "#FCD34D",
     functions: [
       { 
-        id: "ast_1", name: "INFRASTRUCTURE COMPETITIVENESS INDEX", 
-        desc: "SCORES ZONES 0–100 ACROSS TRANSIT, HEALTHCARE, EDUCATION, UTILITIES, GREEN SPACE, AND DIGITAL. BENCHMARKED AGAINST 50 GLOBAL PEER CITIES VIA MOMRA + GASTAT DATA.",
+        id: "ast_1", name: "基础设施竞争力指数", 
+        desc: "对交通、医疗、教育、公用事业、绿地和数字化评分0-100。通过MOMRA+GASTAT数据与50个全球城市比较。",
         stats: [
-          { label: 'CURRENT Q1 2026', value: '54', color: '#ff4444' },
-          { label: '2030 TARGET', value: '75', color: '#00B558' },
-          { label: 'ZONES FLAGGED', value: '11', color: '#FCD34D' }
+          { label: '2026年Q1', value: '54', color: '#ff4444' },
+          { label: '2030目标', value: '75', color: '#00B558' },
+          { label: '标记区域', value: '11', color: '#FCD34D' }
         ]
       },
       { 
-        id: "ast_2", name: "REAL ESTATE YIELD FORECAST", 
-        desc: "ML MODEL ON 10-YR REGA DATA + SATELLITE ACTIVITY FORECASTS YIELD PER ZONE. FACTORS: DEMAND (POP + HQ + TOURISM), SUPPLY (NHC), AND GIGA-PROJECT PROXIMITY. TARGET: RE 10% OF GDP.",
+        id: "ast_2", name: "房地产收益预测", 
+        desc: "基于10年REGA数据+卫星活动的ML模型预测各区域收益率。目标：房地产占GDP 10%。",
         stats: [
-          { label: 'CURRENT Q1 2026', value: '5.2%', color: '#ff4444' },
-          { label: '2030 TARGET', value: '7.5%', color: '#00B558' },
-          { label: 'ZONES TRACKED', value: '9', color: '#FCD34D' }
+          { label: '2026年Q1', value: '5.2%', color: '#ff4444' },
+          { label: '2030目标', value: '7.5%', color: '#00B558' },
+          { label: '追踪区域', value: '9', color: '#FCD34D' }
         ]
       }
     ]
@@ -419,8 +419,8 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
               <XAxis dataKey="year" hide />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-                labelFormatter={(label) => `YEAR 20${label}`}
-                formatter={(value: number) => [`${value}%`, 'Commercial ROI']}
+                labelFormatter={(label) => `20${label}年`}
+                formatter={(value: number) => [`${value}%`, '商业投资回报率']}
               />
               <defs>
                 <linearGradient id={`roiGradMini-${item.id}`} x1="0" y1="0" x2="0" y2="1">
@@ -466,10 +466,10 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
               <XAxis dataKey="t" hide />
               <Tooltip
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
-                labelFormatter={(label) => `TIME: ${label}:00`}
+                labelFormatter={(label) => `时间: ${label}:00`}
                 formatter={(value: number, name: string) => {
-                  if (name === 'n') return [`${value}`, 'Predicted Events'];
-                  if (name === 'a') return [`${value}`, 'Actual Events'];
+                  if (name === 'n') return [`${value}`, '预测事件'];
+                  if (name === 'a') return [`${value}`, '实际事件'];
                   return [value, name];
                 }}
               />
@@ -493,10 +493,10 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
                 labelFormatter={(label) => {
-                  const names: Record<string, string> = { RYD: 'RIYADH', MKH: 'MAKKAH', EST: 'EASTERN', MDN: 'MADINAH', ASR: 'ASIR', QSM: 'QASSIM' };
+                  const names: Record<string, string> = { RYD: '利雅得', MKH: '麦加', EST: '东部', MDN: '麦地那', ASR: '阿西尔', QSM: '卡西姆' };
                   return names[label] || label;
                 }}
-                formatter={(value: number) => [`${value}K UNITS`, 'By-2030 Deficit']}
+                formatter={(value: number) => [`${value}K套`, '2030年缺口']}
               />
               <Bar dataKey="v" fill={color} opacity={0.6} barSize={12} radius={[2, 2, 0, 0]} isAnimationActive={false}>
                 <LabelList dataKey="v" position="top" fill="#FCD34D" fontSize={8} formatter={(v: number) => `${v}K`} />
@@ -519,10 +519,10 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', fontSize: '11px', textTransform: 'uppercase' }}
                 labelFormatter={(label) => {
-                  const names: Record<string, string> = { RYD: 'RIYADH', MKH: 'MAKKAH', EST: 'EASTERN', MDN: 'MADINAH', ASR: 'ASIR', QSM: 'QASSIM' };
+                  const names: Record<string, string> = { RYD: '利雅得', MKH: '麦加', EST: '东部', MDN: '麦地那', ASR: '阿西尔', QSM: '卡西姆' };
                   return names[label] || label;
                 }}
-                formatter={(value: number) => [`${value}K KM`, 'By-2030 Gap']}
+                formatter={(value: number) => [`${value}K KM`, '2030年差距']}
               />
               <defs>
                 <linearGradient id="roadGradMini" x1="0" y1="0" x2="0" y2="1">
@@ -568,7 +568,7 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                  e.stopPropagation();
                  if (onActionClick) onActionClick(item.id);
                }}
-               title="View Details"
+               title="查看详情"
              >
                <motion.div
                  animate={{ rotate: 360 }}
@@ -611,11 +611,11 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                 <table className="w-full text-[9px]">
                   <thead className="sticky top-0 bg-[#070d07] z-10">
                     <tr className="text-[#00B558] border-b border-[#00B558]/30">
-                      <th className="text-left py-1 px-1 font-bold">#</th>
-                      <th className="text-left py-1 px-1 font-bold">CITY</th>
-                      <th className="text-center py-1 px-1 font-bold">IDX</th>
-                      <th className="text-center py-1 px-1 font-bold">DELAY</th>
-                      <th className="text-center py-1 px-1 font-bold">STATUS</th>
+                      <th className="text-left py-1 px-1 font-bold">排名</th>
+                      <th className="text-left py-1 px-1 font-bold">城市</th>
+                      <th className="text-center py-1 px-1 font-bold">指数</th>
+                      <th className="text-center py-1 px-1 font-bold">延误</th>
+                      <th className="text-center py-1 px-1 font-bold">状态</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -700,8 +700,8 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                      </div>
                      <div className="flex justify-between items-center mt-0.5">
                        <span className="text-[7px] text-gray-600 font-bold">0</span>
-                       <span className="text-[7px] text-[#FCD34D] font-bold">58 CURRENT</span>
-                       <span className="text-[7px] text-[#00B558] font-bold">80 TARGET</span>
+                       <span className="text-[7px] text-[#FCD34D] font-bold">58 当前</span>
+                       <span className="text-[7px] text-[#00B558] font-bold">80 目标</span>
                      </div>
                    </div>
                  )}
@@ -736,7 +736,7 @@ function FunctionCard({ item, color, isActive, onClick, onActionClick, layout = 
                    </span>
                    {item.id === 'dmd_2' && (
                      <span className="font-bold tracking-widest uppercase text-[10px] mt-0.5" style={{ color: '#00B558' }}>
-                       100K KM (2030 TARGET)
+                       10万KM (2030目标)
                      </span>
                    )}
                  </div>
@@ -793,9 +793,9 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
             </div>
             <div className="flex flex-col">
               <h2 className="text-2xl font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(0,181,88,0.5)] leading-none mb-1">
-                COMMUTE EFFICIENCY STATUS & PROJECTION
+                通勤效率状态与预测
               </h2>
-              <span className="text-[10px] text-[#00B558] font-bold tracking-[0.2em] uppercase">FLOW AGENT // STRATEGIC KPI DIAGNOSTIC</span>
+              <span className="text-[10px] text-[#00B558] font-bold tracking-[0.2em] uppercase">交通流代理 // 战略KPI诊断</span>
             </div>
           </div>
           <button onClick={onClose} className="p-2 text-[#00B558]/60 hover:text-white hover:bg-[#00B558]/20 rounded transition-colors relative z-10">
@@ -812,7 +812,7 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
             <div className="flex items-center gap-3 relative z-10">
               <Zap className="w-4 h-4 text-[#00B558] animate-pulse" />
               <span className="text-[10px] font-bold text-[#00B558] tracking-[0.15em] uppercase">
-                SYSTEM INSIGHT: AI DETECTS NON-RECURRENT CONGESTION ANOMALIES USING REAL-TIME COMPUTER VISION FEEDS.
+                系统洞察：AI利用实时计算机视觉源检测非周期性拥堵异常。
               </span>
             </div>
             <div className="flex gap-1 relative z-10">
@@ -838,10 +838,10 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                 </div>
                 <div className="flex flex-col">
                    <span className="text-[#00B558] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2">
-                     <span className="w-1.5 h-1.5 bg-[#00B558] rounded-full animate-pulse" /> CURRENT STATUS
+                     <span className="w-1.5 h-1.5 bg-[#00B558] rounded-full animate-pulse" /> 当前状态
                    </span>
-                   <h3 className="text-2xl font-black text-white tracking-widest uppercase leading-none mb-1.5">MODERATE</h3>
-                   <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">REAL-TIME: 08:42</span>
+                   <h3 className="text-2xl font-black text-white tracking-widest uppercase leading-none mb-1.5">中等</h3>
+                   <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">实时: 08:42</span>
                 </div>
              </div>
 
@@ -852,7 +852,7 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                       <motion.div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" animate={{ left: ["-20%", "120%"] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
                    </div>
                    <div className="shrink-0 px-4 bg-[#051105] border-y border-[#FCD34D]/30 py-2 mx-3 flex flex-col items-center shadow-[0_0_20px_rgba(252,211,77,0.1)]">
-                      <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">EFFICIENCY GAP</span>
+                      <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">效率差距</span>
                       <div className="flex items-center gap-1">
                         <TrendingUp className="w-3.5 h-3.5 text-[#FCD34D]" />
                         <span className="text-lg font-black text-[#FCD34D] tracking-widest">+14 PTS</span>
@@ -879,10 +879,10 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                 </div>
                 <div className="flex flex-col items-end">
                    <span className="text-[#FCD34D] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2">
-                     TARGET 2030 <span className="w-1.5 h-1.5 bg-[#FCD34D] rounded-sm" />
+                     2030目标 <span className="w-1.5 h-1.5 bg-[#FCD34D] rounded-sm" />
                    </span>
-                   <h3 className="text-2xl font-black text-white tracking-widest uppercase leading-none mb-1.5">OPTIMAL</h3>
-                   <span className="text-[10px] text-[#FCD34D]/70 font-mono tracking-wider border border-[#FCD34D]/20 bg-[#FCD34D]/5 px-2 py-0.5 inline-block w-fit">VISION GOAL</span>
+                   <h3 className="text-2xl font-black text-white tracking-widest uppercase leading-none mb-1.5">最优</h3>
+                   <span className="text-[10px] text-[#FCD34D]/70 font-mono tracking-wider border border-[#FCD34D]/20 bg-[#FCD34D]/5 px-2 py-0.5 inline-block w-fit">愿景目标</span>
                 </div>
              </div>
           </div>
@@ -890,10 +890,10 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
           {/* TWO COLUMN LOGIC & MATRIX */}
           <div className="grid grid-cols-2 gap-8 flex-1 min-h-0">
              
-             {/* LEFT COLUMN: CALCULATION LOGIC */}
+             {/* LEFT COLUMN: 计算逻辑 */}
              <div className="flex flex-col gap-4">
                 <h3 className="text-[10px] font-black text-[#00B558] uppercase tracking-[0.2em] border-b border-[#00B558]/30 pb-2 flex items-center gap-2 shrink-0">
-                  <Zap className="w-3.5 h-3.5" /> CALCULATION LOGIC
+                  <Zap className="w-3.5 h-3.5" /> 计算逻辑
                 </h3>
                 
                 <div className="bg-gradient-to-br from-[#0a1a0a] to-[#051105] border border-[#00B558]/20 p-6 flex flex-col flex-1 justify-between relative overflow-hidden min-h-0">
@@ -901,7 +901,7 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                    
                    {/* Huge Formula Block */}
                    <div className="bg-[#030a03] border border-[#00B558]/30 p-4 flex flex-col items-center justify-center gap-4 shadow-[inset_0_0_20px_rgba(0,181,88,0.1)] mb-4 shrink-0">
-                      <span className="text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase">COMMUTE EFFICIENCY ALGORITHM</span>
+                      <span className="text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase">通勤效率算法</span>
                       <div className="flex items-center gap-3 font-mono text-base tracking-wider">
                          <span className="text-white font-black drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">INDEX</span> 
                          <span className="text-[#00B558]">=</span> 
@@ -926,9 +926,9 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                         <div className="flex flex-col gap-1 w-full">
                           <div className="flex justify-between items-center w-full">
                             <span className="text-xs font-black text-white uppercase tracking-wider">V<sub className="text-[9px] text-gray-400">ACTUAL</sub></span>
-                            <span className="text-[9px] text-[#00B558] font-mono bg-[#00B558]/10 border border-[#00B558]/20 px-1.5 py-0.5 rounded-[2px] tracking-widest">REAL-TIME FEEDS</span>
+                            <span className="text-[9px] text-[#00B558] font-mono bg-[#00B558]/10 border border-[#00B558]/20 px-1.5 py-0.5 rounded-[2px] tracking-widest">实时数据源</span>
                           </div>
-                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">Current segment average velocity via computer vision and IoT.</span>
+                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">通过计算机视觉和IoT获取的当前路段平均速度。</span>
                         </div>
                       </div>
 
@@ -937,9 +937,9 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                         <div className="flex flex-col gap-1 w-full">
                           <div className="flex justify-between items-center w-full">
                             <span className="text-xs font-black text-white uppercase tracking-wider">V<sub className="text-[9px] text-gray-400">BASE</sub></span>
-                            <span className="text-[9px] text-gray-400 font-mono bg-white/5 border border-white/10 px-1.5 py-0.5 rounded-[2px] tracking-widest">HISTORICAL AI</span>
+                            <span className="text-[9px] text-gray-400 font-mono bg-white/5 border border-white/10 px-1.5 py-0.5 rounded-[2px] tracking-widest">历史AI</span>
                           </div>
-                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">Expected non-peak steady state velocity (13:00-16:00 avg).</span>
+                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">预期非高峰稳态速度(13:00-16:00平均值)。</span>
                         </div>
                       </div>
 
@@ -948,9 +948,9 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                         <div className="flex flex-col gap-1 w-full">
                           <div className="flex justify-between items-center w-full">
                             <span className="text-xs font-black text-white uppercase tracking-wider">C<sub className="text-[9px] text-gray-400">MOD</sub></span>
-                            <span className="text-[9px] text-[#FCD34D] font-mono bg-[#FCD34D]/10 border border-[#FCD34D]/20 px-1.5 py-0.5 rounded-[2px] tracking-widest">0.6 ~ 1.0 (DYNAMIC)</span>
+                            <span className="text-[9px] text-[#FCD34D] font-mono bg-[#FCD34D]/10 border border-[#FCD34D]/20 px-1.5 py-0.5 rounded-[2px] tracking-widest">0.6 ~ 1.0 (动态)</span>
                           </div>
-                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">Dynamic penalty factor for accidents, weather, & non-cyclical events.</span>
+                          <span className="text-[10px] text-gray-400 uppercase tracking-wide leading-relaxed">事故、天气和非周期性事件的动态惩罚因子。</span>
                         </div>
                       </div>
                    </div>
@@ -960,15 +960,15 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
              {/* RIGHT COLUMN: INTERPRETATION MATRIX */}
              <div className="flex flex-col gap-4">
                 <h3 className="text-[10px] font-black text-[#00B558] uppercase tracking-[0.2em] border-b border-[#00B558]/30 pb-2 flex items-center gap-2 shrink-0">
-                  <Activity className="w-3.5 h-3.5" /> INDEX INTERPRETATION MATRIX
+                  <Activity className="w-3.5 h-3.5" /> 指数解读矩阵
                 </h3>
                 
                 <div className="flex flex-col flex-1 bg-[#051105] border border-[#00B558]/20 rounded-sm overflow-hidden min-h-0">
                    {/* Matrix Header */}
                    <div className="grid grid-cols-12 bg-[#00B558]/15 border-b border-[#00B558]/30 text-[9px] font-black text-[#00B558] uppercase tracking-widest px-4 py-2.5 shrink-0">
-                     <div className="col-span-3">Index Range</div>
-                     <div className="col-span-4">Status Level</div>
-                     <div className="col-span-5">Recommended Action</div>
+                     <div className="col-span-3">指数范围</div>
+                     <div className="col-span-4">状态等级</div>
+                     <div className="col-span-5">建议措施</div>
                    </div>
                    
                    <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar">
@@ -976,36 +976,36 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                      <div className="grid grid-cols-12 items-center px-4 py-3 border-b border-[#00B558]/10 hover:bg-[#00B558]/10 transition-colors flex-1 min-h-[40px]">
                        <div className="col-span-3 font-mono font-bold text-white text-[11px] tracking-wider">90-100</div>
                        <div className="col-span-4 flex items-center gap-2 font-black text-white uppercase tracking-widest text-[9px]">
-                         <span className="w-2 h-2 rounded-full bg-[#00B558] shadow-[0_0_10px_rgba(0,181,88,0.8)] shrink-0" /> OPTIMAL FLOW
+                         <span className="w-2 h-2 rounded-full bg-[#00B558] shadow-[0_0_10px_rgba(0,181,88,0.8)] shrink-0" /> 最优通行
                        </div>
-                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">Maintain current signal timing</div>
+                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">维持当前信号灯配时</div>
                      </div>
 
                      {/* Row 2 */}
                      <div className="grid grid-cols-12 items-center px-4 py-3 border-b border-[#00B558]/10 hover:bg-[#00B558]/10 transition-colors flex-1 min-h-[40px]">
                        <div className="col-span-3 font-mono font-bold text-white text-[11px] tracking-wider">70-89</div>
                        <div className="col-span-4 flex items-center gap-2 font-black text-white uppercase tracking-widest text-[9px]">
-                         <span className="w-2 h-2 rounded-full bg-[#FCD34D] shadow-[0_0_10px_rgba(252,211,77,0.8)] shrink-0" /> BASIC FLOW
+                         <span className="w-2 h-2 rounded-full bg-[#FCD34D] shadow-[0_0_10px_rgba(252,211,77,0.8)] shrink-0" /> 基本通行
                        </div>
-                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">Monitor volume trend changes</div>
+                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">监控流量趋势变化</div>
                      </div>
 
                      {/* Row 3 */}
                      <div className="grid grid-cols-12 items-center px-4 py-3 border-b border-[#00B558]/10 hover:bg-[#00B558]/10 transition-colors flex-1 min-h-[40px]">
                        <div className="col-span-3 font-mono font-bold text-white text-[11px] tracking-wider">50-69</div>
                        <div className="col-span-4 flex items-center gap-2 font-black text-white uppercase tracking-widest text-[9px]">
-                         <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_10px_rgba(249,115,22,0.8)] shrink-0" /> MILD CONGESTION
+                         <span className="w-2 h-2 rounded-full bg-[#f97316] shadow-[0_0_10px_rgba(249,115,22,0.8)] shrink-0" /> 轻度拥堵
                        </div>
-                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">Optimize intersection sync</div>
+                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">优化路口信号同步</div>
                      </div>
 
                      {/* Row 4 */}
                      <div className="grid grid-cols-12 items-center px-4 py-3 border-b border-[#00B558]/10 hover:bg-[#00B558]/10 transition-colors flex-1 min-h-[40px]">
                        <div className="col-span-3 font-mono font-bold text-white text-[11px] tracking-wider">30-49</div>
                        <div className="col-span-4 flex items-center gap-2 font-black text-white uppercase tracking-widest text-[9px]">
-                         <span className="w-2 h-2 rounded-full bg-[#ef4444] shadow-[0_0_10px_rgba(239,68,68,0.8)] shrink-0" /> MODERATE CONGESTION
+                         <span className="w-2 h-2 rounded-full bg-[#ef4444] shadow-[0_0_10px_rgba(239,68,68,0.8)] shrink-0" /> 中度拥堵
                        </div>
-                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">Activate tidal lanes / bus pri.</div>
+                       <div className="col-span-5 text-[9px] text-gray-400 uppercase tracking-wide">启用潮汐车道/公交优先</div>
                      </div>
 
                      {/* Row 5 */}
@@ -1016,9 +1016,9 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                            <span className="absolute inset-0 rounded-full bg-[#ff4444] animate-ping opacity-75" />
                            <span className="relative block w-2 h-2 rounded-full bg-black border-[1.5px] border-[#ff4444] shadow-[0_0_10px_rgba(255,68,68,1)]" />
                          </div> 
-                         SEVERE GRIDLOCK
+                         严重拥堵
                        </div>
-                       <div className="col-span-5 text-[9px] text-[#ff4444] uppercase tracking-wide font-bold">Trigger emergency & rerouting</div>
+                       <div className="col-span-5 text-[9px] text-[#ff4444] uppercase tracking-wide font-bold">触发紧急响应与改道</div>
                      </div>
                    </div>
                 </div>
@@ -1031,25 +1031,25 @@ const TargetModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
   );
 };
 
-// --- INFRASTRUCTURE COMPETITIVENESS INDEX DETAIL MODAL ---
+// --- 基础设施竞争力指数 DETAIL MODAL ---
 const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
   if (!isOpen) return null;
   const color = '#FCD34D';
   const subDimensions = [
-    { name: 'TRANSIT ACCESS', weight: 20, national: 38, target: 70, icon: '🚇', desc: 'Population within 800m of public transit (metro, BRT, bus)' },
-    { name: 'UTILITY RELIABILITY', weight: 20, national: 72, target: 95, icon: '⚡', desc: 'SEC grid uptime (SAIFI/SAIDI) + water supply continuity' },
-    { name: 'HEALTHCARE PROXIMITY', weight: 15, national: 52, target: 75, icon: '🏥', desc: 'Hospital beds per 1,000 + avg distance to primary care' },
-    { name: 'EDUCATION COVERAGE', weight: 15, national: 58, target: 80, icon: '🎓', desc: 'School seats vs school-age population ratio' },
-    { name: 'GREEN SPACE', weight: 15, national: 35, target: 60, icon: '🌳', desc: 'Public parks sqm per capita vs WHO standard (9 sqm/person)' },
-    { name: 'DIGITAL CONNECTIVITY', weight: 15, national: 55, target: 80, icon: '📡', desc: 'FTTH penetration + 5G coverage percentage' },
+    { name: '交通可达性', weight: 20, national: 38, target: 70, icon: '🚇', desc: '800米内有公共交通(地铁、BRT、公交)的人口比例' },
+    { name: '公用事业可靠性', weight: 20, national: 72, target: 95, icon: '⚡', desc: 'SEC电网正常运行时间+供水连续性' },
+    { name: '医疗邻近性', weight: 15, national: 52, target: 75, icon: '🏥', desc: '每千人医院床位+到初级医疗的平均距离' },
+    { name: '教育覆盖率', weight: 15, national: 58, target: 80, icon: '🎓', desc: '学校学位与学龄人口比' },
+    { name: '绿地空间', weight: 15, national: 35, target: 60, icon: '🌳', desc: '人均公园面积 vs WHO标准(9平方米/人)' },
+    { name: '数字连接', weight: 15, national: 55, target: 80, icon: '📡', desc: '光纤入户率+5G覆盖率' },
   ];
   const regions = [
-    { name: 'RIYADH', score: 62, target: 78, gap: 16 },
-    { name: 'MAKKAH', score: 48, target: 72, gap: 24 },
-    { name: 'EASTERN', score: 59, target: 76, gap: 17 },
-    { name: 'MADINAH', score: 45, target: 70, gap: 25 },
-    { name: 'ASIR', score: 52, target: 71, gap: 19 },
-    { name: 'QASSIM', score: 47, target: 68, gap: 21 },
+    { name: '利雅得', score: 62, target: 78, gap: 16 },
+    { name: '麦加', score: 48, target: 72, gap: 24 },
+    { name: '东部', score: 59, target: 76, gap: 17 },
+    { name: '麦地那', score: 45, target: 70, gap: 25 },
+    { name: '阿西尔', score: 52, target: 71, gap: 19 },
+    { name: '卡西姆', score: 47, target: 68, gap: 21 },
   ];
 
   return (
@@ -1076,8 +1076,8 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
               <div className="absolute inset-0 rounded-full border border-[#FCD34D] animate-ping opacity-50" />
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(252,211,77,0.5)] leading-none mb-1">INFRASTRUCTURE COMPETITIVENESS INDEX</h2>
-              <span className="text-[10px] text-[#FCD34D] font-bold tracking-[0.2em] uppercase">ASSET EVALUATION AGENT // VISION 2030 LIVABILITY KPI</span>
+              <h2 className="text-2xl font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(252,211,77,0.5)] leading-none mb-1">基础设施竞争力指数</h2>
+              <span className="text-[10px] text-[#FCD34D] font-bold tracking-[0.2em] uppercase">资产评估代理 // 2030愿景宜居性KPI</span>
             </div>
           </div>
           <button onClick={onClose} className="p-2 text-[#FCD34D]/60 hover:text-white hover:bg-[#FCD34D]/20 rounded transition-colors relative z-10"><X className="w-6 h-6" /></button>
@@ -1090,7 +1090,7 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
           <div className="flex items-center gap-4 bg-[#FCD34D]/5 border border-[#FCD34D]/20 px-6 py-3 shrink-0 relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#FCD34D]" />
             <Zap className="w-4 h-4 text-[#FCD34D] animate-pulse" />
-            <span className="text-[10px] font-bold text-[#FCD34D] tracking-[0.15em] uppercase">AI ENGINE: COMPUTER VISION VERIFIES ON-GROUND INFRA DELIVERY VS PLANNED. ANOMALY DETECTION FLAGS STALLED IMPROVEMENT. BENCHMARKED AGAINST 50 GLOBAL PEER CITIES.</span>
+            <span className="text-[10px] font-bold text-[#FCD34D] tracking-[0.15em] uppercase">AI引擎：计算机视觉验证基础设施实际交付与计划对比。异常检测标记停滞的改进。与50个全球城市比较。</span>
           </div>
 
           {/* HERO: CURRENT vs TARGET */}
@@ -1108,8 +1108,8 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#ff4444] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#ff4444] rounded-full animate-pulse" /> NATIONAL AVG</span>
-                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">BELOW TARGET</h3>
+                <span className="text-[#ff4444] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#ff4444] rounded-full animate-pulse" /> 全国平均</span>
+                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">低于目标</h3>
                 <span className="text-[10px] text-[#ff4444]/70 font-mono tracking-wider border border-[#ff4444]/20 bg-[#ff4444]/5 px-2 py-0.5 inline-block w-fit">Q1 2026</span>
               </div>
             </div>
@@ -1117,7 +1117,7 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
               <div className="w-full flex items-center">
                 <div className="h-[2px] bg-gradient-to-r from-[#ff4444] to-[#FCD34D] flex-1 relative overflow-hidden"><motion.div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" animate={{ left: ['-20%', '120%'] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} /></div>
                 <div className="shrink-0 px-4 bg-[#051105] border-y border-[#FCD34D]/30 py-2 mx-3 flex flex-col items-center">
-                  <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">GAP TO 2030</span>
+                  <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">2030年差距</span>
                   <div className="flex items-center gap-1"><TrendingUp className="w-3.5 h-3.5 text-[#FCD34D]" /><span className="text-lg font-black text-[#FCD34D] tracking-widest">+21 PTS</span></div>
                 </div>
                 <div className="h-[2px] bg-gradient-to-r from-[#FCD34D] to-[#00B558] flex-1 relative overflow-hidden"><motion.div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" animate={{ left: ['-20%', '120%'] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} /></div>
@@ -1136,9 +1136,9 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-[#00B558] font-bold tracking-[0.25em] uppercase text-[9px] mb-1">TARGET 2030</span>
-                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">TOP 40 GLOBAL</h3>
-                <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">VISION GOAL</span>
+                <span className="text-[#00B558] font-bold tracking-[0.25em] uppercase text-[9px] mb-1">2030目标</span>
+                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">全球前40</h3>
+                <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">愿景目标</span>
               </div>
             </div>
           </div>
@@ -1148,7 +1148,7 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
             {/* LEFT: 6 Sub-Dimension Breakdown */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Zap className="w-3.5 h-3.5" /> SCORING SUB-DIMENSIONS (CONTRIBUTION MIX)</h3>
+              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Zap className="w-3.5 h-3.5" /> 评分子维度(贡献组合)</h3>
               <div className="flex flex-col gap-2.5 flex-1 overflow-y-auto pr-2">
                 {subDimensions.map((dim, i) => (
                   <div key={i} className="bg-[#0a1a0a] border border-[#FCD34D]/15 p-3 flex flex-col gap-2">
@@ -1157,7 +1157,7 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                         <span className="text-sm">{dim.icon}</span>
                         <span className="text-[10px] font-black text-white uppercase tracking-wider">{dim.name}</span>
                       </div>
-                      <span className="text-[9px] font-mono font-black text-[#FCD34D] bg-[#FCD34D]/10 border border-[#FCD34D]/20 px-1.5 py-0.5 tracking-widest">{dim.weight}% WEIGHT</span>
+                      <span className="text-[9px] font-mono font-black text-[#FCD34D] bg-[#FCD34D]/10 border border-[#FCD34D]/20 px-1.5 py-0.5 tracking-widest">{dim.weight}% 权重</span>
                     </div>
                     <span className="text-[9px] text-gray-500 uppercase tracking-wide">{dim.desc}</span>
                     <div className="flex items-center gap-3">
@@ -1174,13 +1174,13 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
             {/* RIGHT: Regional Scores */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Activity className="w-3.5 h-3.5" /> REGIONAL COMPETITIVENESS SCORES</h3>
+              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Activity className="w-3.5 h-3.5" /> 区域竞争力得分</h3>
               <div className="flex flex-col flex-1 bg-[#051105] border border-[#FCD34D]/20 overflow-hidden min-h-0">
                 <div className="grid grid-cols-12 bg-[#FCD34D]/15 border-b border-[#FCD34D]/30 text-[9px] font-black text-[#FCD34D] uppercase tracking-widest px-4 py-2.5 shrink-0">
-                  <div className="col-span-3">REGION</div>
-                  <div className="col-span-3">CURRENT</div>
-                  <div className="col-span-3">2030 TARGET</div>
-                  <div className="col-span-3">GAP</div>
+                  <div className="col-span-3">区域</div>
+                  <div className="col-span-3">当前</div>
+                  <div className="col-span-3">2030目标</div>
+                  <div className="col-span-3">差距</div>
                 </div>
                 <div className="flex flex-col flex-1 overflow-y-auto">
                   {regions.map((r, i) => (
@@ -1202,8 +1202,8 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
               {/* Data Sources */}
               <div className="bg-[#0a1a0a] border border-[#FCD34D]/15 p-3 shrink-0 mb-2">
-                <span className="text-[9px] text-gray-500 uppercase tracking-wider font-bold">DATA SOURCES: </span>
-                <span className="text-[9px] text-gray-400 uppercase tracking-wide">MOMRA MUNICIPAL DB · GASTAT INFRASTRUCTURE CENSUS · SEC RELIABILITY INDICES (SAIFI/SAIDI) · MOH FACILITY REGISTRY · MOE SCHOOL DENSITY · RCRC GREEN SPACE GIS · CITC DIGITAL COVERAGE</span>
+                <span className="text-[9px] text-gray-500 uppercase tracking-wider font-bold">数据来源：</span>
+                <span className="text-[9px] text-gray-400 uppercase tracking-wide">MOMRA市政数据库 · GASTAT基础设施普查 · SEC可靠性指数 · 卫生部设施登记 · 教育部学校密度 · RCRC绿地GIS · CITC数字化覆盖</span>
               </div>
             </div>
           </div>
@@ -1213,23 +1213,23 @@ const InfraModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
   );
 };
 
-// --- REAL ESTATE YIELD FORECAST DETAIL MODAL ---
+// --- 房地产收益预测 DETAIL MODAL ---
 const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
   if (!isOpen) return null;
   const regions = [
-    { name: 'RIYADH', current: 6.1, projected: 8.2, drivers: 'KAFD + Diriyah Gate + Corporate HQ mandate', confidence: 82 },
-    { name: 'MAKKAH', current: 4.8, projected: 7.1, drivers: 'Jeddah Central + 30M Umrah target + Red Sea airport', confidence: 76 },
-    { name: 'EASTERN', current: 5.5, projected: 7.8, drivers: 'Aramco R&D expansion + Techno Valley + 15K repatriations', confidence: 79 },
-    { name: 'MADINAH', current: 4.2, projected: 6.5, drivers: 'Haramain station TOD + Umrah growth + KEC Phase 2', confidence: 73 },
-    { name: 'ASIR', current: 3.8, projected: 6.0, drivers: 'Soudah Peaks resort (SAR 11B) + Abha airport expansion', confidence: 62 },
-    { name: 'QASSIM', current: 3.5, projected: 5.8, drivers: 'Agri-tech innovation zone + NEOM food tech partnership', confidence: 58 },
+    { name: '利雅得', current: 6.1, projected: 8.2, drivers: 'KAFD+德拉伊耶门+企业总部指令', confidence: 82 },
+    { name: '麦加', current: 4.8, projected: 7.1, drivers: '吉达中心+3000万副朝目标+红海机场', confidence: 76 },
+    { name: '东部', current: 5.5, projected: 7.8, drivers: '阿美研发扩展+科技谷+1.5万人才回流', confidence: 79 },
+    { name: '麦地那', current: 4.2, projected: 6.5, drivers: '哈拉曼站TOD+副朝增长+KEC二期', confidence: 73 },
+    { name: '阿西尔', current: 3.8, projected: 6.0, drivers: '苏戴峰度假村(110亿SAR)+艾卜哈机场扩建', confidence: 62 },
+    { name: '卡西姆', current: 3.5, projected: 5.8, drivers: '农业科技创新区+NEOM食品科技合作', confidence: 58 },
   ];
   const factors = [
-    { name: 'DEMAND MULTIPLIER', weight: 35, desc: 'Population growth rate + corporate HQ relocations + tourism bed-night projections', color: '#FCD34D' },
-    { name: 'SUPPLY PRESSURE', weight: 20, desc: 'NHC housing pipeline + commercial permits issued (higher supply = yield compression)', color: '#ff4444' },
-    { name: 'GIGA-PROJECT PREMIUM', weight: 25, desc: 'Proximity to KAFD, Diriyah, Jeddah Central, NEOM, Red Sea — adds 1.5–3.0% yield premium', color: '#00B558' },
-    { name: 'INFRASTRUCTURE QUALITY', weight: 10, desc: 'Transit access, utility reliability, digital connectivity from PICI scoring', color: '#3b82f6' },
-    { name: 'RISK DISCOUNT', weight: 10, desc: 'Oversupply risk, single-sector dependency, macro sensitivity — reduces projected yield', color: '#f97316' },
+    { name: '需求乘数', weight: 35, desc: '人口增长率+企业总部搬迁+旅游住宿夜数预测', color: '#FCD34D' },
+    { name: '供应压力', weight: 20, desc: 'NHC住房管道+商业许可发放(供应越多=收益压缩)', color: '#ff4444' },
+    { name: '巨型项目溢价', weight: 25, desc: '邻近KAFD、德拉伊耶、吉达中心、NEOM、红海 — 增加1.5-3.0%收益溢价', color: '#00B558' },
+    { name: '基础设施质量', weight: 10, desc: '来自PICI评分的交通可达性、公用事业可靠性、数字连接', color: '#3b82f6' },
+    { name: '风险折扣', weight: 10, desc: '供应过剩风险、单一行业依赖、宏观敏感性 — 降低预测收益', color: '#f97316' },
   ];
 
   return (
@@ -1256,8 +1256,8 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
               <div className="absolute inset-0 rounded-full border border-[#FCD34D] animate-ping opacity-50" />
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(252,211,77,0.5)] leading-none mb-1">REAL ESTATE YIELD FORECAST</h2>
-              <span className="text-[10px] text-[#FCD34D] font-bold tracking-[0.2em] uppercase">ASSET EVALUATION AGENT // VISION 2030 RE SECTOR TARGET: 10% OF GDP</span>
+              <h2 className="text-2xl font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(252,211,77,0.5)] leading-none mb-1">房地产收益预测</h2>
+              <span className="text-[10px] text-[#FCD34D] font-bold tracking-[0.2em] uppercase">资产评估代理 // 2030愿景房地产目标：GDP的10%</span>
             </div>
           </div>
           <button onClick={onClose} className="p-2 text-[#FCD34D]/60 hover:text-white hover:bg-[#FCD34D]/20 rounded transition-colors relative z-10"><X className="w-6 h-6" /></button>
@@ -1270,7 +1270,7 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
           <div className="flex items-center gap-4 bg-[#FCD34D]/5 border border-[#FCD34D]/20 px-6 py-3 shrink-0 relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#FCD34D]" />
             <Zap className="w-4 h-4 text-[#FCD34D] animate-pulse" />
-            <span className="text-[10px] font-bold text-[#FCD34D] tracking-[0.15em] uppercase">ML MODEL TRAINED ON 10 YEARS REGA TRANSACTION DATA + SATELLITE CONSTRUCTION DETECTION. GEOSPATIAL K-MEANS CLUSTERING IDENTIFIES MICRO-ZONES. NLP SENTIMENT ANALYSIS SCANS 15,000+ BROKER REPORTS.</span>
+            <span className="text-[10px] font-bold text-[#FCD34D] tracking-[0.15em] uppercase">基于10年REGA交易数据+卫星建设检测训练的ML模型。地理空间K均值聚类识别微区域。NLP情感分析扫描15,000+经纪报告。</span>
           </div>
 
           {/* HERO: CURRENT vs TARGET YIELD */}
@@ -1287,16 +1287,16 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-[#ff4444] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#ff4444] rounded-full animate-pulse" /> NATIONAL AVG</span>
-                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">BELOW TARGET</h3>
-                <span className="text-[10px] text-[#ff4444]/70 font-mono tracking-wider border border-[#ff4444]/20 bg-[#ff4444]/5 px-2 py-0.5 inline-block w-fit">Q1 2026 GROSS</span>
+                <span className="text-[#ff4444] font-bold tracking-[0.25em] uppercase text-[9px] mb-1 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#ff4444] rounded-full animate-pulse" /> 全国平均</span>
+                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">低于目标</h3>
+                <span className="text-[10px] text-[#ff4444]/70 font-mono tracking-wider border border-[#ff4444]/20 bg-[#ff4444]/5 px-2 py-0.5 inline-block w-fit">2026年Q1 毛收益</span>
               </div>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center relative px-6 z-10">
               <div className="w-full flex items-center">
                 <div className="h-[2px] bg-gradient-to-r from-[#ff4444] to-[#FCD34D] flex-1 relative overflow-hidden"><motion.div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" animate={{ left: ['-20%', '120%'] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} /></div>
                 <div className="shrink-0 px-4 bg-[#051105] border-y border-[#FCD34D]/30 py-2 mx-3 flex flex-col items-center">
-                  <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">YIELD GAP</span>
+                  <span className="text-[9px] text-[#FCD34D]/70 font-bold tracking-[0.2em] uppercase mb-0.5">收益差距</span>
                   <div className="flex items-center gap-1"><TrendingUp className="w-3.5 h-3.5 text-[#FCD34D]" /><span className="text-lg font-black text-[#FCD34D] tracking-widest">+2.3 PP</span></div>
                 </div>
                 <div className="h-[2px] bg-gradient-to-r from-[#FCD34D] to-[#00B558] flex-1 relative overflow-hidden"><motion.div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" animate={{ left: ['-20%', '120%'] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} /></div>
@@ -1314,9 +1314,9 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-[#00B558] font-bold tracking-[0.25em] uppercase text-[9px] mb-1">TARGET 2030</span>
-                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">RE 10% GDP</h3>
-                <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">VISION GOAL</span>
+                <span className="text-[#00B558] font-bold tracking-[0.25em] uppercase text-[9px] mb-1">2030目标</span>
+                <h3 className="text-xl font-black text-white tracking-widest uppercase leading-none mb-1">房地产占GDP 10%</h3>
+                <span className="text-[10px] text-[#00B558]/70 font-mono tracking-wider border border-[#00B558]/20 bg-[#00B558]/5 px-2 py-0.5 inline-block w-fit">愿景目标</span>
               </div>
             </div>
           </div>
@@ -1326,15 +1326,15 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
             {/* LEFT: Yield Projection Factors */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Zap className="w-3.5 h-3.5" /> YIELD PROJECTION MODEL (FACTOR WEIGHTS)</h3>
+              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Zap className="w-3.5 h-3.5" /> 收益预测模型(因子权重)</h3>
               
               {/* Formula */}
               <div className="bg-[#030a03] border border-[#FCD34D]/30 p-3 flex flex-col items-center gap-2 shrink-0">
-                <span className="text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase">YIELD FORECAST ALGORITHM</span>
+                <span className="text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase">收益预测算法</span>
                 <div className="flex items-center gap-2 font-mono text-sm tracking-wider">
                   <span className="text-white font-black">Y<sub className="text-[8px] text-gray-400">2030</sub></span>
                   <span className="text-[#FCD34D]">=</span>
-                  <span className="text-white">Y<sub className="text-[8px] text-gray-400">NOW</sub></span>
+                  <span className="text-white">Y<sub className="text-[8px] text-gray-400">当前</sub></span>
                   <span className="text-[#FCD34D]">×</span>
                   <span className="text-[#FCD34D]">D<sub className="text-[8px] text-gray-400">MUL</sub></span>
                   <span className="text-[#FCD34D]">×</span>
@@ -1351,7 +1351,7 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
                   <div key={i} className="bg-[#0a1a0a] border border-[#FCD34D]/15 p-3 flex flex-col gap-1.5">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-black text-white uppercase tracking-wider">{f.name}</span>
-                      <span className="text-[9px] font-mono font-black px-1.5 py-0.5 tracking-widest border" style={{ color: f.color, borderColor: `${f.color}30`, backgroundColor: `${f.color}10` }}>{f.weight}% WEIGHT</span>
+                      <span className="text-[9px] font-mono font-black px-1.5 py-0.5 tracking-widest border" style={{ color: f.color, borderColor: `${f.color}30`, backgroundColor: `${f.color}10` }}>{f.weight}% 权重</span>
                     </div>
                     <span className="text-[9px] text-gray-500 uppercase tracking-wide leading-relaxed">{f.desc}</span>
                     <div className="w-full h-1.5 bg-[#051105] rounded-sm overflow-hidden">
@@ -1364,14 +1364,14 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
             {/* RIGHT: Regional Yield Table */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Activity className="w-3.5 h-3.5" /> REGIONAL YIELD TRAJECTORIES (2026 → 2030)</h3>
+              <h3 className="text-[10px] font-black text-[#FCD34D] uppercase tracking-[0.2em] border-b border-[#FCD34D]/30 pb-2 flex items-center gap-2 shrink-0"><Activity className="w-3.5 h-3.5" /> 区域收益轨迹(2026→2030)</h3>
               <div className="flex flex-col flex-1 bg-[#051105] border border-[#FCD34D]/20 overflow-hidden min-h-0">
                 <div className="grid grid-cols-12 bg-[#FCD34D]/15 border-b border-[#FCD34D]/30 text-[9px] font-black text-[#FCD34D] uppercase tracking-widest px-4 py-2.5 shrink-0">
-                  <div className="col-span-2">REGION</div>
-                  <div className="col-span-2">NOW</div>
+                  <div className="col-span-2">区域</div>
+                  <div className="col-span-2">当前</div>
                   <div className="col-span-2">2030</div>
-                  <div className="col-span-4">KEY DRIVERS</div>
-                  <div className="col-span-2">CONF.</div>
+                  <div className="col-span-4">关键驱动</div>
+                  <div className="col-span-2">置信度</div>
                 </div>
                 <div className="flex flex-col flex-1 overflow-y-auto">
                   {regions.map((r, i) => (
@@ -1391,8 +1391,8 @@ const YieldModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void 
 
               {/* Data Sources */}
               <div className="bg-[#0a1a0a] border border-[#FCD34D]/15 p-3 shrink-0 mb-2">
-                <span className="text-[9px] text-gray-500 uppercase tracking-wider font-bold">DATA SOURCES: </span>
-                <span className="text-[9px] text-gray-400 uppercase tracking-wide">REGA TRANSACTION REGISTRY (10-YR) · SAMA RE FINANCE REPORTS · NHC HOUSING PIPELINE · STB VISITOR PROJECTIONS · GASTAT POPULATION CENSUS · SATELLITE CONSTRUCTION DETECTION (SENTINEL-2)</span>
+                <span className="text-[9px] text-gray-500 uppercase tracking-wider font-bold">数据来源：</span>
+                <span className="text-[9px] text-gray-400 uppercase tracking-wide">REGA交易登记(10年) · SAMA房地产金融报告 · NHC住房管道 · STB游客预测 · GASTAT人口普查 · 卫星建设检测(SENTINEL-2)</span>
               </div>
             </div>
           </div>

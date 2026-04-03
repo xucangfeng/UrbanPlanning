@@ -28,16 +28,16 @@ interface Message {
 }
 
 const PRESET_PROMPTS = [
-  "BREAK DOWN REGIONAL HOTSPOTS FOR +2.8% DRIFT",
-  "IDENTIFY ROOT CAUSE OF 14.2 KM² DISCREPANCY",
-  "SHOW FINANCIAL IMPACT ANALYSIS (2.4B SAR)"
+  "分解区域热点分析 +2.8% 偏移",
+  "定位 14.2 KM² 差异根因",
+  "查看财务影响分析 (24亿 SAR)"
 ];
 
 const MOCK_REGIONAL_DATA = [
-  { region: 'N. RIYADH', sprawl: 6.8, type: 'INDUSTRIAL' },
-  { region: 'E. JEDDAH', sprawl: 4.1, type: 'RESIDENTIAL' },
-  { region: 'S. MECCA', sprawl: 2.3, type: 'COMMERCIAL' },
-  { region: 'OTHER', sprawl: 1.0, type: 'MIXED' },
+  { region: '北利雅得', sprawl: 6.8, type: '工业用地' },
+  { region: '东吉达', sprawl: 4.1, type: '住宅用地' },
+  { region: '南麦加', sprawl: 2.3, type: '商业用地' },
+  { region: '其他', sprawl: 1.0, type: '混合用地' },
 ];
 
 export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boolean, onClose: () => void, targetMetric: string | null }) {
@@ -57,8 +57,8 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
           id: 'init',
           type: 'system',
           blocks: [
-            { type: 'text', content: `TARGET METRIC LOCKED: [${targetMetric} DEVIATION]` },
-            { type: 'text', content: "AGENT [CHANGE_TRACKER] IS READY FOR DEEP DIVE ANALYSIS. SELECT A QUERY OR INPUT MANUAL OVERRIDE." }
+            { type: 'text', content: `目标指标已锁定: [${targetMetric} 偏移]` },
+            { type: 'text', content: "智能体 [变化追踪器] 已就绪，可进行深度分析。请选择查询或手动输入指令。" }
           ]
         }
       ]);
@@ -140,57 +140,57 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
         });
       };
 
-      if (text.includes("HOTSPOTS") || text.includes("BREAK DOWN") || text.includes("+2.8%")) {
-        await streamText("INITIATING SPATIAL DISCREPANCY ANALYSIS...");
+      if (text.includes("热点") || text.includes("分解") || text.includes("+2.8%")) {
+        await streamText("正在启动空间差异分析...");
         await new Promise(r => setTimeout(r, 200));
         
         await appendBlock({
           type: 'insight',
-          content: 'SYSTEM INSIGHT: MASTERPLAN BASELINE (500 KM²) VS LIDAR SCAN REALITY (514.2 KM²). TOTAL UNAUTHORIZED SPRAWL DETECTED: 14.2 KM².'
+          content: '系统洞察: 总体规划基准 (500 KM²) 与激光雷达扫描实际 (514.2 KM²)。检测到总 unauthorized 扩展: 14.2 KM²。'
         });
 
-        await streamText("CROSS-REFERENCING SATELLITE IMAGERY WITH MUNICIPAL PERMIT LOGS...");
+        await streamText("正在交叉比对卫星影像与市政许可记录...");
         await appendBlock({
           type: 'source',
-          content: "DATA FUSION COMPLETE. SOURCES: KACST SATELLITE FEED (RES: 0.5M) + BALADY PERMIT API + NATIONAL CENTER FOR AI (NCAI) SPRAWL ALGORITHM."
+          content: "数据融合完成。来源: KACST 卫星数据 (分辨率: 0.5M) + BALADY 许可 API + 国家人工智能中心 (NCAI) 扩展算法。"
         });
         
-        await streamText("GENERATING REGIONAL HOTSPOT DISTRIBUTION:");
+        await streamText("正在生成区域热点分布:");
         await appendBlock({ type: 'chart', data: MOCK_REGIONAL_DATA });
         
-        await streamText("ROOT CAUSE ANALYSIS:");
+        await streamText("根因分析:");
         await appendBlock({ 
           type: 'table', 
           data: [
-            { loc: 'N. RIYADH (OUTSKIRTS)', issue: 'UNLICENSED WAREHOUSE ZONES', area: '6.8 KM²' },
-            { loc: 'E. JEDDAH (SUBURBS)', issue: 'INFORMAL RESIDENTIAL SQUATTING', area: '4.1 KM²' }
+            { loc: '北利雅得 (郊区)', issue: '无证仓储区域', area: '6.8 KM²' },
+            { loc: '东吉达 (外围)', issue: '非正规住宅侵占', area: '4.1 KM²' }
           ] 
         });
 
-        await streamText("CORRELATING CAPEX LEAKAGE WITH UNAUTHORIZED ZONES...");
+        await streamText("正在关联资本支出泄漏与违规区域...");
         await appendBlock({
           type: 'source',
-          content: "SOURCES: MINISTRY OF FINANCE (ETIMAD) BUDGET ALLOCATION SYSTEM + REAL ESTATE REGISTRY (EJAR)."
+          content: "来源: 财政部 (ETIMAD) 预算分配系统 + 房地产登记处 (EJAR)。"
         });
 
-        await streamText("\nACTIONABLE RECOMMENDATION:");
+        await streamText("\n可执行建议:");
         await appendBlock({ 
           type: 'action', 
-          content: "FREEZE 2.4B SAR CAPEX ALLOCATION FOR N. RIYADH AND E. JEDDAH AMANAHS UNTIL ILLEGAL FOOTPRINT IS CLEARED."
+          content: "冻结北利雅得和东吉达市政府24亿 SAR资本支出分配，直至违规建筑足迹清除。"
         });
       } else {
-        await streamText("ANALYZING REAL-TIME DATA STREAMS...");
+        await streamText("正在分析实时数据流...");
         await new Promise(r => setTimeout(r, 400));
         
         await appendBlock({
           type: 'source',
-          content: "SOURCES: MUNICIPAL ENFORCEMENT DB (EHF-992) + AI CAMERA NETWORK (RYD-CCTV-V2)."
+          content: "来源: 市政执法数据库 (EHF-992) + AI摄像网络 (RYD-CCTV-V2)。"
         });
 
-        await streamText("\nCORRELATION FOUND. DEVIATION TRACED TO LACK OF MUNICIPAL ENFORCEMENT. PLEASE REFER TO ENFORCEMENT AUDIT PANEL FOR SPECIFIC MAYORAL KPI LEAKAGE.");
+        await streamText("\n发现关联。偏差追溯到市政执法不力。请参阅执法审计面板了解具体的市长KPI泄漏情况。");
       }
     } catch (error) {
-      console.error("Terminal Stream Error:", error);
+      console.error("终端流错误:", error);
     } finally {
       setIsTyping(false);
     }
@@ -237,11 +237,11 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
               </div>
               <div className="flex flex-col">
                 <h2 className="text-lg font-black tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(0,181,88,0.5)] leading-none mb-1">
-                  TACTICAL LLM // CHG_TRACKER
+                  战术大模型 // 变化追踪器
                 </h2>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#00B558] animate-pulse" />
-                  <span className="text-[10px] text-[#00B558] font-bold tracking-[0.2em] uppercase">LIVE CONNECTION</span>
+                  <span className="text-[10px] text-[#00B558] font-bold tracking-[0.2em] uppercase">实时连接</span>
                 </div>
               </div>
             </div>
@@ -258,11 +258,11 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
                   {msg.type === 'system' ? (
                     <>
                       <Map className="w-4 h-4 text-[#00B558]" />
-                      <span className="text-[#00B558]">SYSTEM.AGENT</span>
+                      <span className="text-[#00B558]">系统.智能体</span>
                     </>
                   ) : (
                     <>
-                      <span className="text-[#FCD34D]">OPERATOR.CMD</span>
+                      <span className="text-[#FCD34D]">操作员.指令</span>
                       <CornerDownRight className="w-4 h-4 text-[#FCD34D]" />
                     </>
                   )}
@@ -294,7 +294,7 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
                         <div key={idx} className="flex items-start gap-2 border-l-2 border-[#FCD34D]/50 pl-3 py-1 mt-1 opacity-80">
                           <Database className="w-4 h-4 text-[#FCD34D] shrink-0 mt-0.5" />
                           <div className="text-[10px] text-[#FCD34D] font-bold tracking-widest leading-relaxed uppercase">
-                            <span className="opacity-50 mr-2">SOURCE_VERIFIED:</span>
+                            <span className="opacity-50 mr-2">来源已验证:</span>
                             {block.content}
                           </div>
                         </div>
@@ -303,7 +303,7 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
                     if (block.type === 'chart') {
                       return (
                         <div key={idx} className="w-full h-40 mt-2 bg-[#00B558]/5 border border-[#00B558]/20 p-2 relative group rounded-sm shadow-[inset_0_0_20px_rgba(0,181,88,0.05)]">
-                          <div className="absolute top-2 right-3 text-[10px] text-[#00B558]/50 font-bold tracking-widest">Y: SPRAWL (KM²)</div>
+                          <div className="absolute top-2 right-3 text-[10px] text-[#00B558]/50 font-bold tracking-widest">Y: 城市扩展 (KM²)</div>
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={block.data} margin={{ top: 20, right: 0, left: -25, bottom: 0 }}>
                               <CartesianGrid strokeDasharray="2 2" stroke="#00B558" opacity={0.15} vertical={false} />
@@ -328,9 +328,9 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
                       return (
                         <div key={idx} className="w-full border border-[#00B558]/30 mt-2 bg-[#051105] rounded-sm overflow-hidden shadow-[0_0_15px_rgba(0,181,88,0.05)]">
                           <div className="grid grid-cols-12 gap-2 px-3 py-2 border-b border-[#00B558]/30 text-[#00B558]/70 text-[10px] font-bold tracking-widest bg-[#00B558]/10">
-                            <div className="col-span-4">HOTSPOT</div>
-                            <div className="col-span-6">DETECTED SIGNATURE</div>
-                            <div className="col-span-2 text-right">AREA</div>
+                            <div className="col-span-4">热点</div>
+                            <div className="col-span-6">检测特征</div>
+                            <div className="col-span-2 text-right">面积</div>
                           </div>
                           {block.data.map((row: any, rIdx: number) => (
                             <div key={rIdx} className="grid grid-cols-12 gap-2 px-3 py-2.5 border-b border-[#00B558]/10 last:border-0 hover:bg-[#00B558]/10 transition-colors tracking-wider text-[11px]">
@@ -359,7 +359,7 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
             {isTyping && (
               <div className="flex items-center gap-2 text-[#00B558]/50 mt-4 font-bold tracking-widest">
                 <div className="w-1.5 h-3 bg-[#00B558]/50 animate-pulse" />
-                <span className="animate-pulse">PROCESSING DATA STREAMS...</span>
+                <span className="animate-pulse">正在处理数据流...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -398,7 +398,7 @@ export function AgentTerminal({ isOpen, onClose, targetMetric }: { isOpen: boole
                 onChange={(e) => setInput(e.target.value.toUpperCase())}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
                 disabled={isTyping}
-                placeholder="ENTER QUERY COMMAND..."
+                placeholder="输入查询指令..."
                 className="w-full bg-[#00B558]/5 border border-[#00B558]/30 py-3 pl-10 pr-4 text-white placeholder:text-[#00B558]/40 focus:outline-none focus:border-[#00B558] focus:bg-[#00B558]/10 transition-all disabled:opacity-50 rounded-sm font-bold tracking-widest text-xs"
               />
             </div>

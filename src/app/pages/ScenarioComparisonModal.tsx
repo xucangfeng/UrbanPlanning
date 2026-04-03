@@ -48,9 +48,9 @@ export function ScenarioComparisonModal({ onClose }: { onClose: () => void }) {
         </button>
         
         <div className="flex gap-6 h-[400px]">
-          {/* Map 1 */}
+          {/* 地图1 */}
           <div className="flex-1 flex flex-col gap-2 relative">
-            <h3 className="text-[#00B558] text-[11px] font-bold tracking-[0.2em] uppercase">SCHEME 1 (RESIDENTIAL-LED)</h3>
+            <h3 className="text-[#00B558] text-[11px] font-bold tracking-[0.2em] uppercase">方案1（住宅主导型）</h3>
             <div className="flex-1 rounded-sm overflow-hidden border border-[#00B558]/30 relative">
                <Map 
                   initialViewState={initialViewState} 
@@ -82,9 +82,9 @@ export function ScenarioComparisonModal({ onClose }: { onClose: () => void }) {
             </div>
           </div>
 
-          {/* Map 2 */}
+          {/* 地图2 */}
           <div className="flex-1 flex flex-col gap-2 relative">
-            <h3 className="text-[#FCD34D] text-[11px] font-bold tracking-[0.2em] uppercase">SCHEME 2 (COMMERCIAL/RESIDENTIAL MIX)</h3>
+            <h3 className="text-[#FCD34D] text-[11px] font-bold tracking-[0.2em] uppercase">方案2（商住混合型）</h3>
             <div className="flex-1 rounded-sm overflow-hidden border border-[#FCD34D]/30 relative">
                <Map 
                   initialViewState={initialViewState} 
@@ -117,14 +117,14 @@ export function ScenarioComparisonModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        {/* Bottom Panel */}
+        {/* 底部面板 */}
         <div className="flex gap-6 h-[120px]">
           <div className="flex-1 flex flex-col justify-end relative">
              <div className="flex justify-between items-center mb-2">
-               <h4 className="text-gray-300 text-xs font-bold tracking-widest uppercase">CONGESTION TREND</h4>
+               <h4 className="text-gray-300 text-xs font-bold tracking-widest uppercase">拥堵趋势</h4>
                <div className="flex items-center gap-4 text-[10px] font-bold tracking-widest uppercase text-gray-400">
-                  <div className="flex items-center gap-1.5"><div className="w-3 h-3 border border-[#00B558] bg-[#00B558]/20" />SCHEME 1</div>
-                  <div className="flex items-center gap-1.5"><div className="w-3 h-3 border border-[#FCD34D] bg-[#FCD34D]/20" />SCHEME 2</div>
+                  <div className="flex items-center gap-1.5"><div className="w-3 h-3 border border-[#00B558] bg-[#00B558]/20" />方案1</div>
+                  <div className="flex items-center gap-1.5"><div className="w-3 h-3 border border-[#FCD34D] bg-[#FCD34D]/20" />方案2</div>
                </div>
              </div>
              <div className="flex-1 w-full min-h-0 border border-[#00B558]/30 bg-black/40 p-2">
@@ -155,13 +155,13 @@ export function ScenarioComparisonModal({ onClose }: { onClose: () => void }) {
           </div>
           <div className="w-[450px] flex flex-col justify-center text-[10px] font-bold tracking-widest uppercase mt-6 pl-6 border-l border-[#00B558]/30 space-y-1">
              <div className="flex flex-col gap-1 bg-[#00B558]/10 p-2.5 border border-[#00B558]/30">
-               <div className="text-[#00B558]">SCHEME 1 (RESIDENTIAL-LED)</div>
-               <div className="text-white">CONGESTION INDEX: 4.5 - 6.0</div>
+               <div className="text-[#00B558]">方案1（住宅主导型）</div>
+               <div className="text-white">拥堵指数: 4.5 - 6.0</div>
              </div>
-             <div className="text-center text-[#FCD34D] text-[10px] leading-none py-0.5">VS</div>
+             <div className="text-center text-[#FCD34D] text-[10px] leading-none py-0.5">对比</div>
              <div className="flex flex-col gap-1 bg-[#FCD34D]/10 p-2.5 border border-[#FCD34D]/30">
-               <div className="text-[#FCD34D]">SCHEME 2 (COMMERCIAL/RESIDENTIAL MIX)</div>
-               <div className="text-white">FLOW: 2500 - 3500 VEHICLES/HOUR</div>
+               <div className="text-[#FCD34D]">方案2（商住混合型）</div>
+               <div className="text-white">流量: 2500 - 3500 辆/小时</div>
              </div>
           </div>
         </div>

@@ -28,46 +28,46 @@ interface AgentDef {
 // ─── 5 Agents from Implementation Card ────────────────────────
 const AGENTS: AgentDef[] = [
   {
-    id: "UT", name: "Urban Test Agent", color: "#00B558",
+    id: "UT", name: "城市测试智能体", color: "#00B558",
     indicators: [
-      { id: "UT-1", name: "Avg. Travel Speed", desc: "Average downtown travel speed during morning peak hours.", current: 18, target: 35, unit: "km/h", aiRole: "Traffic AI" },
-      { id: "UT-2", name: "Peak Hour Delay", desc: "Average additional delay per trip during morning rush.", current: 45, target: 15, unit: "min", aiRole: "Delay Prediction", inverse: true },
-      { id: "UT-3", name: "Vehicle Throughput", desc: "Downtown corridor capacity during peak hours.", current: 12400, target: 18000, unit: "veh/hr", aiRole: "Capacity AI" },
-      { id: "UT-4", name: "CO\u2082 Reduction", desc: "Emission reduction from combined traffic optimization.", current: 0, target: 40, unit: "%", aiRole: "Green AI" },
+      { id: "UT-1", name: "平均行驶速度", desc: "早高峰期间城区平均行驶速度。", current: 18, target: 35, unit: "km/h", aiRole: "交通AI" },
+      { id: "UT-2", name: "高峰时段延误", desc: "早高峰期间每次行程的平均额外延误。", current: 45, target: 15, unit: "min", aiRole: "延误预测", inverse: true },
+      { id: "UT-3", name: "车辆通行量", desc: "高峰时段城区走廊通行能力。", current: 12400, target: 18000, unit: "veh/hr", aiRole: "容量AI" },
+      { id: "UT-4", name: "CO\u2082减排", desc: "综合交通优化带来的排放减少。", current: 0, target: 40, unit: "%", aiRole: "绿色AI" },
     ],
   },
   {
-    id: "MI", name: "Mobility Impact Advisor Agent", color: "#FCD34D",
+    id: "MI", name: "出行影响顾问智能体", color: "#FCD34D",
     indicators: [
-      { id: "MI-1", name: "Pedestrian Mode Share", desc: "Suggests shade and cooling interventions to increase walking in desert climates.", current: 10.2, target: 18, unit: "%", aiRole: "Shade Suggestion" },
-      { id: "MI-2", name: "Active Transit Score", desc: "Monitors bike-lane safety and usage to optimize future cycling infrastructure.", current: 74, target: 90, unit: "Score", aiRole: "Safety Monitoring" },
-      { id: "MI-3", name: "Public Transit Accessibility", desc: "Ensures 80% of citizens live within 800m of a transport hub.", current: 78, target: 95, unit: "%", aiRole: "Reach AI" },
+      { id: "MI-1", name: "步行出行占比", desc: "建议遮阳和降温干预措施，以增加沙漠气候下的步行出行。", current: 10.2, target: 18, unit: "%", aiRole: "遮阳建议" },
+      { id: "MI-2", name: "主动交通评分", desc: "监测自行车道安全性和使用率，优化未来骑行基础设施。", current: 74, target: 90, unit: "Score", aiRole: "安全监测" },
+      { id: "MI-3", name: "公共交通可达性", desc: "确保80%的居民在800米范围内可到达交通枢纽。", current: 78, target: 95, unit: "%", aiRole: "覆盖AI" },
     ],
   },
   {
-    id: "SO", name: "Scenario Optimizer Agent", color: "#00B558",
+    id: "SO", name: "场景优化智能体", color: "#00B558",
     indicators: [
-      { id: "SO-1", name: "Sustainability Alignment", desc: "Ranks planning scenarios based on their carbon footprint and water efficiency.", current: 84, target: 95, unit: "%", aiRole: "Trade-off AI" },
-      { id: "SO-2", name: "Cost-Benefit Ratio", desc: "Analyzes long-term ROI of infrastructure vs. short-term construction costs.", current: 3.2, target: 4.5, unit: "Ratio", aiRole: "ROI Projection" },
-      { id: "SO-3", name: "Social Equity Score", desc: "Ensures urban interventions are distributed fairly across all demographic groups.", current: 88, target: 100, unit: "Score", aiRole: "Ethical AI" },
+      { id: "SO-1", name: "可持续性对齐度", desc: "根据碳足迹和水效率对规划方案进行排名。", current: 84, target: 95, unit: "%", aiRole: "权衡AI" },
+      { id: "SO-2", name: "成本效益比", desc: "分析基础设施的长期投资回报率与短期建设成本。", current: 3.2, target: 4.5, unit: "Ratio", aiRole: "回报预测" },
+      { id: "SO-3", name: "社会公平评分", desc: "确保城市干预措施在所有人口群体中公平分配。", current: 88, target: 100, unit: "Score", aiRole: "伦理AI" },
     ],
   },
   {
-    id: "EF", name: "Economic and Financial Analyzer Agent", color: "#3b82f6",
+    id: "EF", name: "经济与财务分析智能体", color: "#3b82f6",
     indicators: [
-      { id: "EF-1", name: "Project IRR", desc: "Internal Rate of Return for the neighbourhood development. Accounts for construction, land, infrastructure, and mixed-use revenue.", current: 8, target: 18, unit: "%", aiRole: "IRR Model" },
-      { id: "EF-2", name: "Fiscal Self-Sufficiency", desc: "% of neighbourhood costs covered by locally-generated revenue (property fees, rents, parking).", current: 25, target: 75, unit: "%", aiRole: "Revenue AI" },
-      { id: "EF-3", name: "Funding Gap", desc: "Unfunded infrastructure deficit. Reduced by PPP, land value capture, and developer contributions.", current: 12, target: 3, unit: "SAR B", aiRole: "Finance AI", inverse: true },
-      { id: "EF-4", name: "Job-Housing Balance", desc: "Ratio of jobs to housing units. 1.0 = equilibrium. Mixed-use and anchor tenants drive this up.", current: 0.6, target: 1.2, unit: "Ratio", aiRole: "Planning AI" },
-      { id: "EF-5", name: "Private Investment Leverage", desc: "SAR private capital per SAR public. Higher = more attractive market conditions.", current: 1.8, target: 4.5, unit: "×", aiRole: "Market AI" },
+      { id: "EF-1", name: "项目IRR", desc: "社区开发的内部收益率。包括建设、土地、基础设施和混合用途收入。", current: 8, target: 18, unit: "%", aiRole: "IRR模型" },
+      { id: "EF-2", name: "财政自给自足", desc: "本地产生收入（物业费、租金、停车费）覆盖社区成本的比例。", current: 25, target: 75, unit: "%", aiRole: "收入AI" },
+      { id: "EF-3", name: "资金缺口", desc: "未资助的基础设施赤字。通过PPP、土地增值回收和开发商贡献减少。", current: 12, target: 3, unit: "SAR B", aiRole: "融资AI", inverse: true },
+      { id: "EF-4", name: "职住平衡", desc: "就业岗位与住房单位比率。1.0 = 均衡。混合用途和锚定租户推动提升。", current: 0.6, target: 1.2, unit: "Ratio", aiRole: "规划AI" },
+      { id: "EF-5", name: "私人投资杠杆", desc: "每单位公共资金的私人资本撬动比。越高表示市场条件越有吸引力。", current: 1.8, target: 4.5, unit: "×", aiRole: "市场AI" },
     ],
   },
   {
-    id: "ER", name: "Environmental and Resilience Evaluator", color: "#10b981",
+    id: "ER", name: "环境与韧性评估器", color: "#10b981",
     indicators: [
-      { id: "ER-1", name: "Flood Risk Index", desc: "Composite score measuring flood resilience across wadi channels, basins, and 340km drain network.", current: 42, target: 85, unit: "Score", aiRole: "Drainage AI" },
-      { id: "ER-2", name: "Heat Island Reduction", desc: "Reduction in urban heat island effect from vegetation, reflective surfaces, and shade.", current: 0, target: 3.5, unit: "°C", aiRole: "Thermal AI" },
-      { id: "ER-3", name: "Climate Resilience Score", desc: "Building stock meeting flood-proofing, heat-resistance, and water-efficiency standards. SBC baseline: 35%.", current: 35, target: 90, unit: "%", aiRole: "Code AI" },
+      { id: "ER-1", name: "洪水风险指数", desc: "综合评分，衡量河谷渠道、蓄水池和340公里排水网络的防洪韧性。", current: 42, target: 85, unit: "Score", aiRole: "排水AI" },
+      { id: "ER-2", name: "热岛缓解", desc: "植被、反射表面和遮阳设施带来的城市热岛效应缓解。", current: 0, target: 3.5, unit: "°C", aiRole: "热力AI" },
+      { id: "ER-3", name: "气候韧性评分", desc: "满足防洪、耐热和节水标准的建筑存量。SBC基线: 35%。", current: 35, target: 90, unit: "%", aiRole: "规范AI" },
     ],
   },
 ];
@@ -244,21 +244,21 @@ const BASE_HEAT_ISLANDS = generateHeatIslandPoints();
 
 // ─── Chart data ───────────────────────────────────────────────
 const MI_RADAR_BASE = [
-  { s: "Pedestrian", base: 10.2, target: 18 },
-  { s: "Cycling", base: 74, target: 90 },
-  { s: "Transit", base: 78, target: 95 },
+  { s: "步行", base: 10.2, target: 18 },
+  { s: "骑行", base: 74, target: 90 },
+  { s: "公交", base: 78, target: 95 },
 ];
 const SO_BAR_BASE = [
-  { n: "Sustain.", cur: 84, tgt: 95 },
-  { n: "Cost-Benefit", cur: 3.2, tgt: 4.5 },
-  { n: "Equity", cur: 88, tgt: 100 },
+  { n: "可持续性", cur: 84, tgt: 95 },
+  { n: "成本效益", cur: 3.2, tgt: 4.5 },
+  { n: "公平", cur: 88, tgt: 100 },
 ];
 const EF_BAR_BASE = [
   { n: "IRR", cur: 8, tgt: 18 },
-  { n: "Self-Suff.", cur: 25, tgt: 75 },
-  { n: "Gap (B)", cur: 12, tgt: 3 },
-  { n: "Job-Hous.", cur: 0.6, tgt: 1.2 },
-  { n: "Leverage", cur: 1.8, tgt: 4.5 },
+  { n: "自给率", cur: 25, tgt: 75 },
+  { n: "缺口(B)", cur: 12, tgt: 3 },
+  { n: "职住比", cur: 0.6, tgt: 1.2 },
+  { n: "杠杆", cur: 1.8, tgt: 4.5 },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────
@@ -491,9 +491,9 @@ function UTContent({ params }: { params: UTParams }) {
       </div>
       {/* KPI strip */}
       <div className="flex gap-1.5 flex-shrink-0">
-        <KPICard icon={<TrendingUp className="w-4 h-4" />} label="Avg. Speed" current={18} simulated={kpis.avgSpeed} unit="km/h" color="#00B558" improved={kpis.avgSpeed > 18} desc="Average network-wide vehicle speed during peak hours. Riyadh's 2025 baseline of 18 km/h reflects chronic congestion on King Fahd Road, Makkah Road, and the Northern Ring Road." target={35} />
-        <KPICard icon={<Clock className="w-4 h-4" />} label="Peak Delay" current={45} simulated={kpis.peakDelay} unit="min" color="#FCD34D" improved={kpis.peakDelay < 45} inverse desc="Average additional travel time per trip during morning (7-9 AM) and evening (4-7 PM) peaks compared to free-flow conditions. Includes intersection wait times, merge delays, and signal cycle inefficiencies." target={15} />
-        <KPICard icon={<Car className="w-4 h-4" />} label="Throughput" current={12400} simulated={kpis.throughput} unit="veh/hr" color="#3b82f6" improved={kpis.throughput > 12400} desc="Vehicles per hour passing through Riyadh's 12 major arterial corridors during peak periods. Measures effective road capacity utilization after accounting for signal timing, lane management, and mode shift." target={18000} />
+        <KPICard icon={<TrendingUp className="w-4 h-4" />} label="平均速度" current={18} simulated={kpis.avgSpeed} unit="km/h" color="#00B558" improved={kpis.avgSpeed > 18} desc="高峰时段全网平均车速。利雅得2025年基线18 km/h反映了法赫德国王路、麦加路和北环路的长期拥堵。" target={35} />
+        <KPICard icon={<Clock className="w-4 h-4" />} label="高峰延误" current={45} simulated={kpis.peakDelay} unit="min" color="#FCD34D" improved={kpis.peakDelay < 45} inverse desc="早晚高峰（7-9 AM, 4-7 PM）每次行程相比自由流通行条件的平均额外时间。包括交叉口等待、合流延误和信号周期效率损失。" target={15} />
+        <KPICard icon={<Car className="w-4 h-4" />} label="通行量" current={12400} simulated={kpis.throughput} unit="veh/hr" color="#3b82f6" improved={kpis.throughput > 12400} desc="高峰时段通过利雅得12条主要干道的每小时车辆数。考虑信号配时、车道管理和方式转变后的有效道路容量利用率。" target={18000} />
         <KPICard icon={<Leaf className="w-4 h-4" />} label="CO₂ Reduction" current={0} simulated={kpis.co2Reduction} unit="%" color="#10b981" improved={kpis.co2Reduction > 0} desc="Percentage reduction in transport-related CO₂ emissions from baseline. Driven by reduced congestion, improved traffic flow, modal shift to metro/BRT, and optimized signal cycles reducing idle time." target={40} />
       </div>
     </>
@@ -524,9 +524,9 @@ function MIContent({ params }: { params: MIParams }) {
             <PolarGrid stroke="#0a1a0a" />
             <PolarAngleAxis dataKey="s" tick={{ fontSize: 9, fill: "#4a6a4a" }} />
             <PolarRadiusAxis tick={false} axisLine={false} />
-            <Radar name="Current" dataKey="current" stroke="#FCD34D50" fill="#FCD34D10" strokeWidth={1} />
-            <Radar name="Simulated" dataKey="simulated" stroke="#FCD34D" fill="#FCD34D30" strokeWidth={1.5} />
-            <Radar name="2030 Target" dataKey="target" stroke="#00B558" fill="#00B55815" strokeWidth={1} strokeDasharray="3 3" />
+            <Radar name="当前" dataKey="current" stroke="#FCD34D50" fill="#FCD34D10" strokeWidth={1} />
+            <Radar name="模拟" dataKey="simulated" stroke="#FCD34D" fill="#FCD34D30" strokeWidth={1.5} />
+            <Radar name="2030目标" dataKey="target" stroke="#00B558" fill="#00B55815" strokeWidth={1} strokeDasharray="3 3" />
           </RadarChart>
         </ResponsiveContainer>
       </div>
@@ -570,8 +570,8 @@ function SOContent({ params }: { params: SOParams }) {
             <XAxis dataKey="n" tick={{ fontSize: 9, fill: "#3a5a3a" }} />
             <YAxis tick={{ fontSize: 9, fill: "#3a5a3a" }} domain={[0, 100]} />
             <Tooltip contentStyle={{ backgroundColor: "#0a140a", border: "1px solid #00B55830", fontSize: 9 }} />
-            <Bar dataKey="current" fill="#ffffff15" name="Current" radius={[2, 2, 0, 0]} />
-            <Bar dataKey="simulated" fill="#00B55880" name="Simulated" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="current" fill="#ffffff15" name="当前" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="simulated" fill="#00B55880" name="模拟" radius={[2, 2, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -620,17 +620,17 @@ function EFContent({ params }: { params: EFParams }) {
     const anchorAmount = (params.anchorIncentive / 100) * total * 0.3;
     const govAmount = Math.max(0, total - pppAmount - lvcAmount - farAmount - anchorAmount);
     return [
-      { name: "Gov. Budget", current: 9.6, simulated: govAmount, color: "#64748b" },
+      { name: "政府预算", current: 9.6, simulated: govAmount, color: "#64748b" },
       { name: "PPP", current: 2.4, simulated: pppAmount, color: "#3b82f6" },
-      { name: "Land Value Capture", current: 0, simulated: lvcAmount, color: "#10b981" },
-      { name: "FAR Contrib.", current: 0, simulated: farAmount, color: "#8b5cf6" },
-      { name: "Anchor Co-invest", current: 0, simulated: anchorAmount, color: "#f59e0b" },
+      { name: "土地增值回收", current: 0, simulated: lvcAmount, color: "#10b981" },
+      { name: "容积率贡献", current: 0, simulated: farAmount, color: "#8b5cf6" },
+      { name: "锚定联合投资", current: 0, simulated: anchorAmount, color: "#f59e0b" },
     ];
   }, [params]);
 
   const fundingBarData = useMemo(() => ([
-    { label: "Current", ...Object.fromEntries(fundingSources.map(s => [s.name, s.current])) },
-    { label: "Simulated", ...Object.fromEntries(fundingSources.map(s => [s.name, s.simulated])) },
+    { label: "当前", ...Object.fromEntries(fundingSources.map(s => [s.name, s.current])) },
+    { label: "模拟", ...Object.fromEntries(fundingSources.map(s => [s.name, s.simulated])) },
   ]), [fundingSources]);
 
   const hasChanges = params.mixedUseRatio > 15 || params.pppShare > 20 || params.farBonus > 0 || params.landValueCapture > 5 || params.anchorIncentive > 0;
@@ -870,8 +870,8 @@ function ERContent({ params }: { params: ERParams }) {
       <div className="flex items-center gap-2 flex-shrink-0">
         <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-600">Visualize:</span>
         {([
-          { id: "flood" as const, label: "Flood Risk Zones", icon: <Droplets className="w-3.5 h-3.5" /> },
-          { id: "heat" as const, label: "Heat Islands", icon: <Thermometer className="w-3.5 h-3.5" /> },
+          { id: "flood" as const, label: "洪水风险区", icon: <Droplets className="w-3.5 h-3.5" /> },
+          { id: "heat" as const, label: "热岛区域", icon: <Thermometer className="w-3.5 h-3.5" /> },
         ]).map(opt => (
           <button key={opt.id} onClick={() => setVizMode(opt.id)}
             className={`flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-sm border transition-all cursor-pointer ${
@@ -892,7 +892,7 @@ function ERContent({ params }: { params: ERParams }) {
         {/* Current */}
         <div className="flex-1 flex flex-col gap-1 min-h-0">
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 px-1">
-            {vizMode === "flood" ? "Current Flood Risk" : "Current Heat Islands"}
+            {vizMode === "flood" ? "当前洪水风险" : "当前热岛区域"}
           </span>
           <div className="flex-1 rounded border border-[#ffffff10] overflow-hidden relative">
             <Map initialViewState={ENV_RISK_VIEW} mapStyle={MAP_STYLE} interactive={false}>
@@ -919,7 +919,7 @@ function ERContent({ params }: { params: ERParams }) {
         <div className="flex-1 flex flex-col gap-1 min-h-0">
           <div className="flex items-center gap-2 px-1">
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">
-              {vizMode === "flood" ? "Simulated Flood Risk" : "Simulated Heat Islands"}
+              {vizMode === "flood" ? "模拟洪水风险" : "模拟热岛区域"}
             </span>
             {hasChanges && <span className="text-[8px] px-1 py-[1px] rounded bg-[#10b981]/15 text-[#10b981] font-bold tracking-wider uppercase">Modified</span>}
           </div>
@@ -947,9 +947,9 @@ function ERContent({ params }: { params: ERParams }) {
       </div>
       {/* KPI strip */}
       <div className="flex gap-1.5 flex-shrink-0">
-        <KPICard icon={<Droplets className="w-4 h-4" />} label="Flood Risk" current={42} simulated={kpis.floodRisk} unit="Score" color="#10b981" improved={kpis.floodRisk > 42} desc="Composite score measuring flood resilience across wadi channels, basins, and 340km drain network. Improved by drainage expansion, retention basins, and building code compliance." target={85} />
-        <KPICard icon={<TreePine className="w-4 h-4" />} label="Heat Island" current={0} simulated={kpis.heatReduction} unit="°C" color="#FCD34D" improved={kpis.heatReduction > 0} desc="Reduction in urban heat island intensity from vegetation, cool roofs, reflective surfaces, and shade infrastructure. Riyadh's baseline UHI is +4–6°C above surrounding desert." target={3.5} />
-        <KPICard icon={<Shield className="w-4 h-4" />} label="Resilience" current={35} simulated={kpis.resilienceScore} unit="%" color="#3b82f6" improved={kpis.resilienceScore > 35} desc="Building stock meeting flood-proofing, heat-resistance, and water-efficiency standards. Saudi Building Code (SBC 601/602) mandated 2018; baseline adoption ~35%." target={90} />
+        <KPICard icon={<Droplets className="w-4 h-4" />} label="洪水风险" current={42} simulated={kpis.floodRisk} unit="Score" color="#10b981" improved={kpis.floodRisk > 42} desc="综合评分，衡量河谷渠道、蓄水池和340公里排水网络的防洪韧性。通过排水扩建、蓄水池和建筑规范合规性改善。" target={85} />
+        <KPICard icon={<TreePine className="w-4 h-4" />} label="热岛效应" current={0} simulated={kpis.heatReduction} unit="°C" color="#FCD34D" improved={kpis.heatReduction > 0} desc="Reduction in urban heat island intensity from vegetation, cool roofs, reflective surfaces, and shade infrastructure. Riyadh's baseline UHI is +4–6°C above surrounding desert." target={3.5} />
+        <KPICard icon={<Shield className="w-4 h-4" />} label="韧性" current={35} simulated={kpis.resilienceScore} unit="%" color="#3b82f6" improved={kpis.resilienceScore > 35} desc="满足防洪、耐热和节水标准的建筑存量。沙特建筑规范（SBC 601/602）2018年强制执行；基线采用率约35%。" target={90} />
       </div>
     </>
   );
@@ -976,16 +976,16 @@ export default function Simulation() {
   const [thinkingStep, setThinkingStep] = useState("");
 
   const THINKING_STEPS = [
-    "Initializing simulation engine...",
-    "Loading downtown Riyadh road network (6 corridors, 180 intersections)...",
-    "Calibrating traffic demand model (1,200 sensor feeds)...",
-    "Running micro-simulation (10,000 iterations)...",
-    "Computing intersection delay propagation...",
-    "Evaluating congestion redistribution effects...",
+    "正在初始化模拟引擎...",
+    "正在加载利雅得城区路网（6条走廊，180个交叉口）...",
+    "正在校准交通需求模型（1,200个传感器数据）...",
+    "正在运行微观模拟（10,000次迭代）...",
+    "正在计算交叉口延误传播...",
+    "正在评估拥堵再分配效应...",
     "Calculating CO₂ emission differentials...",
-    "Generating heatmap visualization...",
-    "Validating results against baseline...",
-    "Finalizing simulation output...",
+    "正在生成热力图可视化...",
+    "正在对照基线验证结果...",
+    "正在完成模拟输出...",
   ];
 
   const applyWithThinking = useCallback((applyFn: () => void) => {
@@ -1040,11 +1040,11 @@ export default function Simulation() {
         {/* Tab bar */}
         <div className="flex items-center gap-0 mb-1 flex-shrink-0">
           {([
-            { id: "UT" as const, agent: AGENTS[0], label: "Urban Test Agent", ready: true },
-            { id: "EF" as const, agent: AGENTS[3], label: "Economic Forecasting", ready: true },
-            { id: "ER" as const, agent: AGENTS[4], label: "Environmental & Resilience", ready: true },
-            { id: "MI" as const, agent: AGENTS[1], label: "Mobility Intelligence", ready: false },
-            { id: "SO" as const, agent: AGENTS[2], label: "Strategic Optimization", ready: false },
+            { id: "UT" as const, agent: AGENTS[0], label: "城市测试智能体", ready: true },
+            { id: "EF" as const, agent: AGENTS[3], label: "经济预测", ready: true },
+            { id: "ER" as const, agent: AGENTS[4], label: "环境与韧性", ready: true },
+            { id: "MI" as const, agent: AGENTS[1], label: "出行智能", ready: false },
+            { id: "SO" as const, agent: AGENTS[2], label: "战略优化", ready: false },
           ]).map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] uppercase border-b-2 transition-all cursor-pointer ${
@@ -1086,8 +1086,8 @@ export default function Simulation() {
                 <span className="text-[14px] font-black tracking-[0.2em] uppercase text-gray-400">Coming Soon</span>
                 <span className="text-[11px] text-gray-600 max-w-[360px] text-center leading-relaxed">
                   {activeTab === "MI"
-                    ? "The Mobility Intelligence Agent will analyse pedestrian, cycling, and transit mode share with shade and cooling intervention recommendations."
-                    : "The Strategic Optimization Agent will rank planning scenarios by sustainability, cost-benefit ratio, and social equity trade-offs."}
+                    ? "出行智能智能体将分析步行、骑行和公交方式占比，提供遮阳和降温干预建议。"
+                    : "战略优化智能体将根据可持续性、成本效益比和社会公平权衡对规划方案进行排名。"}
                 </span>
               </div>
             </div>
@@ -1157,7 +1157,7 @@ export default function Simulation() {
                 <div className="flex justify-between mt-1.5">
                   <span className="text-[9px] text-gray-600 font-mono">{Math.round(thinkingProgress)}%</span>
                   <span className="text-[9px] text-gray-600 font-mono">
-                    {thinkingProgress < 30 ? 'Initializing...' : thinkingProgress < 70 ? 'Simulating...' : thinkingProgress < 95 ? 'Validating...' : 'Complete'}
+                    {thinkingProgress < 30 ? '初始化中...' : thinkingProgress < 70 ? '模拟中...' : thinkingProgress < 95 ? '验证中...' : '完成'}
                   </span>
                 </div>
               </div>
